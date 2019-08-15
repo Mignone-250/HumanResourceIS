@@ -66,7 +66,7 @@
              <i class="fa fa-sign-in" style="font-size:48px"></i>
               <div class="count">
 				<?php 
-				$abc="SELECT count(*) as total FROM account_request";
+				$abc="SELECT count(*) as total FROM create_account";
 				$result=mysqli_query($conn,$abc);
 				if($result)
 				{

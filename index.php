@@ -30,6 +30,13 @@ session_start();//session starts here
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
+<style>
+.alerte {
+  padding: 10px;
+  background-color: #f44336;
+  color: white;
+}
+</style>
 </head>
 <body>
 
@@ -39,10 +46,11 @@ session_start();//session starts here
 
 if(isset($_POST['login'])){
 $username = $_POST['username'];
-$password = md5($_POST['password']);
+$password = $_POST['password'];
 
 
-$qz = "SELECT * FROM user_registration where USERNAME='".$username."' and PASSWORD='".$password."'" ;
+$qz = "SELECT * FROM user_registration where USERNAME='".$username."' and PASSWORD=PASSWORD('".$password."')" ;
+//$conn_class = connect($par);
 $qz = str_replace("\'","",$qz);
 $result = mysqli_query($conn,$qz);
 $rows = mysqli_num_rows($result);
@@ -57,6 +65,7 @@ while($row = mysqli_fetch_array($result))
    $_SESSION['type']=$row['USER_TYPE'];
 
 	$_SESSION['username']=$row['USERNAME'];
+	$_SESSION['user']=$row['USER_ID'];
 
 	$_SESSION['picture']=$row['PROFILE_PICTURE'];
 	$_SESSION['lastname']=$row['LAST_NAME'];
@@ -78,6 +87,7 @@ $_SESSION['picture']=$row['PROFILE_PICTURE'];
 $_SESSION['type']=$row['USER_TYPE'];
 
 $_SESSION['username']=$row['USERNAME'];
+$_SESSION['user']=$row['USER_ID'];
 $_SESSION['lastname']=$row['LAST_NAME'];
 $_SESSION['firstname']=$row['FIRST_NAME'];
 $_SESSION['department']=$row['DEPARTMENT'];
@@ -91,7 +101,16 @@ $_SESSION['password']=$row['PASSWORD'];
 }}
 else{
 	
-	echo "<center><span id='helpdiv' style='color:red'>Invalid Username/Password &#10008</center></span>";
+	echo "<div class='alerte' id='helpdiv'> 
+  <center><strong>Danger!</strong>Invalid username/password &#10008</center>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
 }}
 mysqli_close($conn);
 ?>

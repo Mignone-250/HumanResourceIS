@@ -86,6 +86,14 @@
 			
 			  
 			  </li>
+			  			  <li><a href="pendingupdates.php" class="">
+                          
+                          <span>Pending Updates</span>
+                       
+                      </a>
+			
+			  
+			  </li>
 
             </ul></li>
 			 <li class="sub-menu">

@@ -3,6 +3,7 @@
 
     if(isset($_POST['editprofile']))
         {
+  
 $first_name = mysqli_real_escape_string($conn, $_REQUEST['fname']);
 $last_name = mysqli_real_escape_string($conn, $_REQUEST['lname']);
 $gender= mysqli_real_escape_string($conn, $_REQUEST['gender']);
@@ -12,37 +13,26 @@ $district= mysqli_real_escape_string($conn, $_REQUEST['district']);
 $position= mysqli_real_escape_string($conn, $_REQUEST['position']);
 $department= mysqli_real_escape_string($conn, $_REQUEST['department']);
 $username= mysqli_real_escape_string($conn, $_REQUEST['username']);
-$user_type= mysqli_real_escape_string($conn, $_REQUEST['user_type']);
-$password= md5(mysqli_real_escape_string($conn, $_REQUEST['password']));
 
-$picture_tmp = $_FILES['picture']['tmp_name'];
-    $picture_name = $_FILES['picture']['name'];
-    $picture_type = $_FILES['picture']['type'];
+$sql = "SELECT * FROM user_registration WHERE USERNAME='$username'";
+					$result = $conn->query($sql);
+					// echo $result->num_rows; die;
+					if ($result->num_rows > 0) {
+						// output data of each row
+						while($row = $result->fetch_assoc()) {
+							//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+								$USER_ID=$row["USER_ID"];
+																
 
-    $allowed_type = array('image/png', 'image/gif', 'image/jpg', 'image/jpeg');
-
-    if(in_array($picture_type, $allowed_type)) {
-        $path = 'upload/'.$picture_name; //change this to your liking
-    } else {
-        $error[] = 'File type not allowed';
-    }
-
-
-    if(!empty($error)) {
-        echo '<font color="red">'.output_errors($error).'</font>';
-
-    } else if(empty($error)) {
-
-$sql = "INSERT INTO account_request (FIRST_NAME, LAST_NAME, GENDER, NATIONAL_ID, PHONE_NUMBER, DISTRICT, POSITION, DEPARTMENT, PROFILE_PICTURE, USERNAME, USER_TYPE, PASSWORD)
-VALUES ('$first_name', '$last_name', '$gender', '$NationalID', '$phone', '$district', '$position', '$department','$path','$username', '$user_type', '$password' )";
-move_uploaded_file($picture_tmp, $path);
+$sql = "INSERT INTO account_request (USER_ID,FIRST_NAME, LAST_NAME, GENDER, NATIONAL_ID, PHONE_NUMBER, DISTRICT, POSITION, DEPARTMENT, USERNAME)
+VALUES ('$USER_ID','$first_name', '$last_name', '$gender', '$NationalID', '$phone', '$district', '$position', '$department','$username')";
 
 if(mysqli_query($conn, $sql)){
     echo "Records inserted successfully.";
 } else{
     echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 }
-		}}
+		}}}
 
     ?>
 
@@ -89,6 +79,7 @@ include"include/stylings.php";
                     <img src="img/profile-widget-avatar.jpg" alt="">
                   </div>
                   <h6><?php  echo 'TYPE:'." ".$_SESSION['type'];  ?></h6>
+				  
                 </div>
               </div>
             </div>
@@ -177,10 +168,10 @@ include"include/stylings.php";
 						  <div class="form-group">
                         <label class="col-lg-2 control-label">Gender</label>
                         <div class="col-lg-6">
-                          <select class="form-control" name="district">
-                                                  <option value=""><?php  echo $_SESSION['gender'];  ?></option>
-                                                  <option>Female</option>
+                          <select class="form-control" name="gender">
+                                                  <option><?php  echo $_SESSION['gender'];  ?></option>
                                                   <option>Male</option>
+                                                  <option>Female</option>
                                                   
                                                 </select>
                         </div>
@@ -189,7 +180,7 @@ include"include/stylings.php";
 						  <div class="form-group">
                             <label class="col-lg-2 control-label">National Id/Passport</label>
                             <div class="col-lg-6">
-                              <input type="number" required class="form-control" id="nda" name="NationalID"  value="<?php  echo $_SESSION['nda'];  ?>" disabled>
+                              <input type="number" required class="form-control" id="nda" name="NationalID"  value="<?php  echo $_SESSION['nda'];  ?>">
                             </div>
                           </div>
 						  
@@ -205,7 +196,7 @@ include"include/stylings.php";
                         <label class="col-lg-2 control-label">District</label>
                         <div class="col-lg-6">
                           <select class="form-control" name="district">
-                                                  <option value=""><?php  echo $_SESSION['district'];  ?></option>
+                                                  <option><?php  echo $_SESSION['district'];  ?></option>
                                                   <option>Gasabo</option>
                                                   <option>Nyagatare</option>
                                                   <option>Gatsibo</option>
@@ -226,7 +217,7 @@ include"include/stylings.php";
                         <label class="col-lg-2 control-label">Position</label>
                         <div class="col-lg-6">
                           <select class="form-control" name="position">
-                                                  <option value=""><?php  echo $_SESSION['Position'];  ?></option>
+                                                  <option><?php  echo $_SESSION['Position'];  ?></option>
                                                   <option>Chief Executive Officer</option>
                                                   <option>Chief Operation Manager</option>
                                                   <option>Chief Technology Officer</option>
@@ -241,41 +232,21 @@ include"include/stylings.php";
                         <label class="col-lg-2 control-label">department</label>
                         <div class="col-lg-6">
                           <select class="form-control" name="department">
-                                                  <option value=""><?php  echo $_SESSION['department'];  ?></option>
+                                                  <option><?php  echo $_SESSION['department'];  ?></option>
                                                   <option>Finance Department</option>
                                                   <option>IT Department</option>
                                                   <option>Operational Department</option>
                                                 </select>
                         </div>
                       </div>
-						  
-						  <div class="form-group">
-                            <label class="col-lg-2 control-label">picture</label>
-                            <div class="col-lg-6">
-                              <input type="file" required class="form-control" id="l-name" name="picture">
-                            </div>
-                          </div>
-						  
+				  
 						   <div class="form-group">
                             <label class="col-lg-2 control-label">Username</label>
                             <div class="col-lg-6">
-                              <input type="text" required class="form-control" id="l-name" name="username" value="<?php  echo $_SESSION['username'];  ?>">
+                              <input type="text" required class="form-control" id="l-name" name="username" value="<?php  echo $_SESSION['username'];  ?>" disabled>
                             </div>
                           </div>
-						  
-						   <div class="form-group">
-                            <label class="col-lg-2 control-label">User Type</label>
-                            <div class="col-lg-6">
-                              <input type="text" required class="form-control" id="l-name" name="user_type" value="<?php  echo $_SESSION['type'];  ?>" disabled>
-                            </div>
-                          </div>
-						  
-						   <div class="form-group">
-                            <label class="col-lg-2 control-label">Password</label>
-                            <div class="col-lg-6">
-                              <input type="password" required class="form-control" id="l-name" name="password" value="<?php  echo $_SESSION['password'];  ?>">
-                            </div>
-                          </div>
+						 
 
 
                           <div class="form-group">

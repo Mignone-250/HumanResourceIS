@@ -26,6 +26,18 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
+<style>
+.alertO {
+  padding: 10px;
+  background-color: #13CE5E;
+  color: white;
+}
+.alerte {
+  padding: 10px;
+  background-color: #f44336;;
+  color: white;
+}
+</style>
 </head>
 <body>
 
@@ -36,22 +48,10 @@
         {
 $first_name = mysqli_real_escape_string($conn, $_REQUEST['Fname']);
 $last_name = mysqli_real_escape_string($conn, $_REQUEST['Lname']);
-$gender= mysqli_real_escape_string($conn, $_REQUEST['gender']);
-$NationalID= mysqli_real_escape_string($conn, $_REQUEST['NationalID']);
-$phone= mysqli_real_escape_string($conn, $_REQUEST['PhoneNumber']);
-$district= mysqli_real_escape_string($conn, $_REQUEST['district']);
-$position= mysqli_real_escape_string($conn, $_REQUEST['position']);
-$department= mysqli_real_escape_string($conn, $_REQUEST['department']);
 $username= mysqli_real_escape_string($conn, $_REQUEST['username']);
-$user_type= mysqli_real_escape_string($conn, $_REQUEST['user_type']);
-$password= md5(mysqli_real_escape_string($conn, $_REQUEST['password']));
-$re_password= md5(mysqli_real_escape_string($conn, $_REQUEST['re-password']));
+$password= mysqli_real_escape_string($conn, $_REQUEST['password']);
+$re_password= mysqli_real_escape_string($conn, $_REQUEST['re-password']);
 
-$picture_tmp = $_FILES['picture']['tmp_name'];
-    $picture_name = $_FILES['picture']['name'];
-    $picture_type = $_FILES['picture']['type'];
-
-    $allowed_type = array('image/png', 'image/gif', 'image/jpg', 'image/jpeg');
 	if($password!=$re_password){
 echo"<script> alert('passwords mismatch')</script>";
         
@@ -59,32 +59,49 @@ echo"<script> alert('passwords mismatch')</script>";
    return false;
 }
 else{
+	$sql_t = "SELECT * FROM user_registration WHERE USERNAME='$username'";
+		if ($conn->query($sql_t) ==TRUE) {
+		$result = mysqli_query($conn,$sql_t) or die(mysql_error());
+		$rows = mysqli_num_rows($result);
+		if($rows>0){
+		echo "<div class='alerte' id='helpdiv'> 
+  <center> Username already exist <strong>&#10008</strong></center>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
 
-    if(in_array($picture_type, $allowed_type)) {
-        $path = 'upload/'.$picture_name; //change this to your liking
-    } else {
-        $error[] = 'File type not allowed';
-    }
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+	
+		}
+		else{
 
-
-    if(!empty($error)) {
-        
-		echo "Error: <font color='red'> " . $error . "<br>" . $conn->error."</font>";
-
-    } else if(empty($error)) {
 
 // Attempt insert query execution
-$sql = "INSERT INTO account_request (FIRST_NAME, LAST_NAME, GENDER, NATIONAL_ID, PHONE_NUMBER, DISTRICT, POSITION, DEPARTMENT, PROFILE_PICTURE, USERNAME, USER_TYPE, PASSWORD)
-VALUES ('$first_name', '$last_name', '$gender', '$NationalID', '$phone', '$district', '$position', '$department', '$path', '$username', '$user_type', '$password' )";
-
-move_uploaded_file($picture_tmp, $path);
+$sql = "INSERT INTO create_account (FIRST_NAME, LAST_NAME,USERNAME,PASSWORD)
+VALUES ('$first_name', '$last_name','$username',PASSWORD('$password'))";
 
 if(mysqli_query($conn, $sql)){
-    echo "Records added successfully.";
+   
+	echo "<div class='alertO' id='helpdiv'> 
+  <center> Account created successfully <strong>&#10004</strong></center>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+	
+	
+	
 } else{
     echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 }
-		}}}
+		}}}}
 
     ?>
 
@@ -105,92 +122,10 @@ if(mysqli_query($conn, $sql)){
 					<span class="focus-input100"></span>
 				</div>
 				
-				
-				<div class="wrap-input100">
-					<select class="form-control" name="gender" required>
-						<option>- Choose Gender -</option>
-						<option>Male</option>
-						<option>Female</option>	
-					  </select>
-					<span class="focus-input100"></span>
-				</div>
-
-				
-				<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-					<input id="email" class="input100" type="text" name="NationalID" placeholder="National ID"  required>
-					<span class="focus-input100"></span>
-				</div>
-
-				
-				<div class="wrap-input100">
-					<input id="phone" class="input100" type="text" name="PhoneNumber" placeholder="Phone Number" required>
-					<span class="focus-input100"></span>
-				</div>
-
-				
-				<div class="wrap-input100">
-					<select class="form-control" name="district" required>
-						<option disabled selected>- Choose a District -</option>
-						<option>Gasabo</option>
-						<option>Nyagatare</option>
-						<option>Gatsibo</option>
-						<option>Rusizi</option>
-						<option>Rubavu</option>
-						<option>Gicumbi</option>
-						<option>Nyamasheke</option>
-						<option>Musanze</option>
-						<option>Bugesera</option>
-						<option>Kayonza</option>
-						<option>Kamonyi</option>
-						
-					  </select>
-					<span class="focus-input100"></span>
-				</div>
-
-				
-				<div class="wrap-input100 ">
-					<select class="form-control" name="position" required>
-						<option disabled selected>- Choose Position -</option>
-						<option>Chief Executive Officer</option>
-						<option>Chief Operation Manager</option>
-						<option>Chief Technology Officer</option>
-						<option>Techinical Support</option>
-						<option>Chief Finance Manager</option>
-						<option>Software Developers</option>
-					  </select>
-					<span class="focus-input100"></span>
-				</div>
-
-				
-				<div class="wrap-input100 validate-input">
-					<select class="form-control" name="department" required>
-						<option disabled selected>- Choose Department -</option>
-						<option>Finance Department</option>
-						<option>IT Department</option>
-						<option>Operational Department</option>
-					  </select>
-					<span class="focus-input100"></span>
-				</div>
-
-				
-				<div class="wrap-input100">
-					<input id="profile" class="input100" type="file" name="picture" required>
-					<span class="focus-input100"></span>
-				</div>
 
 				
 				<div class="wrap-input100 validate-input">
 					<input id="email" class="input100" type="text" name="username" placeholder="Username" required>
-					<span class="focus-input100"></span>
-				</div>
-
-				
-				<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-					<select class="form-control" name="user_type" required>
-						<option disabled selected>- Choose Account Type -</option>
-						<option>Admin</option>
-						<option>User</option>
-					  </select>
 					<span class="focus-input100"></span>
 				</div>
 

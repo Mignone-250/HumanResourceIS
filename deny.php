@@ -4,7 +4,7 @@
 <?php  
 
 $delete_id=$_GET['del'];  
-$delete_query="delete  from account_request WHERE USER_ID='$delete_id'";//delete query  
+$delete_query="delete  from create_account WHERE USER_ID='$delete_id'";//delete query  
 $run=mysqli_query($conn,$delete_query);  
 if($run)  
 {  
