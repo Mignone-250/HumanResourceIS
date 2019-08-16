@@ -86,7 +86,7 @@
                   <tbody>
                     <tr>
                       <?php
-						$sql = "SELECT * FROM create_account ORDER BY USER_ID ASC";
+						$sql = "SELECT * FROM create_account";
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -112,7 +112,7 @@
 							<div class="imgcontainer">
 							  <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span><br>
 								<center><h3 class="heading3">ASSIGN USER TYPE</h3>
-								<form action="approve.php?userid=<?php echo $user_id ?>" method="post">
+								<form action="approve.php?del=<?php echo $user_id ?>" method="post">
 									
 									<select  name="user_type" style="width:50%" required>
                                                   <option disabled selected>- Choose Type -</option>

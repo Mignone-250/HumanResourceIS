@@ -70,7 +70,7 @@ include"include/stylings.php";
             </ol>
           </div>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-9">
             <div class="profile-widget profile-widget-info">
               <div class="panel-body">
                 <div class="col-lg-3 col-sm-3">
@@ -153,13 +153,13 @@ include"include/stylings.php";
                           <div class="form-group">
                             <label class="col-lg-2 control-label">First Name</label>
                             <div class="col-lg-6">
-                              <input type="text"   required class="form-control" id="f-name" name="fname" value="<?php  echo $_SESSION['firstname'];  ?>">
+                              <input type="text"  class="form-control" id="f-name" name="fname" value="<?php  echo $_SESSION['firstname'];  ?>">
                             </div>
                           </div>
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Last Name</label>
                             <div class="col-lg-6">
-                              <input type="text"   required class="form-control" id="l-name" name="lname" value="<?php  echo $_SESSION['lastname'];  ?>">
+                              <input type="text"   class="form-control" id="l-name" name="lname" value="<?php  echo $_SESSION['lastname'];  ?>">
                             </div>
                           </div>
 						  
@@ -180,14 +180,14 @@ include"include/stylings.php";
 						  <div class="form-group">
                             <label class="col-lg-2 control-label">National Id/Passport</label>
                             <div class="col-lg-6">
-                              <input type="number" required class="form-control" id="nda" name="NationalID"  value="<?php  echo $_SESSION['nda'];  ?>">
+                              <input type="number" class="form-control" id="nda" name="NationalID"  value="<?php  echo $_SESSION['nda'];  ?>">
                             </div>
                           </div>
 						  
 						  <div class="form-group">
                             <label class="col-lg-2 control-label">Mobile</label>
                             <div class="col-lg-6">
-                              <input type="number" required class="form-control" id="mobile" name="PhoneNumber" value="<?php  echo $_SESSION['mobile'];  ?>">
+                              <input type="number" class="form-control" id="mobile" name="PhoneNumber" value="<?php  echo $_SESSION['mobile'];  ?>">
                             </div>
                           </div>
 						  
@@ -243,7 +243,7 @@ include"include/stylings.php";
 						   <div class="form-group">
                             <label class="col-lg-2 control-label">Username</label>
                             <div class="col-lg-6">
-                              <input type="text" required class="form-control" id="l-name" name="username" value="<?php  echo $_SESSION['username'];  ?>" disabled>
+                              <input type="text"  class="form-control" id="l-name" name="username" value="<?php  echo $_SESSION['username'];  ?>">
                             </div>
                           </div>
 						 

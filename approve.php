@@ -3,8 +3,7 @@
 	?> 
 <?php  
 if(isset($_POST['assign'])){
-	$delete_id=$_GET['dele'];
- $userid=$_GET['userid'];
+ $userid=$_GET['del'];
  $user_type=$_POST['user_type'];
 $sql = "SELECT * FROM create_account WHERE USER_ID='$userid'";
 					$result = $conn->query($sql);
@@ -23,7 +22,7 @@ $sql = "SELECT * FROM create_account WHERE USER_ID='$userid'";
 										VALUES ('$FIRST_NAME', '$LAST_NAME', '$USER_NAME','$user_type', '$PASSWORD' )";
 										if ($conn->query($sqle) === TRUE) {
 										 
-															$delete_query="delete  from create_account WHERE USERNAME='$delete_id'";//delete query 
+															$delete_query="delete  from create_account WHERE USER_ID='$userid'";//delete query 
 															
 															$run=mysqli_query($conn,$delete_query) or die(mysqli_error($conn));  
 															if($run)  
@@ -42,7 +41,7 @@ $sql = "SELECT * FROM create_account WHERE USER_ID='$userid'";
 											
 					}}
 									else{
-echo "Error: " . $sql_t . "<br>" . $conn->error;}}
+echo "Error: " . $sql . "<br>" . $conn->error;}}
 					
 
 ?>  

@@ -61,19 +61,15 @@
 						<td><?php echo $user_department  ?></td> 
 						<td><?php echo $user_type  ?></td> 
 						<td><?php echo $user_name  ?></td> 
-						<td><button class="btn" onclick="myFunction()" style="background-color:red;color:white;">DELETE</button></td>
+						<td><a onclick='javascript:confirmationDelete($(this));return false;' href="delete.php?del=<?php echo $user_id ?>"><button class="btn" style="background-color:red;color:white;">DELETE</button></a></td>
 						
 						<script>
-						function myFunction() {
-						  var txt;
-						  if ("<a href='delete.php?del=<?php echo $user_id ?>'>".confirm("Press a button!")."</a>") {
-
-							txt = "You pressed OK!";
-						  } else {
-							txt = "You pressed Cancel!";
-						  }
-						  document.getElementById("demo").innerHTML = txt;
-						}
+						function confirmationDelete(anchor)
+{
+   var conf = confirm('Are you sure want to delete this record?');
+   if(conf)
+      window.location=anchor.attr("href");
+}
 						</script>
                     </tr>
 					<?php }} else {

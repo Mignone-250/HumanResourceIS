@@ -12,37 +12,16 @@ $district= mysqli_real_escape_string($conn, $_REQUEST['district']);
 $position= mysqli_real_escape_string($conn, $_REQUEST['position']);
 $department= mysqli_real_escape_string($conn, $_REQUEST['department']);
 $username= mysqli_real_escape_string($conn, $_REQUEST['username']);
-$user_type= mysqli_real_escape_string($conn, $_REQUEST['user_type']);
-$password= md5(mysqli_real_escape_string($conn, $_REQUEST['password']));
 
-$picture_tmp = $_FILES['picture']['tmp_name'];
-    $picture_name = $_FILES['picture']['name'];
-    $picture_type = $_FILES['picture']['type'];
-
-    $allowed_type = array('image/png', 'image/gif', 'image/jpg', 'image/jpeg');
-
-    if(in_array($picture_type, $allowed_type)) {
-        $path = 'upload/'.$picture_name; //change this to your liking
-    } else {
-        $error[] = 'File type not allowed';
-    }
-
-
-    if(!empty($error)) {
-        echo '<font color="red">'.output_errors($error).'</font>';
-
-    } else if(empty($error)) {
-
-$sql = "INSERT INTO user_registration (FIRST_NAME, LAST_NAME, GENDER, NATIONAL_ID, PHONE_NUMBER, DISTRICT, POSITION, DEPARTMENT, PROFILE_PICTURE, USERNAME, USER_TYPE, PASSWORD)
-VALUES ('$first_name', '$last_name', '$gender', '$NationalID', '$phone', '$district', '$position', '$department','$path','$username', '$user_type', '$password' )";
-move_uploaded_file($picture_tmp, $path);
-
+$sql="UPDATE user_registration SET FIRST_NAME='$first_name',LAST_NAME='$last_name',GENDER='$gender',NATIONAL_ID='$NationalID',
+											PHONE_NUMBER='$phone',DISTRICT='$district',POSITION = '$position',DEPARTMENT='$department'
+											WHERE USERNAME='$username'";
 if(mysqli_query($conn, $sql)){
     echo "Records inserted successfully.";
 } else{
     echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 }
-		}}
+		}
 
     ?>
 <!DOCTYPE html>
@@ -118,47 +97,11 @@ if(mysqli_query($conn, $sql)){
                   </div>
                   <h6><?php  echo 'TYPE:'.' '.$_SESSION['type'];  ?></h6>
                 </div>
-                <div class="col-lg-4 col-sm-4 follow-info">
-                  <p>Hello I’m  <?php  echo $_SESSION['name'];  ?>, a leading expert in interactive and creative design.</p>
-                  <p>@esther</p>
-                  <p><i class="fa fa-twitter">esthertweet</i></p>
-                  <h6>
-                                    <span><i class="icon_clock_alt"></i>11:05 AM</span>
-                                    <span><i class="icon_calendar"></i>25.10.13</span>
-                                    <span><i class="icon_pin_alt"></i>NY</span>
-                                </h6>
-                </div>
-                <div class="col-lg-2 col-sm-6 follow-info weather-category">
-                  <ul>
-                    <li class="active">
-
-                      <i class="fa fa-comments fa-2x"> </i><br> Contrary to popular belief, Lorem Ipsum is not simply
-                    </li>
-
-                  </ul>
-                </div>
-                <div class="col-lg-2 col-sm-6 follow-info weather-category">
-                  <ul>
-                    <li class="active">
-
-                      <i class="fa fa-bell fa-2x"> </i><br> Contrary to popular belief, Lorem Ipsum is not simply
-                    </li>
-
-                  </ul>
-                </div>
-                <div class="col-lg-2 col-sm-6 follow-info weather-category">
-                  <ul>
-                    <li class="active">
-
-                      <i class="fa fa-tachometer fa-2x"> </i><br> Contrary to popular belief, Lorem Ipsum is not simply
-                    </li>
-
-                  </ul>
-                </div>
+               
               </div>
             </div>
           </div>
-        </div>
+        </div><br>
         <!-- page start-->
         <div class="row">
           <div class="col-lg-12">
@@ -294,10 +237,10 @@ if(mysqli_query($conn, $sql)){
                   <div id="profile" class="tab-pane">
                     <section class="panel">
                       <div class="bio-graph-heading">
-                        Hello I’m <?php  echo $_SESSION['name'];  ?>, a leading expert in interactive and creative design specializing in the mobile medium. My graduation from Massey University with a Bachelor of Design majoring in visual communication.
+                       <h1>Bio Graph</h1>
                       </div>
                       <div class="panel-body bio-graph-info">
-                        <h1>Bio Graph</h1>
+                        
                         <div class="row">
                           <div class="bio-row">
                             <p><span>First Name </span>: <?php  echo $_SESSION['firstname'];  ?> </p>
@@ -335,18 +278,21 @@ if(mysqli_query($conn, $sql)){
                   <div id="edit-profile" class="tab-pane">
                     <section class="panel">
                       <div class="panel-body bio-graph-info">
-                        <h1> Profile Info</h1>
+					  <div class="bio-graph-heading">
+                       <h1> Profile Info</h1>
+                      </div><br><br>
+                        
                                                 <form class="form-horizontal" role="form" action="#" method="post" enctype="multipart/form-data">
                           <div class="form-group">
                             <label class="col-lg-2 control-label">First Name</label>
                             <div class="col-lg-6">
-                              <input type="text"   required class="form-control" id="f-name" name="fname" value="<?php  echo $_SESSION['firstname'];  ?>">
+                              <input type="text"    class="form-control" id="f-name" name="fname" value="<?php  echo $_SESSION['firstname'];  ?>">
                             </div>
                           </div>
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Last Name</label>
                             <div class="col-lg-6">
-                              <input type="text"   required class="form-control" id="l-name" name="lname" value="<?php  echo $_SESSION['lastname'];  ?>">
+                              <input type="text"    class="form-control" id="l-name" name="lname" value="<?php  echo $_SESSION['lastname'];  ?>">
                             </div>
                           </div>
 						  
@@ -355,7 +301,7 @@ if(mysqli_query($conn, $sql)){
 						  <div class="form-group">
                         <label class="col-lg-2 control-label">Gender</label>
                         <div class="col-lg-6">
-                          <select class="form-control" name="district">
+                          <select class="form-control" name="gender">
                                                   <option value=""><?php  echo $_SESSION['gender'];  ?></option>
                                                   <option>Female</option>
                                                   <option>Male</option>
@@ -367,14 +313,14 @@ if(mysqli_query($conn, $sql)){
 						  <div class="form-group">
                             <label class="col-lg-2 control-label">National Id/Passport</label>
                             <div class="col-lg-6">
-                              <input type="number" required class="form-control" id="nda" name="NationalID"  value="<?php  echo $_SESSION['nda'];  ?>" disabled>
+                              <input type="number"  class="form-control" id="nda" name="NationalID"  value="<?php  echo $_SESSION['nda'];  ?>">
                             </div>
                           </div>
 						  
 						  <div class="form-group">
                             <label class="col-lg-2 control-label">Mobile</label>
                             <div class="col-lg-6">
-                              <input type="number" required class="form-control" id="mobile" name="PhoneNumber" value="<?php  echo $_SESSION['mobile'];  ?>">
+                              <input type="number"  class="form-control" id="mobile" name="PhoneNumber" value="<?php  echo $_SESSION['mobile'];  ?>">
                             </div>
                           </div>
 						  
@@ -427,34 +373,12 @@ if(mysqli_query($conn, $sql)){
                         </div>
                       </div>
 						  
-						  <div class="form-group">
-                            <label class="col-lg-2 control-label">picture</label>
-                            <div class="col-lg-6">
-                              <input type="file" required class="form-control" id="l-name" name="picture">
-                            </div>
-                          </div>
-						  
 						   <div class="form-group">
                             <label class="col-lg-2 control-label">Username</label>
                             <div class="col-lg-6">
-                              <input type="text" required class="form-control" id="l-name" name="username" value="<?php  echo $_SESSION['username'];  ?>">
+                              <input type="text" class="form-control" id="l-name" name="username" value="<?php  echo $_SESSION['username'];  ?>">
                             </div>
                           </div>
-						  
-						   <div class="form-group">
-                            <label class="col-lg-2 control-label">User Type</label>
-                            <div class="col-lg-6">
-                              <input type="text" required class="form-control" id="l-name" name="user_type" value="<?php  echo $_SESSION['type'];  ?>" disabled>
-                            </div>
-                          </div>
-						  
-						   <div class="form-group">
-                            <label class="col-lg-2 control-label">Password</label>
-                            <div class="col-lg-6">
-                              <input type="password" required class="form-control" id="l-name" name="password" value="<?php  echo $_SESSION['password'];  ?>">
-                            </div>
-                          </div>
-
 
                           <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
