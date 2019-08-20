@@ -15,6 +15,11 @@ include"include/stylings.php";
         <?php
             include 'include/bannermenu.php';
         ?>
+		<?php
+            include 'include/config.php';
+        ?>
+	
+		
   <section id="main-content">
   <section class="wrapper">
   <div class="row">
@@ -31,17 +36,21 @@ include"include/stylings.php";
                     <section class="panel">
                       <div class="panel-body bio-graph-info">
                         <h1> Request A Leave Application Form</h1>
-                        <form class="form-horizontal" role="form" autocomplete="off">
+                        <form class="form-horizontal" action="" method="post" enctype="multipart/form-data" autocomplete="off">
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Type Of Leave </label>
                             <div class="col-lg-6">
                               
-							  <select class="form-control" name="gender">
-						<option>- Choose The Type Of Leave</option>
-						<option></option>
-						<option></option>	
-						<option></option>	
-						<option></option>	
+							  <select class="form-control" name="leave" required>
+						<option value="">-- Choose Type Of Leave</option>
+                            <?php $ret=mysqli_query($conn,"select * from leave_types");
+                            while($row=mysqli_fetch_array($ret))
+                            {
+                           ?>
+						<option>
+						<?php echo htmlentities($row['LEAVE_TYPE']);?>
+						</option>
+						<?php } ?>	
 					  </select>
 							  
                             </div>
@@ -49,26 +58,55 @@ include"include/stylings.php";
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Number Of Days</label>
                             <div class="col-lg-6">
-                              <input type="number" required class="form-control" id="l-name" placeholder=" ">
+                              <input type="number" required class="form-control" id="l-name" placeholder=" " name="days">
                             </div>
                           </div>
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Reason</label>
                             <div class="col-lg-6">
-                              <textarea class="form-control" required></textarea>
+                              <textarea class="form-control" name="reason" required></textarea>
                             </div>
                           </div>
                           
 
                           <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
-                              <button type="submit" class="btn btn-primary">Send</button>
+                              <button type="submit" class="btn btn-primary" name="request">Send</button>
                               <button type="button" class="btn btn-danger">Cancel</button>
                             </div>
                           </div>
                         </form>
                       </div>
                     </section>
+						<?php
+		   if(isset($_POST['request']))
+        {
+$leave = mysqli_real_escape_string($conn, $_REQUEST['leave']);
+$days = mysqli_real_escape_string($conn, $_REQUEST['days']);
+$reason= mysqli_real_escape_string($conn, $_REQUEST['reason']);
+
+$sql = "SELECT * FROM total_days";
+						$result = $conn->query($sql);
+
+						if ($result->num_rows > 0) {
+							while($row = $result->fetch_assoc()) {
+								$total_days=$row["DAYS"];
+								
+								$remaining_days=$total_days-$days;
+
+// Attempt insert query execution
+							$sql = "INSERT INTO leave_application (LEAVE_TYPE,REASON, REQUESTED_DAYS, TOTAL_DAYS, REMAINING_DAYS)
+							VALUES ('$leave', '$reason', '$days', '$total_days','$remaining_days')";
+
+
+							if(mysqli_query($conn, $sql)){
+								echo "Records added successfully";
+							} else{
+								echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+							}
+		}}}
+
+    ?>
                   </div>
 				  </section>
 				  </section>

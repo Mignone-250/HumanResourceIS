@@ -13,7 +13,7 @@
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
             <ul class="sub">
-              <li><a href="javascript:;" class="">
+              <li><a href="pendingleave.php" class="">
                           
                           <span>Leave History</span>
                        

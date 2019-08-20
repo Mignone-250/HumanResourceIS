@@ -1,3 +1,6 @@
+ <?php
+  include"include/config.php";
+  ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -48,31 +51,36 @@ include"include/stylings.php";
               <table class="table">
                 <thead>
                   <tr>
-                    <th>Payment Date</th>
-                    <th>Period</th>
-                    <th>Gross Salary</th>
-                    <th>Net Salary</th>
+					<th>GROSS_SALARY</th>
+                    <th>EXPENSES</th>
+                    <th>NET_SALARY</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+				  <?php
+						$sql = "SELECT * FROM Payroll";
+						$result = $conn->query($sql);
+
+						if ($result->num_rows > 0) {
+							// output data of each row
+							while($row = $result->fetch_assoc()) {
+								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+									 
+									$GROSS_SALARY=$row["GROSS_SALARY"];  
+									$EXPENSES=$row["EXPENSES"];  
+									$NET_SALARY=$row["NET_SALARY"];
+						?>			
+                    <td><?php echo $GROSS_SALARY;  ?></td>
+                    <td><?php echo $EXPENSES;  ?></td>
+                    <td><?php echo $NET_SALARY;  ?></td>
+                    
                   </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
+						<?php }} else {
+    echo "0 results";
+}
+
+$conn->close(); ?>
                 </tbody>
               </table>
 			  

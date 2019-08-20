@@ -42,11 +42,23 @@
 
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <div class="info-box blue-bg">
+            <a href="pendingleave.php" style="text-decoration:none;color:white"><div class="info-box blue-bg">
               <i class="fa fa-clock-o" aria-hidden="true"></i>
-              <div class="count">6.674</div>
+              <div class="count">
+			  <?php 
+				$abc="SELECT count(*) as total FROM leave_application";
+				$result=mysqli_query($conn,$abc);
+				if($result)
+				{
+				while($row=mysqli_fetch_assoc($result))
+				{
+				echo $row['total'];
+				}     
+				}
+				?>
+			  </div>
               <div class="title">Pending leave permission</div>
-            </div>
+            </div></a>
             <!--/.info-box-->
           </div>
           <!--/.col-->
@@ -62,7 +74,7 @@
           <!--/.col-->
 
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <div class="info-box dark-bg">
+            <a href="pendingusers.php" style="text-decoration:none;color:white"> <div class="info-box dark-bg">
              <i class="fa fa-sign-in" style="font-size:48px"></i>
               <div class="count">
 				<?php 
@@ -78,8 +90,8 @@
 				?>
 
 				</div>
-             <a href="pendingusers.php" style="text-decoration:none;color:white"> <div class="title">ACCOUNTS REQUESTED</div></a>
-            </div>
+             <div class="title">ACCOUNTS REQUESTED</div>
+            </div></a>
             <!--/.info-box-->
           </div>
           <!--/.col-->
@@ -119,15 +131,15 @@
                 <table class="table bootstrap-datatable countries" class="col-lg-8 col-md-12">
                    <thead>
                     <tr>
-                      <th  style="background-color: #57b846;color: white;">SN</th>
-                      <th  style="background-color: #57b846;color: white;">NAMES</th>
-                      <th  style="background-color: #57b846;color: white;">GENDER</th>
-                      <th  style="background-color: #57b846;color: white;">NATIONAL_ID</th>
-                      <th  style="background-color: #57b846;color: white;">PHONE_NUMBER</th>
-                      <th  style="background-color: #57b846;color: white;">POSITION</th>
-                      <th  style="background-color: #57b846;color: white;">DEPARTMENT</th>
-                      <th  style="background-color: #57b846;color: white;">USER_TYPE</th>
-                      <th  style="background-color: #57b846;color: white;">USERNAME</th>
+                      <th  class="info-box brown-bg">SN</th>
+                      <th  class="info-box brown-bg">NAMES</th>
+                      <th  class="info-box brown-bg">GENDER</th>
+                      <th  class="info-box brown-bg">NATIONAL_ID</th>
+                      <th  class="info-box brown-bg">PHONE_NUMBER</th>
+                      <th  class="info-box brown-bg">POSITION</th>
+                      <th  class="info-box brown-bg">DEPARTMENT</th>
+                      <th  class="info-box brown-bg">USER_TYPE</th>
+                      <th  class="info-box brown-bg">USERNAME</th>
                       
                     </tr>
                   </thead>

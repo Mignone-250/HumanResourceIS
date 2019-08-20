@@ -60,7 +60,9 @@ while($row = mysqli_fetch_array($result))
   {
   
   if($row['USER_TYPE']=="Admin"){
-  header("Location: Admin_dashboard.php");
+$sql = "INSERT INTO user_logs (USERNAME) VALUES ('$username')"; 
+if(mysqli_query($conn, $sql)){
+	header("Location: Admin_dashboard.php");
   $_SESSION['name']=$row['FIRST_NAME']." ".$row['LAST_NAME'];
    $_SESSION['type']=$row['USER_TYPE'];
 
@@ -76,11 +78,12 @@ while($row = mysqli_fetch_array($result))
 	$_SESSION['district']=$row['DISTRICT'];
 	$_SESSION['mobile']=$row['PHONE_NUMBER'];
 	$_SESSION['nda']=$row['NATIONAL_ID'];
-	$_SESSION['password']=$row['PASSWORD'];
-  
-  
+	$_SESSION['password']=$row['PASSWORD'];    
+}
   }
   else{
+	  $sql = "INSERT INTO user_logs (USERNAME) VALUES ('$username')"; 
+if(mysqli_query($conn, $sql)){
 	header("Location: User_dashboard.php"); 
 $_SESSION['name']=$row['FIRST_NAME']." ".$row['LAST_NAME'];	
 $_SESSION['picture']=$row['PROFILE_PICTURE'];
@@ -97,12 +100,12 @@ $_SESSION['district']=$row['DISTRICT'];
 $_SESSION['mobile']=$row['PHONE_NUMBER'];
 $_SESSION['nda']=$row['NATIONAL_ID'];
 $_SESSION['password']=$row['PASSWORD'];
-  }
+  }}
 }}
 else{
 	
 	echo "<div class='alerte' id='helpdiv'> 
-  <center><strong>Danger!</strong>Invalid username/password &#10008</center>
+  <center>Invalid username/password &#10008</center>
 </div>";
 echo "<script type='text/javascript'>
 window.setTimeout('closeHelpDiv();', 3000);
