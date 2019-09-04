@@ -131,7 +131,7 @@ document.getElementById('helpdiv').style.display=' none';
 
 				
 				<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-					<input id="password" class="input100" type="password" name="password" placeholder="Enter Password" required>
+					<input id="password" class="input100" type="password" name="password" placeholder="Enter Password" required pattern=".{6,10}" title="6 to 10 characters">
 					<span class="focus-input100"></span>
 				</div>
 

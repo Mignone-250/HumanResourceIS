@@ -8,20 +8,9 @@
   <!-- container section start -->
   <section id="container" class="">
 	<?php
-		include 'include/header.php';
+		include 'include/bannermenu.php';
 		?>
-    <!--header end-->
-
-    <!--sidebar start-->
-    <aside>
-      <div id="sidebar" class="nav-collapse ">
-        <!-- sidebar menu start-->
-		<?php
-		include 'include/menue.php';
-		?>
-        
-      </div>
-    </aside>
+   
     <!--sidebar end-->
 
     <!--main content start-->
@@ -32,21 +21,25 @@
           <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-users"></i> Leaves</h3>
             <ol class="breadcrumb">
-              <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
+              <li><i class="fa fa-home"></i><a href="User_dashboard.php">Home</a></li>
 			  <li><i class="fa fa-long-arrow-right"> </i>Manage Leaves</li>
-              <li><i class="fa fa-long-arrow-right"> </i>Pending Leaves</li>
+              
             </ol>
           </div>
         </div>
 		
 		<?php
-		include 'include/pendingleave.php';
+		include 'include/leaveinformation.php';
 		?>
 
 
-<br><br>
-<?php
-		include 'include/confirmed_leave.php';
+		<br>
+		<?php
+		include 'include/leaveremaining.php';
+		?>
+		<br>
+		<?php
+		include 'include/leaveconfirmed.php';
 		?>
 
 

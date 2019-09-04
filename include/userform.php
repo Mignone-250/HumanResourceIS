@@ -5,65 +5,63 @@
         {
 $first_name = mysqli_real_escape_string($conn, $_REQUEST['Fname']);
 $last_name = mysqli_real_escape_string($conn, $_REQUEST['Lname']);
-$gender= mysqli_real_escape_string($conn, $_REQUEST['gender']);
-$NationalID= mysqli_real_escape_string($conn, $_REQUEST['NationalID']);
-$phone= mysqli_real_escape_string($conn, $_REQUEST['PhoneNumber']);
-$district= mysqli_real_escape_string($conn, $_REQUEST['district']);
-$position= mysqli_real_escape_string($conn, $_REQUEST['position']);
-$department= mysqli_real_escape_string($conn, $_REQUEST['department']);
 $username= mysqli_real_escape_string($conn, $_REQUEST['username']);
 $user_type= mysqli_real_escape_string($conn, $_REQUEST['user_type']);
-$password= md5(mysqli_real_escape_string($conn, $_REQUEST['password']));
-$re_password= md5(mysqli_real_escape_string($conn, $_REQUEST['re-password']));
+$password= mysqli_real_escape_string($conn, $_REQUEST['password']);
+$re_password= mysqli_real_escape_string($conn, $_REQUEST['re-password']);
 
-$picture_tmp = $_FILES['picture']['tmp_name'];
-    $picture_name = $_FILES['picture']['name'];
-    $picture_type = $_FILES['picture']['type'];
-
-    $allowed_type = array('image/png', 'image/gif', 'image/jpg', 'image/jpeg');
-	
-if($password!=$re_password){
+	if($password!=$re_password){
 echo"<script> alert('passwords mismatch')</script>";
         
        echo "<script>history.back();</script>";
    return false;
 }
 else{
-
-    if(in_array($picture_type, $allowed_type)) {
-        $path = 'upload/'.$picture_name; //change this to your liking
-    } else {
-        $error[] = 'File type not allowed';
-    }
-
-
-    if(!empty($error)) {
-        echo '<font color="red">'.output_errors($error).'</font>';
-
-    } else if(empty($error)) {
-		
-		$sql_t = "SELECT * FROM user_registration WHERE USERNAME='$username'";
+	$sql_t = "SELECT * FROM user_registration WHERE USERNAME='$username'";
 		if ($conn->query($sql_t) ==TRUE) {
 		$result = mysqli_query($conn,$sql_t) or die(mysql_error());
 		$rows = mysqli_num_rows($result);
 		if($rows>0){
-		echo "<br></br><center><span id='helpdiv'>already exist</center></span>";
+		echo "<div class='alerte' id='helpdiv'> 
+  <center> Username already exist <strong>&#10008</strong></center>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
 	
 		}
 		else{
 
-// Attempt insert query execution
-$sql = "INSERT INTO user_registration (FIRST_NAME, LAST_NAME, GENDER, NATIONAL_ID, PHONE_NUMBER, DISTRICT, POSITION, DEPARTMENT, PROFILE_PICTURE, USERNAME, USER_TYPE, PASSWORD)
-VALUES ('$first_name', '$last_name', '$gender', '$NationalID', '$phone', '$district', '$position', '$department', '$path', '$username', '$user_type', '$password' )";
 
-move_uploaded_file($picture_tmp, $path);
+// Attempt insert query execution
+$sql = "INSERT INTO user_registration (FIRST_NAME, LAST_NAME,USERNAME,USER_TYPE,PASSWORD)
+VALUES ('$first_name', '$last_name','$username','$user_type',PASSWORD('$password'))";
 
 if(mysqli_query($conn, $sql)){
-    echo "Records added successfully.";
+   
+	echo "<div class='alertO' id='helpdiv'> 
+	<div class='col-lg-9'>
+	<div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+  <center> Account created successfully <strong>&#10004</strong></center></div></div>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+	
+	
+	
 } else{
     echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 }
-		}}}}}
+		}}}}
 
     ?>
 		  
@@ -82,7 +80,7 @@ if(mysqli_query($conn, $sql)){
 
                   <div class="form quick-post">
                     <!-- Edit profile form (not working)-->
-                    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data" autocomplete="off">
+                    <form class="form-horizontal" action="" id="register_form" method="post" enctype="multipart/form-data" autocomplete="off">
                       <!-- Title -->
                       <div class="form-group">
                         <label class="control-label col-lg-2" for="title">FirstName</label>
@@ -96,87 +94,7 @@ if(mysqli_query($conn, $sql)){
                           <input type="text" class="form-control" id="title" name="Lname" required>
                         </div>
                       </div>
-					  
-					    <div class="form-group">
-                        <label class="control-label col-lg-2">Gender</label>
-                        <div class="col-lg-10">
-                          <select class="form-control" name="gender" required>
-                                                  <option disabled selected>- Choose Gender -</option>
-                                                  <option>Male</option>
-                                                  <option>Female</option>
-                                                  
-                                                </select>
-                        </div>
-                      </div>
-					  
-					  <div class="form-group">
-                        <label class="control-label col-lg-2" for="title">National ID</label>
-                        <div class="col-lg-10">
-                          <input type="number" class="form-control" id="title" name="NationalID" required>
-                        </div>
-                      </div>
-                      
-					  <div class="form-group">
-                        <label class="control-label col-lg-2" for="title">PhoneNumber</label>
-                        <div class="col-lg-10">
-                          <input type="number" class="form-control" id="title" name="PhoneNumber" required>
-                        </div>
-                      </div>
-					   <!-- Current District -->
-                      <div class="form-group">
-                        <label class="control-label col-lg-2">Current District</label>
-                        <div class="col-lg-10">
-                          <select class="form-control" name="district" required>
-                                                  <option disabled selected>- Choose a District -</option>
-                                                  <option>Gasabo</option>
-                                                  <option>Nyagatare</option>
-                                                  <option>Gatsibo</option>
-                                                  <option>Rusizi</option>
-												  <option>Rubavu</option>
-												  <option>Gicumbi</option>
-												  <option>Nyamasheke</option>
-												  <option>Musanze</option>
-												  <option>Bugesera</option>
-												  <option>Kayonza</option>
-												  <option>Kamonyi</option>
-												  
-                                                </select>
-                        </div>
-                      </div>
-
-                      <!-- Cateogry -->
-                      <div class="form-group">
-                        <label class="control-label col-lg-2">Positions</label>
-                        <div class="col-lg-10">
-                          <select class="form-control" name="position" required>
-                                                  <option disabled selected>-Choose Position -</option>
-                                                  <option>Chief Executive Officer</option>
-                                                  <option>Chief Operation Manager</option>
-                                                  <option>Chief Technology Officer</option>
-                                                  <option>Techinical Support</option>
-                                                  <option>Chief Finance Manager</option>
-                                                  <option>Software Developers</option>
-                                                </select>
-                        </div>
-                      </div>
-					  <div class="form-group">
-                        <label class="control-label col-lg-2">Departments</label>
-                        <div class="col-lg-10">
-                          <select class="form-control" name="department" required>
-                                                  <option disabled selected>- Choose Department -</option>
-                                                  <option>Finance Department</option>
-                                                  <option>IT Department</option>
-                                                  <option>Operational Department</option>
-                                                </select>
-                        </div>
-                      </div>
-					  <div class="form-group">
-                        <label class="control-label col-lg-2" for="tags">Profile Picture</label>
-                        <div class="col-lg-10">
-                          <input type="file" class="form-control" id="tags" name="picture" required>
-                        </div>
-
-                      </div>
+					 
 					  
 					  
                       <!-- Tags -->
@@ -216,7 +134,7 @@ if(mysqli_query($conn, $sql)){
                         <!-- Buttons -->
                         <div class="col-lg-offset-2 col-lg-9">
                           <button type="submit" class="btn btn-primary" name="save">Create</button>
-                          <button type="submit" class="btn btn-danger" name="cancel">Reset</button>
+                          <button type="submit" class="btn btn-danger" name="cancel" onclick="resetForm('register_form'); return false;">Reset</button>
                         </div>
                       </div>
                     </form>
@@ -224,4 +142,19 @@ if(mysqli_query($conn, $sql)){
 
 
                 </div></div></div></div>
-	
+	<script type="text/javascript">
+   function resetForm(register_form)
+   {
+       var myForm = document.getElementById(register_form);
+
+       for (var i = 0; i < myForm.elements.length; i++)
+       {
+           if ('submit' != myForm.elements[i].type && 'reset' != myForm.elements[i].type)
+           {
+               myForm.elements[i].checked = false;
+               myForm.elements[i].value = '';
+               myForm.elements[i].selectedIndex = 0;
+           }
+       }
+   }
+</script>

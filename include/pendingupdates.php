@@ -16,17 +16,17 @@
                 <table class="table bootstrap-datatable countries">
                   <thead>
                     <tr>
-                      <th style="background-color: #57b846;color: white;">SN</th>
-                      <th style="background-color: #57b846;color: white;">NAMES</th>
-                      <th style="background-color: #57b846;color: white;">GENGER</th>
-                      <th style="background-color: #57b846;color: white;">NATIONAL_ID</th>
-                      <th style="background-color: #57b846;color: white;">PHONE_NUMBER</th>
-                      <th style="background-color: #57b846;color: white;">POSITION</th>
-                      <th style="background-color: #57b846;color: white;">DEPARTMENT</th>
-                      <th style="background-color: #57b846;color: white;">DISTRICT</th>
-                      <th style="background-color: #57b846;color: white;">USERNAME</th>
-                      <th style="background-color: #57b846;color: white;">ACTION</th>
-                      <th style="background-color: #57b846;color: white;"></th>
+                      <th style="background-color: #152E48;color: white;">SN</th>
+                      <th style="background-color: #152E48;color: white;">NAMES</th>
+                      <th style="background-color: #152E48;color: white;">GENGER</th>
+                      <th style="background-color: #152E48;color: white;">NATIONAL_ID</th>
+                      <th style="background-color: #152E48;color: white;">PHONE_NUMBER</th>
+                      <th style="background-color: #152E48;color: white;">POSITION</th>
+                      <th style="background-color: #152E48;color: white;">DEPARTMENT</th>
+                      <th style="background-color: #152E48;color: white;">DISTRICT</th>
+                      <th style="background-color: #152E48;color: white;">USERNAME</th>
+                      <th style="background-color: #152E48;color: white;">ACTION</th>
+                      <th style="background-color: #152E48;color: white;"></th>
                     </tr>
                   </thead>
                   <tbody>

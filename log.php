@@ -1,19 +1,13 @@
-<?php  
+<?php
+		include('include/config.php');
+	?>
+<?php 
 
-session_start();
 
-include('include/config.php');
-date_default_timezone_set('Canada/Pacific');
-$ldate=date( 'd-m-Y h:i:s A', time () );
 
-$sql = "UPDATE user_logs  SET LOGOUT_TIME = '$ldate' WHERE USERNAME = '".$_SESSION['username']."'"; 
-if(mysqli_query($conn, $sql)){  
 
-session_destroy();  
-header("Location: index.php"); }
-
-$sqle = "SELECT * FROM user_logs where USERNAME= '".$_SESSION['username']."'";
-						$result = $conn->query($sqle);
+$sql = "SELECT * FROM user_logs";
+						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
 							// output data of each row
@@ -24,8 +18,8 @@ $sqle = "SELECT * FROM user_logs where USERNAME= '".$_SESSION['username']."'";
 									$logout=$row["LOGOUT_TIME"];  }}
   
 wh_log("  User : '". $username);
-wh_log("   ;Start Login time : '" . $login . "';");
-wh_log("   END Logout time : '" . $logout . "'");
+wh_log("   ;Start Log For Day : '" . $login . "';");
+wh_log("   END Log For Day : '" . $logout . "'");
 
  
 function wh_log($username)
@@ -39,6 +33,4 @@ function wh_log($username)
     $log_file_data = $log_filename.'/log_' . date('d-M-Y') . '.log';
     file_put_contents($log_file_data, $username . "\n", FILE_APPEND);
 						}
-
- 
 ?>

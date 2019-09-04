@@ -1,40 +1,3 @@
-<?php include"include/config.php";?>
-<?php
-
-    if(isset($_POST['editprofile']))
-        {
-  
-$first_name = mysqli_real_escape_string($conn, $_REQUEST['fname']);
-$last_name = mysqli_real_escape_string($conn, $_REQUEST['lname']);
-$gender= mysqli_real_escape_string($conn, $_REQUEST['gender']);
-$NationalID= mysqli_real_escape_string($conn, $_REQUEST['NationalID']);
-$phone= mysqli_real_escape_string($conn, $_REQUEST['PhoneNumber']);
-$district= mysqli_real_escape_string($conn, $_REQUEST['district']);
-$position= mysqli_real_escape_string($conn, $_REQUEST['position']);
-$department= mysqli_real_escape_string($conn, $_REQUEST['department']);
-$username= mysqli_real_escape_string($conn, $_REQUEST['username']);
-
-$sql = "SELECT * FROM user_registration WHERE USERNAME='$username'";
-					$result = $conn->query($sql);
-					// echo $result->num_rows; die;
-					if ($result->num_rows > 0) {
-						// output data of each row
-						while($row = $result->fetch_assoc()) {
-							//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
-								$USER_ID=$row["USER_ID"];
-																
-
-$sql = "INSERT INTO account_request (USER_ID,FIRST_NAME, LAST_NAME, GENDER, NATIONAL_ID, PHONE_NUMBER, DISTRICT, POSITION, DEPARTMENT, USERNAME)
-VALUES ('$USER_ID','$first_name', '$last_name', '$gender', '$NationalID', '$phone', '$district', '$position', '$department','$username')";
-
-if(mysqli_query($conn, $sql)){
-    echo "Records inserted successfully.";
-} else{
-    echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
-}
-		}}}
-
-    ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -58,6 +21,7 @@ include"include/stylings.php";
     <!--sidebar end-->
 
     <!--main content start-->
+	
     <section id="main-content">
       <section class="wrapper">
         <div class="row">
@@ -70,6 +34,75 @@ include"include/stylings.php";
             </ol>
           </div>
         </div>
+		
+		<?php include"include/config.php";?>
+<?php
+
+    if(isset($_POST['editprofile']))
+        {
+  
+$first_name = mysqli_real_escape_string($conn, $_REQUEST['fname']);
+$last_name = mysqli_real_escape_string($conn, $_REQUEST['lname']);
+$gender= mysqli_real_escape_string($conn, $_REQUEST['gender']);
+$NationalID= mysqli_real_escape_string($conn, $_REQUEST['NationalID']);
+$phone= mysqli_real_escape_string($conn, $_REQUEST['PhoneNumber']);
+$district= mysqli_real_escape_string($conn, $_REQUEST['district']);
+$position= mysqli_real_escape_string($conn, $_REQUEST['position']);
+$department= mysqli_real_escape_string($conn, $_REQUEST['department']);
+$username= mysqli_real_escape_string($conn, $_REQUEST['username']);
+
+$sql_t = "SELECT * FROM user_registration WHERE USERNAME='$username'";
+		if ($conn->query($sql_t) ==TRUE) {
+		$result = mysqli_query($conn,$sql_t) or die(mysql_error());
+		$rows = mysqli_num_rows($result);
+		if($rows>0){
+		echo "<div class='alerte' id='helpdiv'> 
+  <div class='col-lg-9'>
+	<div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+	<strong> Username already exist <strong>&#10008</strong></div></div></div><br>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+	
+		}
+		else{
+
+
+$sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"; 
+					$result = $conn->query($sql);
+					// echo $result->num_rows; die;
+					if ($result->num_rows > 0) {
+						// output data of each row
+						while($row = $result->fetch_assoc()) {
+							//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+								$USER_ID=$row["USER_ID"];
+																
+
+$sql = "INSERT INTO account_request (USER_ID,FIRST_NAME, LAST_NAME, GENDER, NATIONAL_ID, PHONE_NUMBER, DISTRICT, POSITION, DEPARTMENT,USERNAME)
+VALUES ('$USER_ID','$first_name', '$last_name', '$gender', '$NationalID', '$phone', '$district', '$position', '$department','$username')";
+
+if(mysqli_query($conn, $sql)){
+    echo "<div class='col-lg-9' id='helpdiv'>
+	<div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+	<strong>Success!</strong> Records inserted successfully.</div></div><br><br>";
+	
+	echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+} else{
+    echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+}
+		}}}}}
+
+    ?><br>
         <div class="col-lg-9">
             <div class="profile-widget profile-widget-info">
               <div class="panel-body">
@@ -149,6 +182,7 @@ include"include/stylings.php";
                     <section class="panel">
                       <div class="panel-body bio-graph-info">
                         <h1> Profile Info</h1>
+											
                         <form class="form-horizontal" role="form" action="#" method="post" enctype="multipart/form-data">
                           <div class="form-group">
                             <label class="col-lg-2 control-label">First Name</label>
@@ -258,6 +292,7 @@ include"include/stylings.php";
                         </form>
                       </div>
                     </section>
+					
                   </div>
                 </div>
               </div>

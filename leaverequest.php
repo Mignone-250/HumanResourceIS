@@ -32,10 +32,168 @@ include"include/stylings.php";
             </ol>
           </div>
         </div>
-  <div id="edit-profile" class="tab-pane">
+		<?php
+		   if(isset($_POST['request']))
+        {
+$leave = mysqli_real_escape_string($conn, $_REQUEST['leave']);
+$days = mysqli_real_escape_string($conn, $_REQUEST['days']);
+$reason= mysqli_real_escape_string($conn, $_REQUEST['reason']);
+$date= mysqli_real_escape_string($conn, $_REQUEST['date']);
+
+$check_user = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."'";
+		if ($conn->query($check_user) ==TRUE) {
+		$result = mysqli_query($conn,$check_user) or die(mysql_error());
+		$rows = mysqli_num_rows($result);
+		if($rows>0){
+			echo "<div class='col-lg-9' id='helpdiv'>
+								 <div style='background-color:red;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+								 <strong>Sorry!</strong> you still have a pending leave.</div></div><br><br><br>";
+								 
+								 echo "<script type='text/javascript'>
+								window.setTimeout('closeHelpDiv();', 3000);
+
+								function closeHelpDiv(){
+								document.getElementById('helpdiv').style.display=' none';
+								}
+				</script>";}
+				else{
+
+$check = "SELECT * FROM leave_application WHERE LEAVE_DATE='$date'";
+				if ($conn->query($check) ==TRUE) {
+				$result = mysqli_query($conn,$check) or die(mysql_error());
+				$rows = mysqli_num_rows($result);
+				if($rows>0){
+					echo "<div class='col-lg-9' id='helpdiv'>
+								 <div style='background-color:red;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+								 <strong>Success!</strong> Date has been taken.</div></div><br><br><br>";
+								 
+								 echo "<script type='text/javascript'>
+								window.setTimeout('closeHelpDiv();', 3000);
+
+								function closeHelpDiv(){
+								document.getElementById('helpdiv').style.display=' none';
+								}
+				</script>";}
+				else{
+					
+					$check = "SELECT * FROM confirmed_leave WHERE LEAVE_DATE='$date'";
+				if ($conn->query($check) ==TRUE) {
+				$result = mysqli_query($conn,$check) or die(mysql_error());
+				$rows = mysqli_num_rows($result);
+				if($rows>0){
+					echo "<div class='col-lg-9' id='helpdiv'>
+								 <div style='background-color:red;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+								 <strong>Success!</strong> Date has been taken.</div></div><br><br><br>";
+								 
+								 echo "<script type='text/javascript'>
+								window.setTimeout('closeHelpDiv();', 3000);
+
+								function closeHelpDiv(){
+								document.getElementById('helpdiv').style.display=' none';
+								}
+				</script>";}
+				else{
+
+$sql_t = "SELECT * FROM confirmed_leave WHERE USER_ID='".$_SESSION['user']."' ORDER BY LEAVE_ID DESC LIMIT 1";
+		if ($conn->query($sql_t) ==TRUE) {
+		$result = mysqli_query($conn,$sql_t) or die(mysql_error());
+		$rows = mysqli_num_rows($result);
+		if($rows>0){
+			while($row = $result->fetch_assoc()) {
+			$total_days=$row["REMAINING_DAYS"];
+			$remaining_days=$total_days-$days;
+				
+			$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS, TOTAL_DAYS, REMAINING_DAYS)
+								VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days', '$total_days','$remaining_days')";
+
+
+							if(mysqli_query($conn, $sql)){
+								 echo "<div class='col-lg-9' id='helpdiv'>
+								 <div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+								 <strong>Success!</strong> Records added successfully.</div></div><br><br><br>";
+								 
+								 echo "<script type='text/javascript'>
+								window.setTimeout('closeHelpDiv();', 3000);
+
+								function closeHelpDiv(){
+								document.getElementById('helpdiv').style.display=' none';
+								}
+								</script>";
+							} else{
+								echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+							}
+		
+	
+		}}
+	else{
+if($_SESSION['gender']=="Male"){
+								 $abc="SELECT SUM(LEAVE_DAYS) as total FROM leave_types where TYPE_ID !=4 AND TYPE_ID !=1";
+									$result=mysqli_query($conn,$abc);
+									if($result)
+									{
+									while($row=mysqli_fetch_assoc($result))
+									{
+									$todays=$row["total"];
+									$remaining_days=$todays-$days;
+									
+									$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS, TOTAL_DAYS, REMAINING_DAYS)
+									VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days', '$todays','$remaining_days')";
+									
+									if(mysqli_query($conn, $sql)){
+										 echo "<div class='col-lg-9' id='helpdiv'>
+										 <div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+										 <strong>Success!</strong> Records added successfully.</div></div><br><br><br>";
+										 
+										 echo "<script type='text/javascript'>
+										window.setTimeout('closeHelpDiv();', 3000);
+
+										function closeHelpDiv(){
+										document.getElementById('helpdiv').style.display=' none';
+										}
+										</script>";
+							} else{
+								echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+							}
+				}}}
+else{							 
+$sql = "SELECT * FROM leave_types where LEAVE_TYPE='Normal/Annual'";
+						$result = $conn->query($sql);
+
+						if ($result->num_rows > 0) {
+							while($row = $result->fetch_assoc()) {
+								$total_days=$row["LEAVE_DAYS"];
+								$remaining_days=$total_days-$days;
+								
+							$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS, TOTAL_DAYS, REMAINING_DAYS)
+							VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days', '$total_days','$remaining_days')";
+
+
+							if(mysqli_query($conn, $sql)){
+								 echo "<div class='col-lg-9' id='helpdiv'>
+								 <div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+								 <strong>Success!</strong> Records added successfully.</div></div><br><br><br>";
+								 
+								 echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+							} else{
+								echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+							}
+		}}}
+		
+		}}}}
+	
+		}}}}}
+
+    ?>
+  <div id="edit-profile"  class='col-lg-9'>
                     <section class="panel">
                       <div class="panel-body bio-graph-info">
-                        <h1> Request A Leave Application Form</h1>
+                        <h1>Leave Application Form</h1>
                         <form class="form-horizontal" action="" method="post" enctype="multipart/form-data" autocomplete="off">
                           <div class="form-group">
                             <label class="col-lg-2 control-label">Type Of Leave </label>
@@ -67,6 +225,12 @@ include"include/stylings.php";
                               <textarea class="form-control" name="reason" required></textarea>
                             </div>
                           </div>
+						  <div class="form-group">
+                            <label class="col-lg-2 control-label">Leave Date</label>
+                            <div class="col-lg-6">
+                              <input type="date" required class="form-control" id="l-name" placeholder=" " name="date">
+                            </div>
+                          </div>
                           
 
                           <div class="form-group">
@@ -78,35 +242,7 @@ include"include/stylings.php";
                         </form>
                       </div>
                     </section>
-						<?php
-		   if(isset($_POST['request']))
-        {
-$leave = mysqli_real_escape_string($conn, $_REQUEST['leave']);
-$days = mysqli_real_escape_string($conn, $_REQUEST['days']);
-$reason= mysqli_real_escape_string($conn, $_REQUEST['reason']);
-
-$sql = "SELECT * FROM total_days";
-						$result = $conn->query($sql);
-
-						if ($result->num_rows > 0) {
-							while($row = $result->fetch_assoc()) {
-								$total_days=$row["DAYS"];
-								
-								$remaining_days=$total_days-$days;
-
-// Attempt insert query execution
-							$sql = "INSERT INTO leave_application (LEAVE_TYPE,REASON, REQUESTED_DAYS, TOTAL_DAYS, REMAINING_DAYS)
-							VALUES ('$leave', '$reason', '$days', '$total_days','$remaining_days')";
-
-
-							if(mysqli_query($conn, $sql)){
-								echo "Records added successfully";
-							} else{
-								echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
-							}
-		}}}
-
-    ?>
+						
                   </div>
 				  </section>
 				  </section>

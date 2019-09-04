@@ -26,13 +26,13 @@
                       <th style="background-color: #3C7792;color: white;">TOTAL_DAYS</th>
                       <th style="background-color: #3C7792;color: white;">REMAINING_DAYS</th>
                       <th style="background-color: #3C7792;color: white;">ACTION</th>
-                      <th style="background-color: #3C7792;color: white;"></th>
+                    
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <?php
-						$sql = "SELECT * FROM leave_application";
+						$sql = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."'";
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -63,9 +63,7 @@
 						<td><?php echo $requested_days ?></td> 
 						<td><?php echo $total_days ?></td> 
 						<td><?php echo $remaing_days ?></td> 
-						<td><form action="approveleave.php?del=<?php echo $user_id ?>&transferid=<?php echo $leave_id; ?>" method="post" ><button class="btn" name="approve" style="background-color:Green;color:white;">APPROVE</button></form></td> 
-
-						<td><a href="denyleave.php?del=<?php echo $user_id ?>"><button class="btn" style="background-color:Red;color:white;">DENY</button></a></td> 
+						<td><a href="denyleave.php?del=<?php echo $user_id ?>"><button class="btn" style="background-color:Red;color:white;">CANCEL</button></a></td> 
                     </tr>
 					<?php 
 						}}else {

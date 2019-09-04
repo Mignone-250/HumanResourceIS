@@ -51,6 +51,7 @@ include"include/stylings.php";
               <table class="table">
                 <thead>
                   <tr>
+					<th>POSITION</th>
 					<th>GROSS_SALARY</th>
                     <th>EXPENSES</th>
                     <th>NET_SALARY</th>
@@ -59,7 +60,7 @@ include"include/stylings.php";
                 <tbody>
                   <tr>
 				  <?php
-						$sql = "SELECT * FROM Payroll";
+						$sql = "SELECT * FROM Payroll WHERE POSITION='".$_SESSION['Position']."'"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -67,10 +68,12 @@ include"include/stylings.php";
 							while($row = $result->fetch_assoc()) {
 								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
 									 
+									$POSITION=$row["POSITION"];  
 									$GROSS_SALARY=$row["GROSS_SALARY"];  
 									$EXPENSES=$row["EXPENSES"];  
 									$NET_SALARY=$row["NET_SALARY"];
 						?>			
+                    <td><?php echo $POSITION;  ?></td>
                     <td><?php echo $GROSS_SALARY;  ?></td>
                     <td><?php echo $EXPENSES;  ?></td>
                     <td><?php echo $NET_SALARY;  ?></td>

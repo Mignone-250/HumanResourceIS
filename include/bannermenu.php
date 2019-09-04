@@ -240,6 +240,9 @@ if(!$_SESSION['name'])
               <li>
                 <a href="#"><i class="icon_chat_alt"></i> Chats</a>
               </li>
+			  <li>
+                <a href="changepassworduser.php"><i class="fa fa-lock"></i> Change Password</a>
+              </li>
               <li>
                 <a href="logout.php"><i class="icon_key_alt"></i> Log Out</a>
               </li>

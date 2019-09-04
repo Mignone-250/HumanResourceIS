@@ -30,24 +30,22 @@
         <!--overview start-->
         <div class="row">
           <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-users"></i> Leaves</h3>
+            <h3 class="page-header"><i class="fa fa-money"></i> SALARY</h3>
             <ol class="breadcrumb">
               <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
-			  <li><i class="fa fa-long-arrow-right"> </i>Manage Leaves</li>
-              <li><i class="fa fa-long-arrow-right"> </i>Pending Leaves</li>
+			  <li><i class="fa fa-money"></i>Manage Salary</li>
+              <li><i class="fa fa-money"></i>Salary history</li>
             </ol>
           </div>
         </div>
 		
 		<?php
-		include 'include/pendingleave.php';
+		include 'include/salaryhistory.php';
 		?>
 
 
 <br><br>
-<?php
-		include 'include/confirmed_leave.php';
-		?>
+
 
 
                 <div class="widget-foot">

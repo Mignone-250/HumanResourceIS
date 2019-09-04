@@ -5,6 +5,37 @@
 <?php
 		include('include/stylings.php');
 	?>
+	
+	<style> 
+#example {
+ 
+  position: relative;
+  -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+  -webkit-animation-iteration-count: 100; /* Safari 4.0 - 8.0 */
+  animation-name: example;
+  animation-duration: 3s;
+  animation-iteration-count: 1000;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes example {
+  0%   { left:0px; top:0px;}
+  25%  { left:2px; top:0px;}
+  50%  { left:2px; top:2px;}
+  75%  {left:0px; top:2px;}
+  100% { left:0px; top:0px;}
+}
+
+/* Standard syntax */
+@keyframes example {
+  0%   { left:0px; top:0px;}
+  25%  { left:20px; top:0px;}
+  50%  { left:20px; top:20px;}
+  75%  { left:0px; top:20px;}
+  100% { left:0px; top:0px;}
+}
+</style>
 </head>
 <body>
   <!-- container section start -->
@@ -42,7 +73,7 @@
 
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <a href="pendingleave.php" style="text-decoration:none;color:white"><div class="info-box blue-bg">
+            <a href="pendingleave.php" style="text-decoration:none;color:white"><div id="example" class="info-box blue-bg">
               <i class="fa fa-clock-o" aria-hidden="true"></i>
               <div class="count">
 			  <?php 
@@ -64,17 +95,32 @@
           <!--/.col-->
 
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <div class="info-box brown-bg">
-              <i class="fa fa-check-circle" style="font-size:48px"></i>
-              <div class="count">7.538</div>
+            <a href="pendingleave.php" style="text-decoration:none;color:white"><div  class="info-box brown-bg">
+              <i class="fa fa-check-circle" style="font-size:48px;color:white"></i>
+              <div class="count">
+			  <?php 
+				$abc="SELECT count(*) as total FROM confirmed_leave";
+				$result=mysqli_query($conn,$abc);
+				if($result)
+				{
+				while($row=mysqli_fetch_assoc($result))
+				{
+				echo $row['total'];
+				}     
+				}
+				?>
+			  
+			  
+			  
+			  </div>
               <div class="title">Confirmed leave</div>
-            </div>
+            </div></a>
             <!--/.info-box-->
           </div>
           <!--/.col-->
 
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <a href="pendingusers.php" style="text-decoration:none;color:white"> <div class="info-box dark-bg">
+            <a href="pendingusers.php" style="text-decoration:none;color:white"> <div id="example" class="info-box dark-bg">
              <i class="fa fa-sign-in" style="font-size:48px"></i>
               <div class="count">
 				<?php 
@@ -131,15 +177,15 @@
                 <table class="table bootstrap-datatable countries" class="col-lg-8 col-md-12">
                    <thead>
                     <tr>
-                      <th  class="info-box brown-bg">SN</th>
-                      <th  class="info-box brown-bg">NAMES</th>
-                      <th  class="info-box brown-bg">GENDER</th>
-                      <th  class="info-box brown-bg">NATIONAL_ID</th>
-                      <th  class="info-box brown-bg">PHONE_NUMBER</th>
-                      <th  class="info-box brown-bg">POSITION</th>
-                      <th  class="info-box brown-bg">DEPARTMENT</th>
-                      <th  class="info-box brown-bg">USER_TYPE</th>
-                      <th  class="info-box brown-bg">USERNAME</th>
+                      <th  class="info-box dark-bg">SN</th>
+                      <th  class="info-box dark-bg">NAMES</th>
+                      <th  class="info-box dark-bg">GENDER</th>
+                      <th  class="info-box dark-bg">NATIONAL_ID</th>
+                      <th  class="info-box dark-bg">PHONE_NUMBER</th>
+                      <th  class="info-box dark-bg">POSITION</th>
+                      <th  class="info-box dark-bg">DEPARTMENT</th>
+                      <th  class="info-box dark-bg">USER_TYPE</th>
+                      <th  class="info-box dark-bg">USERNAME</th>
                       
                     </tr>
                   </thead>
@@ -430,9 +476,55 @@ $conn->close(); ?>
             <!--Project Activity end-->
           </div>
         </div><br><br>
+<div class="row">
 
-        <div class="row">
-          <div class="col-md-6 portlets">
+          <div class="col-lg-12 col-md-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h2><i class="fa fa-flag-o red"></i><strong>ALL ANNOUNCEMNETS</strong></h2>
+                <div class="panel-actions">
+                  <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
+                  <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                  <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                </div>
+              </div>
+              
+                <?php
+		include('include/config.php');
+		$query=mysqli_query($conn,"select * from post ORDER BY POST_ID DESC");
+		while($row=mysqli_fetch_array($query)){
+			$picture  =$row['PICTURE']; 
+			$title=$row['TITLE'];
+			$content=$row['CONTENT'];
+			$category=$row['CATEGORY'];
+			$date=$row['DATE'];
+			$post=$row['POST_DATE'];
+			echo "<div class='panel-body'><div class='col-lg-6'><img src='".$picture."' style='width:100%;height:400px'></div>
+			<div class='col-lg-6'><h2 style='text-transform:uppercase;font-family:bahnschrift'><strong>".$title."</strong></h2><br>
+			<p style='font-size:16px'>".$content."</p><br><br>
+			<p>CATEGORY:".$category."</p>
+			<p>EVENT DATE:".$date."</p>
+			<br><br>
+			<p>PUBLISHED ON: ".$post."</p></div></div><br><br>";
+			}
+			?>
+
+
+            </div>
+
+          </div>
+          <!--/col-->
+          
+         
+
+          <!--/col-->
+
+          <!--/col-->
+
+        </div>
+		<div class="row">
+        
+          <div class="col-md-9 portlets">
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h2><strong>Calendar</strong></h2>
@@ -449,13 +541,10 @@ $conn->close(); ?>
                 <div id="calendar"></div>
 
               </div>
-            </div>
+            </div></div>
 
           </div>
-
-          <?php
-		  include "include/quickpost.php";
-		  ?>
+			
         <!-- project team & activity end -->
 
       </section>

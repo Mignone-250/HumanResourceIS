@@ -35,7 +35,7 @@
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
             <ul class="sub">
-              <li><a href="javascript:;" class="">
+              <li><a href="salaryhistory.php" class="">
                           
                           <span>Salary History</span>
                        
@@ -118,13 +118,31 @@
           
           
 
-          <li class="sub-menu">
-            <a href="post.php" class="">
-                          <i class="fa fa-bullhorn"></i>
-                          <span>QUICK POST</span>
+         
+		  
+		  
+		  <li class="sub-menu">
+            <a href="javascript:;" class="">
+                          
+        <i class="fa fa-bullhorn"></i>
+                          <span>POSTS</span>
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
-          </li>
+            <ul class="sub">
+              <li><a href="post.php" class="">
+                          
+                          <span>Quick Post</span>
+                       
+                      </a>
+
+			  </li>
+			  <li><a href="draftpost.php" class="">
+                          
+                          <span>Draft Posts</span>
+                          
+                      </a></li>
+
+            </ul></li>
 
 
         </ul>
