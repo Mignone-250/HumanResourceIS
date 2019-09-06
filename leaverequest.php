@@ -102,9 +102,17 @@ $sql_t = "SELECT * FROM confirmed_leave WHERE USER_ID='".$_SESSION['user']."' OR
 			while($row = $result->fetch_assoc()) {
 			$total_days=$row["REMAINING_DAYS"];
 			$remaining_days=$total_days-$days;
+						$sql_te = "SELECT LEAVE_DAYS FROM leave_types WHERE LEAVE_TYPE='$leave'";
+						if ($conn->query($sql_te) ==TRUE) {
+						$result = mysqli_query($conn,$sql_te) or die(mysql_error());
+						$rows = mysqli_num_rows($result);
+						if($rows>0){
+							while($row = $result->fetch_assoc()) {
+							$leave_days=$row["LEAVE_DAYS"];
+							$leavetype_days=$leave_days-$days;
 				
-			$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS, TOTAL_DAYS, REMAINING_DAYS)
-								VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days', '$total_days','$remaining_days')";
+			$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS,RLEAVE_DAYS, TOTAL_DAYS, REMAINING_DAYS)
+								VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days','$leavetype_days', '$total_days','$remaining_days')";
 
 
 							if(mysqli_query($conn, $sql)){
@@ -124,7 +132,7 @@ $sql_t = "SELECT * FROM confirmed_leave WHERE USER_ID='".$_SESSION['user']."' OR
 							}
 		
 	
-		}}
+		}}}}}
 	else{
 if($_SESSION['gender']=="Male"){
 								 $abc="SELECT SUM(LEAVE_DAYS) as total FROM leave_types where TYPE_ID !=4 AND TYPE_ID !=1";
@@ -136,8 +144,17 @@ if($_SESSION['gender']=="Male"){
 									$todays=$row["total"];
 									$remaining_days=$todays-$days;
 									
-									$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS, TOTAL_DAYS, REMAINING_DAYS)
-									VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days', '$todays','$remaining_days')";
+												$sql_te = "SELECT LEAVE_DAYS FROM leave_types WHERE LEAVE_TYPE='$leave'";
+												if ($conn->query($sql_te) ==TRUE) {
+												$result = mysqli_query($conn,$sql_te) or die(mysql_error());
+												$rows = mysqli_num_rows($result);
+												if($rows>0){
+													while($row = $result->fetch_assoc()) {
+													$leave_days=$row["LEAVE_DAYS"];
+													$leavetype_days=$leave_days-$days;
+									
+									$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS,RLEAVE_DAYS, TOTAL_DAYS, REMAINING_DAYS)
+									VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days','leavetype_days', '$todays','$remaining_days')";
 									
 									if(mysqli_query($conn, $sql)){
 										 echo "<div class='col-lg-9' id='helpdiv'>
@@ -154,7 +171,7 @@ if($_SESSION['gender']=="Male"){
 							} else{
 								echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 							}
-				}}}
+}}}}}}
 else{							 
 $sql = "SELECT * FROM leave_types where LEAVE_TYPE='Normal/Annual'";
 						$result = $conn->query($sql);
@@ -164,8 +181,17 @@ $sql = "SELECT * FROM leave_types where LEAVE_TYPE='Normal/Annual'";
 								$total_days=$row["LEAVE_DAYS"];
 								$remaining_days=$total_days-$days;
 								
-							$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS, TOTAL_DAYS, REMAINING_DAYS)
-							VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days', '$total_days','$remaining_days')";
+										$sql_te = "SELECT LEAVE_DAYS FROM leave_types WHERE LEAVE_TYPE='$leave'";
+										if ($conn->query($sql_te) ==TRUE) {
+										$result = mysqli_query($conn,$sql_te) or die(mysql_error());
+										$rows = mysqli_num_rows($result);
+										if($rows>0){
+											while($row = $result->fetch_assoc()) {
+											$leave_days=$row["LEAVE_DAYS"];
+											$leavetype_days=$leave_days-$days;
+								
+							$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS,RLEAVE_DAYS, TOTAL_DAYS, REMAINING_DAYS)
+							VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days','$leavetype_days', '$total_days','$remaining_days')";
 
 
 							if(mysqli_query($conn, $sql)){
@@ -183,7 +209,7 @@ document.getElementById('helpdiv').style.display=' none';
 							} else{
 								echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 							}
-		}}}
+}}}}}}
 		
 		}}}}
 	

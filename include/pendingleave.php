@@ -23,6 +23,7 @@
                       <th style="background-color: #3C7792;color: white;">LEAVE_DATE</th>
                       <th style="background-color: #3C7792;color: white;">REASON</th>
                       <th style="background-color: #3C7792;color: white;">REQUESTED_DAYS</th>
+                      <th style="background-color: #3C7792;color: white;">RLEAVE_DAYS</th>
                       <th style="background-color: #3C7792;color: white;">TOTAL_DAYS</th>
                       <th style="background-color: #3C7792;color: white;">REMAINING_DAYS</th>
                       <th style="background-color: #3C7792;color: white;">ACTION</th>
@@ -46,6 +47,7 @@
 									$leave_date=$row["LEAVE_DATE"];  
 									$reason=$row["REASON"];
 									$requested_days=$row["REQUESTED_DAYS"];
+									$rleave_days=$row["RLEAVE_DAYS"];
 									$total_days=$row["TOTAL_DAYS"];
 									$remaing_days=$row["REMAINING_DAYS"];
 			
@@ -61,6 +63,7 @@
 						<td><?php echo $leave_date ?></td> 
 						<td><?php echo $reason ?></td> 
 						<td><?php echo $requested_days ?></td> 
+						<td><?php echo $rleave_days ?></td> 
 						<td><?php echo $total_days ?></td> 
 						<td><?php echo $remaing_days ?></td> 
 						<td><form action="approveleave.php?del=<?php echo $user_id ?>&transferid=<?php echo $leave_id; ?>" method="post" ><button class="btn" name="approve" style="background-color:Green;color:white;">APPROVE</button></form></td> 

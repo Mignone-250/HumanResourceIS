@@ -13,46 +13,144 @@
                 </div>
               </div>
               <div class="panel-body">
-			  <table class="table">
-                <thead>
-                  <tr>
-					<th>LEAVE_TYPE</th>
-					<th>TOTAL_DAYS</th>
-                    <th>REMAING_DAYS</th>
-                    
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
+
+			  <div class="panel-heading" class="col-lg-12" >
+			  <h2><strong>YOUR REMAINING LEAVE DAYS PER TYPE</strong></h2>
+			  <div class="col-lg-6">
+                <h2><strong>TOTAL LEAVE DAYS PER TYPE</strong></h2>
+				
+			  <?php
+$con  = mysqli_connect("localhost","root","","hrms");
+ if (!$con) {
+     # code...
+    echo "Problem in database connection! Contact administrator!" . mysqli_error();
+ }else{
+         $sql ="SELECT * FROM leave_types where TYPE_ID !=4";
+         $result = mysqli_query($con,$sql);
+         $chart_data="";
+         while ($row = mysqli_fetch_array($result)) { 
+ 
+            $productname[]  = $row['LEAVE_TYPE']  ;
+            $sales[] = $row['LEAVE_DAYS'];
+        }
+ 
+ 
+ }
+ 
+ 
+?>
+	<div style="width:70%;hieght:5%;text-align:center">
+            
+            <canvas  id="chartjs_bar"></canvas> 
+        </div>    
+   
+  <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script type="text/javascript">
+      var ctx = document.getElementById("chartjs_bar").getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels:<?php echo json_encode($productname); ?>,
+                        datasets: [{
+                            backgroundColor: [
+							     "#C2E1C0",
+                                "#C6D584",
+                                "#6F8F6D",
+                                "#D0BEF6",
+								"#A78394",
+                                "#9B9797",
+                                "#25d5f2"
+                            ],
+							
+                            data:<?php echo json_encode($sales); ?>,
+							
+                        }]
+                    },
+                    options: {
+                           legend: {
+                        display: true,						
+                        position: 'top',
+ 
+                        labels: {
+                            fontColor: '#71748d',
+                            fontFamily: 'Circular Std Book',
+                            fontSize: 14,
+                        }
+                    },
+					
+ 
+ 
+                }
+                });
+    </script></div>
+	<div class="col-lg-6">
 				  <?php
 						$sql = "SELECT * FROM confirmed_leave WHERE USER_ID='".$_SESSION['user']."'"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
 							// output data of each row
+							echo "<table class='table'>
+								<thead>
+								 
+									<th>LEAVE_TYPE</th>
+									<th>REQUESTED_DAYS</th>
+									<th>REMAING_DAYS</th>
+									
+								  
+								
+								<tbody>";
 							while($row = $result->fetch_assoc()) {
 								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
 									 
 									$leave=$row["LEAVE_TYPE"];  
-									$requested=$row["REQUESTED_DAYS"];  
+									$requested=$row["REQUESTED_DAYS"];
+									$rleave=$row["RLEAVE_DAYS"];
 									
+									echo "
+								  <tr><td>".$leave."</td>
+									<td>".$requested."</td>
+							<td>".$rleave."</td></tr>";}
+							echo "</tbody>
+									</table>";
+ } else {
+							$sql = "SELECT * FROM leave_types where TYPE_ID !=4"; 
+						$result = $conn->query($sql);
+
+						if ($result->num_rows > 0) {
+							// output data of each row
+							echo "<table class='table'>
+								<thead>
+								  <tr>
+									<th>LEAVE_TYPE</th>
+									<th>REQUESTED_DAYS</th>
+									<th>REMAING_DAYS</th>
 									
+								  </tr>
+								</thead>
+								<tbody>";
+							while($row = $result->fetch_assoc()) {
+								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+									 
+									$leave=$row["LEAVE_TYPE"];  
+									$days=$row["LEAVE_DAYS"];
+
+							
+							echo "<tr><td>".$leave."</td>
+									<td>0</td>
+									<td>".$days."</td></tr>";
 									
-						?>			
-                    <td><?php echo $leave;  ?></td>
-                    
-                    
-                    
-                  </tr>
-						<?php }} else {
-    echo "0 results";
-}
+						}
+						echo "</tbody>
+									</table>";
+						}}
 						
 
-$conn->close(); ?>
-                </tbody>
-              </table>
+				$conn->close(); ?>
               
+			  </div>
+              </div>
               </div>
 
             </div>

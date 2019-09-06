@@ -19,11 +19,12 @@ $sql = "SELECT * FROM leave_application WHERE LEAVE_ID='$leave_id'";
 								$reason=$row["REASON"];
 								$leave_date=$row["LEAVE_DATE"];
 								$requested_days=$row["REQUESTED_DAYS"];
+								$rleave_days=$row["RLEAVE_DAYS"];
 								$total_days=$row["TOTAL_DAYS"];
 								$remaining_days=$row["REMAINING_DAYS"];
 								
-										$sql = "INSERT INTO confirmed_leave (USER_ID,LEAVE_TYPE,DATE,REASON,LEAVE_DATE,REQUESTED_DAYS,TOTAL_DAYS,REMAINING_DAYS)
-											VALUES ('$user_id','$leave_type', '$date', '$reason','$leave_date', '$requested_days','$total_days','$remaining_days')";
+										$sql = "INSERT INTO confirmed_leave (USER_ID,LEAVE_TYPE,DATE,REASON,LEAVE_DATE,REQUESTED_DAYS,RLEAVE_DAYS,TOTAL_DAYS,REMAINING_DAYS)
+											VALUES ('$user_id','$leave_type', '$date', '$reason','$leave_date', '$requested_days','$rleave_days','$total_days','$remaining_days')";
 													if ($conn->query($sql) === TRUE) {
 										 
 															$delete_query="delete  from leave_application WHERE USER_ID='$user_id'";//delete query 

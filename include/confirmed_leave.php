@@ -83,6 +83,7 @@
                       <th class="info-box brown-bg">LEAVE_DATE</th>
                       <th class="info-box brown-bg">REASON</th>
                       <th class="info-box brown-bg">REQUESTED_DAYS</th>
+                      <th class="info-box brown-bg">RLEAVE_DAYS</th>
                       <th class="info-box brown-bg">TOTAL_DAYS</th>
                       <th class="info-box brown-bg">REMAINING_DAYS</th>
                       
@@ -105,6 +106,7 @@
 									$leave_date=$row["LEAVE_DATE"];  
 									$reason=$row["REASON"];
 									$requested_days=$row["REQUESTED_DAYS"];
+									$rleave_days=$row["RLEAVE_DAYS"];
 									$total_days=$row["TOTAL_DAYS"];
 									$remaing_days=$row["REMAINING_DAYS"];
 						?>			
@@ -119,6 +121,7 @@
 						<td><?php echo $leave_date ?></td> 
 						<td><?php echo $reason ?></td> 
 						<td><?php echo $requested_days ?></td> 
+						<td><?php echo $rleave_days ?></td> 
 						<td><?php echo $total_days ?></td> 
 						<td><?php echo $remaing_days ?></td> 
 					 
