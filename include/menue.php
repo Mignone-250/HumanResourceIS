@@ -47,6 +47,11 @@
                           <span>Payment Form</span>
                           
                       </a></li>
+					  <li><a href="Deduction.php" class="">
+                          
+                          <span>Deductions</span>
+                          
+                      </a></li>
 
             </ul></li>
 			

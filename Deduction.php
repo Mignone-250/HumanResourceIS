@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <?php
 		include('include/stylings.php');
 	?>
@@ -30,23 +31,21 @@
         <!--overview start-->
         <div class="row">
           <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-money"></i> SALARY</h3>
+            <h3 class="page-header"><i class="fa fa-money"></i> Salary</h3>
             <ol class="breadcrumb">
               <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
 			  <li><i class="fa fa-money"></i>Manage Salary</li>
-              <li><i class="fa fa-money"></i>Salary history</li>
+              <li><i class="icon_document_alt"></i>Deductions</li>
             </ol>
           </div>
         </div>
 		
 		<?php
-		include 'include/salaryhistory.php';
-		?>
-		
+    include 'include/DeductionForm.php';
+    ?>
 
 
 <br><br>
-
 
 
                 <div class="widget-foot">
@@ -78,6 +77,7 @@
   <?php
  include("include/scripting.php")
  ?>
+
 </body>
 
 </html>

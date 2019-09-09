@@ -79,50 +79,53 @@
                       <th style="background-color: #3C7792;color: white;">SN</th>
                       <th style="background-color: #3C7792;color: white;">POSITION</th>
                       <th style="background-color: #3C7792;color: white;">GROSS_SALARY</th>
-                      <th style="background-color: #3C7792;color: white;">EXPENSES</th>
+                      <th style="background-color: #3C7792;color: white;">DEDUCTION</th>
                       <th style="background-color: #3C7792;color: white;">NET_SALARY</th>
+                     
                       
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <?php
-						$sql = "SELECT * FROM payroll";
+                      	  <?php
+						$sql = "SELECT * FROM Payroll"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
 							// output data of each row
 							while($row = $result->fetch_assoc()) {
 								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
-									$pay_id=$row["PAYROLL_ID"];  
-									$position=$row["POSITION"];  
-									$gross=$row["GROSS_SALARY"];  
-									$expenses=$row["EXPENSES"];  
-									$net=$row["NET_SALARY"];
+									 $ID=$row["PAYROLL_ID"];
+									$POSITION=$row["POSITION"];  
+									$GROSS_SALARY=$row["GROSS_SALARY"];  
+									$DEDUCTION=$row["TOTAL_DEDUCTIONS"];  
+									$NET_SALARY=$row["NET_SALARY"];  
+									//$EXPENSES=$row["EXPENSES"];  
+									//$NET_SALARY=$row["NET_SALARY"];
 									
 									
-									
-									
+											
+										
 						?>			
-						 
-						  
+                    <td><?php echo $ID;  ?></td>
+                    <td><?php echo $POSITION;  ?></td>
+                    <td>Rwf&nbsp;<?php echo $GROSS_SALARY;  ?></td>
+                    <td>Rwf&nbsp;<?php echo $DEDUCTION;  ?></td>
+                    <td>Rwf&nbsp;<?php echo $NET_SALARY;  ?></td>
+                
 
-						<!--here showing results in the table -->  
-						<td><?php echo $pay_id;  ?></td>
-						<td><?php echo $position;  ?></td>
-						<td><?php echo $gross;  ?></td>
-						<td><?php echo $expenses; ?></td> 
-						<td><?php echo $net ?></td> 
-						
-                    </tr>
-					<?php }} else {
+          
+                    
+                  </tr>
+						<?php }} else {
     echo "0 results";
-}
 						
-
-$conn->close(); ?>
+}?>
                   </tbody>
-                </table>
+                </table><br>
+				<?php
+		include 'include/salarygraphy.php';
+		?>
               </div>
 
             </div>

@@ -136,9 +136,18 @@ include"include/stylings.php";
 									 
 									$POSITION=$row["POSITION"];  
 									$GROSS_SALARY=$row["GROSS_SALARY"];  
-									$EXPENSES=$row["EXPENSES"];  
-									$NET_SALARY=$row["NET_SALARY"];
-						 echo $NET_SALARY; 
+									//$EXPENSES=$row["EXPENSES"];  
+									//$NET_SALARY=$row["NET_SALARY"];
+
+                   $query ="SELECT SUM(DEDUCTION_AMOUNT) AS total FROM deductions";
+$result = $conn->query($query);
+$row = mysqli_fetch_assoc($result);
+$total= $row['total'];
+//echo $total; 
+$NET_SALARYY=$GROSS_SALARY-$total;
+
+
+						 echo $NET_SALARYY; 
                     
 						 }} else {
     echo "0 results";

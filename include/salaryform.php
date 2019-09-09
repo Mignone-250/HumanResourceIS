@@ -5,31 +5,55 @@
         {
 $position = mysqli_real_escape_string($conn, $_REQUEST['position']);
 $salary = mysqli_real_escape_string($conn, $_REQUEST['salary']);
-$expense= mysqli_real_escape_string($conn, $_REQUEST['expense']);
 
-$net_salary=$salary-$expense;
+$sqlt = "SELECT * FROM payroll where POSITION='$position'";
+$result = $conn->query($sqlt);
+if ($result->num_rows > 0) {
+	echo "<div  id='helpdiv'><div class='col-lg-9'>
+									<div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+									<strong>Wrong!</strong> This Position already has amount.</div></div></div><br><br><br>";
+									
+									echo "<script type='text/javascript'>
+								window.setTimeout('closeHelpDiv();', 3000);
 
-// Attempt insert query execution
-$sql = "INSERT INTO payroll (POSITION, GROSS_SALARY, EXPENSES, NET_SALARY)
-VALUES ('$position', '$salary', '$expense', '$net_salary')";
-
-
-if(mysqli_query($conn, $sql)){
-    echo "<div  id='helpdiv'><div class='col-lg-9'>
-	<div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
-	<strong>Success!</strong> Profile updated successfully.</div></div></div><br><br><br>";
-	
-	echo "<script type='text/javascript'>
-window.setTimeout('closeHelpDiv();', 3000);
-
-function closeHelpDiv(){
-document.getElementById('helpdiv').style.display=' none';
+								function closeHelpDiv(){
+								document.getElementById('helpdiv').style.display=' none';
+								}
+								</script>";
 }
-</script>";
-} else{
-    echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
-}
-		}
+else{
+										
+$sqle = "SELECT * FROM deductions where DEDUCTION_TYPE='Total'";
+									$result = $conn->query($sqle);
+									if ($result->num_rows > 0) {
+										// output data of each row
+										while($row = $result->fetch_assoc()) {
+											//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+												 $amount=$row["DEDUCTION_AMOUNT"];
+												 $net=$salary-$amount;
+								$sql = "INSERT INTO payroll (POSITION, GROSS_SALARY, TOTAL_DEDUCTIONS, NET_SALARY)
+								VALUES ('$position', '$salary','$amount','$net')";
+
+								if(mysqli_query($conn, $sql)){
+									
+									
+									echo "<div  id='helpdiv'><div class='col-lg-9'>
+									<div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+									<strong>Success!</strong> Salary created successfully.</div></div></div><br><br><br>";
+									
+									echo "<script type='text/javascript'>
+								window.setTimeout('closeHelpDiv();', 3000);
+
+								function closeHelpDiv(){
+								document.getElementById('helpdiv').style.display=' none';
+								}
+								</script>";
+								} else{
+									echo "Error: " . $sql . "<br>" . $conn->error;
+								}
+									}}
+									else{echo "0 results";}
+		}}
 
     ?>
 
@@ -77,14 +101,7 @@ document.getElementById('helpdiv').style.display=' none';
                         </div>
 
                       </div>
-					  
-					  <div class="form-group">
-                        <label class="control-label col-lg-2" for="tags">Expenses</label>
-                        <div class="col-lg-10">
-                          <input type="number" class="form-control" id="tags" name="expense">
-                        </div>
-                      </div>
-					
+					  					
                       <!-- Buttons -->
                       <div class="form-group">
                         <!-- Buttons -->

@@ -122,7 +122,27 @@
 						<td><?php echo $requested_days ?></td> 
 						<td><?php echo $total_days ?></td> 
 						<td><?php echo $remaing_days ?></td>
-						<td><a href="denyleave.php?del=<?php echo $user_id ?>"><button class="btn" style="background-color:Red;color:white;">CANCEL</button></a></td>
+						<td><button onclick="document.getElementById('id02').style.display='block'"type="submit" class="btn" style="background-color:red;color:white;">CANCEL</button></td>
+						<div id="id02" class="modal">
+  
+						  <div style="width:50%;" class="modal-content animate">
+							<div class="imgcontainer">
+							  <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span><br>
+								<center><h3 class="heading3">MESSAGE</h3>
+								<form action="cancelconfirmedleave.php?del=<?php echo $leave_id ?>" method="post">
+									<label>TITLE</label><br>
+									<input type="text" name="title"  style="width:50%" required><br><br>
+									<label>DESCRIPTION</label><br>
+									<textarea  name="message"  style="width:50%" required>
+                                                  
+                                                </textarea><br><br>
+									<button type="submit" class="btn btn-primary" name="assign">SEND</button><br><br>	
+								</form></center>
+													
+
+						</div>
+						</div>
+						</div>
 					
 					 
                     </tr>

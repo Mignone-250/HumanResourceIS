@@ -73,7 +73,7 @@
 
         <div class="row">
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <a href="pendingleave.php" style="text-decoration:none;color:white"><div id="example" class="info-box blue-bg">
+            <a href="pendingleave.php" style="text-decoration:none;color:white"><div id="/example" class="info-box blue-bg">
               <i class="fa fa-clock-o" aria-hidden="true"></i>
               <div class="count">
 			  <?php 
@@ -120,7 +120,7 @@
           <!--/.col-->
 
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <a href="pendingusers.php" style="text-decoration:none;color:white"> <div id="example" class="info-box dark-bg">
+            <a href="pendingusers.php" style="text-decoration:none;color:white"> <div id="/example" class="info-box dark-bg">
              <i class="fa fa-sign-in" style="font-size:48px"></i>
               <div class="count">
 				<?php 

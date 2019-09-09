@@ -1,3 +1,64 @@
+<style>
+
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 0px;
+ 
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+</style>  
+ 
  <?php
 		include('include/config.php');
 	?>          
@@ -25,6 +86,7 @@
                       <th  style="background-color: #152E48;color: white;">USER_TYPE</th>
                       <th  style="background-color: #152E48;color: white;">USERNAME</th>
                       <th  style="background-color: #152E48;color: white;">ACTION</th>
+                      <th  style="background-color: #152E48;color: white;">PAY</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -62,6 +124,19 @@
 						<td><?php echo $user_type  ?></td> 
 						<td><?php echo $user_name  ?></td> 
 						<td><a onclick='javascript:confirmationDelete($(this));return false;' href="delete.php?del=<?php echo $user_id ?>"><button class="btn" style="background-color:red;color:white;">DELETE</button></a></td>
+			<td><button onclick="document.getElementById('id02').style.display='block'" class="btn" style="background-color: #152E48;color:white;">PAY</button></td>
+												<div id="id02" class="modal">
+						  
+												  <div style="width:50%;" class="modal-content animate">
+													<div class="imgcontainer">
+													  <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span><br>
+														<center><h3 class="heading3">TIME PAID</h3>
+														<form action="pay.php?del=<?php echo $user_id ?>" method="post">
+															<label>SELECT DATE</label><br>
+															<input type="date" name="date"  style="width:50%" required><br><br>
+															
+															<button type="submit" class="btn btn-primary" name="assign">PAY</button><br><br>	
+														</form></center>
 						
 						<script>
 						function confirmationDelete(anchor)
