@@ -71,7 +71,7 @@ include"include/stylings.php";
               <i class="icon_desktop"></i>
               <div class="count">
 			  <?php
-						$sql = "SELECT * FROM confirmed_leave WHERE USER_ID='".$_SESSION['user']."' ORDER BY LEAVE_ID DESC LIMIT 1";
+						$sql = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."' and STATUS='CONFIRMED' ORDER BY LEAVE_ID DESC LIMIT 1";
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -121,7 +121,7 @@ include"include/stylings.php";
           <!--/.col-->
 
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <div class="info-box brown-bg">
+            <a href="payroll.php" style="color:white"><div class="info-box brown-bg">
               <i class="fa fa-money"></i>
               <div class="count">
 			  
@@ -136,18 +136,13 @@ include"include/stylings.php";
 									 
 									$POSITION=$row["POSITION"];  
 									$GROSS_SALARY=$row["GROSS_SALARY"];  
+									$TOTAL_DEDUCTIONS=$row["TOTAL_DEDUCTIONS"];  
+									$NET_SALARY=$row["NET_SALARY"];  
 									//$EXPENSES=$row["EXPENSES"];  
 									//$NET_SALARY=$row["NET_SALARY"];
 
-                   $query ="SELECT SUM(DEDUCTION_AMOUNT) AS total FROM deductions";
-$result = $conn->query($query);
-$row = mysqli_fetch_assoc($result);
-$total= $row['total'];
-//echo $total; 
-$NET_SALARYY=$GROSS_SALARY-$total;
-
-
-						 echo $NET_SALARYY; 
+                   
+						 echo $NET_SALARY; 
                     
 						 }} else {
     echo "0 results";
@@ -155,7 +150,7 @@ $NET_SALARYY=$GROSS_SALARY-$total;
 
  ?>
 			  
-			  </div>
+			  </div></a>
               <div class="title">Monthly &nbsp;&nbsp;&nbsp;Salary </div>
             </div>
             <!--/.info-box-->

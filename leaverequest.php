@@ -40,13 +40,13 @@ $days = mysqli_real_escape_string($conn, $_REQUEST['days']);
 $reason= mysqli_real_escape_string($conn, $_REQUEST['reason']);
 $date= mysqli_real_escape_string($conn, $_REQUEST['date']);
 
-$check_user = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."'";
+$check_user = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."' and STATUS='PENDING'";
 		if ($conn->query($check_user) ==TRUE) {
 		$result = mysqli_query($conn,$check_user) or die(mysql_error());
 		$rows = mysqli_num_rows($result);
 		if($rows>0){
 			echo "<div class='col-lg-9' id='helpdiv'>
-								 <div style='background-color:red;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+								 <div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
 								 <strong>Sorry!</strong> you still have a pending leave.</div></div><br><br><br>";
 								 
 								 echo "<script type='text/javascript'>
@@ -64,7 +64,7 @@ $check = "SELECT * FROM leave_application WHERE LEAVE_DATE='$date'";
 				$rows = mysqli_num_rows($result);
 				if($rows>0){
 					echo "<div class='col-lg-9' id='helpdiv'>
-								 <div style='background-color:red;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+								 <div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
 								 <strong>Success!</strong> Date has been taken.</div></div><br><br><br>";
 								 
 								 echo "<script type='text/javascript'>
@@ -74,27 +74,9 @@ $check = "SELECT * FROM leave_application WHERE LEAVE_DATE='$date'";
 								document.getElementById('helpdiv').style.display=' none';
 								}
 				</script>";}
+				
 				else{
-					
-					$check = "SELECT * FROM confirmed_leave WHERE LEAVE_DATE='$date'";
-				if ($conn->query($check) ==TRUE) {
-				$result = mysqli_query($conn,$check) or die(mysql_error());
-				$rows = mysqli_num_rows($result);
-				if($rows>0){
-					echo "<div class='col-lg-9' id='helpdiv'>
-								 <div style='background-color:red;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
-								 <strong>Success!</strong> Date has been taken.</div></div><br><br><br>";
-								 
-								 echo "<script type='text/javascript'>
-								window.setTimeout('closeHelpDiv();', 3000);
-
-								function closeHelpDiv(){
-								document.getElementById('helpdiv').style.display=' none';
-								}
-				</script>";}
-				else{
-
-$sql_t = "SELECT * FROM confirmed_leave WHERE USER_ID='".$_SESSION['user']."' ORDER BY LEAVE_ID DESC LIMIT 1";
+$sql_t = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."' ORDER BY LEAVE_ID DESC LIMIT 1";
 		if ($conn->query($sql_t) ==TRUE) {
 		$result = mysqli_query($conn,$sql_t) or die(mysql_error());
 		$rows = mysqli_num_rows($result);
@@ -111,10 +93,8 @@ $sql_t = "SELECT * FROM confirmed_leave WHERE USER_ID='".$_SESSION['user']."' OR
 							$leave_days=$row["LEAVE_DAYS"];
 							$leavetype_days=$leave_days-$days;
 				
-			$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS,RLEAVE_DAYS, TOTAL_DAYS, REMAINING_DAYS)
-								VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days','$leavetype_days', '$total_days','$remaining_days')";
-
-
+			$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS,RLEAVE_DAYS, TOTAL_DAYS, REMAINING_DAYS,STATUS)
+								VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days','$leavetype_days', '$total_days','$remaining_days','PENDING')";
 							if(mysqli_query($conn, $sql)){
 								 echo "<div class='col-lg-9' id='helpdiv'>
 								 <div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
@@ -135,7 +115,7 @@ $sql_t = "SELECT * FROM confirmed_leave WHERE USER_ID='".$_SESSION['user']."' OR
 		}}}}}
 	else{
 if($_SESSION['gender']=="Male"){
-								 $abc="SELECT SUM(LEAVE_DAYS) as total FROM leave_types where TYPE_ID !=4 AND TYPE_ID !=1";
+								 $abc="SELECT SUM(LEAVE_DAYS) as total FROM leave_types where LEAVE_TYPE!='Normal/Annual' and LEAVE_TYPE !='Maternity'";
 									$result=mysqli_query($conn,$abc);
 									if($result)
 									{
@@ -153,8 +133,8 @@ if($_SESSION['gender']=="Male"){
 													$leave_days=$row["LEAVE_DAYS"];
 													$leavetype_days=$leave_days-$days;
 									
-									$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS,RLEAVE_DAYS, TOTAL_DAYS, REMAINING_DAYS)
-									VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days','leavetype_days', '$todays','$remaining_days')";
+									$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS,RLEAVE_DAYS, TOTAL_DAYS, REMAINING_DAYS,STATUS)
+									VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days','$leavetype_days', '$todays','$remaining_days','PENDING')";
 									
 									if(mysqli_query($conn, $sql)){
 										 echo "<div class='col-lg-9' id='helpdiv'>
@@ -190,8 +170,8 @@ $sql = "SELECT * FROM leave_types where LEAVE_TYPE='Normal/Annual'";
 											$leave_days=$row["LEAVE_DAYS"];
 											$leavetype_days=$leave_days-$days;
 								
-							$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS,RLEAVE_DAYS, TOTAL_DAYS, REMAINING_DAYS)
-							VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days','$leavetype_days', '$total_days','$remaining_days')";
+							$sql = "INSERT INTO leave_application (USER_ID,LEAVE_TYPE,REASON,LEAVE_DATE, REQUESTED_DAYS,RLEAVE_DAYS, TOTAL_DAYS, REMAINING_DAYS,STATUS)
+							VALUES ('".$_SESSION['user']."','$leave', '$reason','$date', '$days','$leavetype_days', '$total_days','$remaining_days','PENDING')";
 
 
 							if(mysqli_query($conn, $sql)){
@@ -213,7 +193,7 @@ document.getElementById('helpdiv').style.display=' none';
 		
 		}}}}
 	
-		}}}}}
+		}}}
 
     ?>
   <div id="edit-profile"  class='col-lg-9'>
@@ -227,7 +207,8 @@ document.getElementById('helpdiv').style.display=' none';
                               
 							  <select class="form-control" name="leave" required>
 						<option value="">-- Choose Type Of Leave</option>
-                            <?php $ret=mysqli_query($conn,"select * from leave_types");
+                            <?php 
+							$ret=mysqli_query($conn,"select * from leave_types where TYPE_ID!=4");
                             while($row=mysqli_fetch_array($ret))
                             {
                            ?>

@@ -2,10 +2,10 @@
 		include('include/config.php');
 	?> 
 <?php  
-if(isset($_POST['approve'])){
+if(isset($_POST['approve_cancelling'])){
  $leave_id=$_GET['leaveid'];
  
- $sql="UPDATE leave_application SET STATUS='CONFIRMED' WHERE LEAVE_ID = $leave_id"; 
+ $sql="UPDATE cancelled_leave,leave_application SET cancelled_leave.STATUS='CANCELLED',leave_application.STATUS='CANCELLED' WHERE cancelled_leave.LEAVE_ID = $leave_id AND leave_application.LEAVE_ID = $leave_id"; 
 
 													if ($conn->query($sql) === TRUE) {
 										 
@@ -16,9 +16,8 @@ if(isset($_POST['approve'])){
 															} else {
 																					echo "Error: " . $sql . "<br>" . $conn->error;
 																				}
-															//javascript function to open in the same window 
+																				
+																				 
+ //$sql2="UPDATE leave_application SET STATUS='CANCELLED' WHERE LEAVE_ID = $leave_id"; 
+
 									}
-									
-
-
-?>  

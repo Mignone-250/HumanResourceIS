@@ -1,3 +1,5 @@
+registeredusers.php: 
+
 <style>
 
 
@@ -60,7 +62,7 @@
 </style>  
  
  <?php
-		include('include/config.php');
+		include_once('include/config.php');
 	?>          
  <div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
@@ -92,52 +94,38 @@
                   <tbody>
                     <tr>
                       <?php
-						$sql = "SELECT * FROM user_registration ORDER BY USER_ID ASC";
-						$result = $conn->query($sql);
+					  include_once('allregistereduserss.php');
 
-						if ($result->num_rows > 0) {
-							// output data of each row
-							while($row = $result->fetch_assoc()) {
-								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
-									$user_id=$row["USER_ID"];  
-									$user_Fname=$row["FIRST_NAME"];  
-									$user_Lname=$row["LAST_NAME"];  
-									$user_gender=$row["GENDER"];  
-									$user_national=$row["NATIONAL_ID"];
-									$user_phone=$row["PHONE_NUMBER"];
-									$user_position=$row["POSITION"];
-									$user_department=$row["DEPARTMENT"];
-									$user_type=$row["USER_TYPE"];
-									$user_name=$row["USERNAME"];
+			$user = new allregistereduserss();
+        $sql = "SELECT * FROM user_registration ORDER BY USER_ID ASC";
+        $row = $user->details($sql);
+        
+					  
 						?>			
 
-						<td><?php echo $user_id;  ?></td>
-						<td><?php echo $user_Fname." ".$user_Lname;  ?></td>
-						<td><?php echo $user_gender;  ?></td>
-						<td><?php echo $user_national;  ?></td>
-						<td><?php echo $user_phone;  ?></td> 
-						<td><?php echo $user_position;  ?></td> 
-						<td><?php echo $user_department;  ?></td> 
-						<td><?php echo $user_type;  ?></td> 
-						<td><?php echo $user_name  ?></td> 
-						<td><a onclick='javascript:confirmationDelete($(this));return false;' href="delete.php?del=<?php echo $user_id ?>"><button class="btn" style="background-color:red;color:white;"><i class="fa fa-trash-o" style="font-size:20px;"></i></button></a></td>
-			<td><button onclick="document.getElementById('id02').style.display='block'" class="btn" style="background-color: green;color:white;">PAY</button></td>
-			<div id="id02" class="modal">
+						<td><?php echo $row['USER_ID'];  ?></td>
+						<td><?php echo $row['FIRST_NAME']." ".$row['LAST_NAME'];  ?></td>
+						<td><?php echo $row['GENDER'];  ?></td>
+						<td><?php echo $row['NATIONAL_ID'];  ?></td>
+						<td><?php echo $row['PHONE_NUMBER'];  ?></td> 
+						<td><?php echo $row['POSITION'];  ?></td> 
+						<td><?php echo $row['DEPARTMENT'];  ?></td> 
+						<td><?php echo $row['USER_TYPE'];  ?></td> 
+						<td><?php echo $row['USERNAME'];  ?></td> 
+						<td><a onclick='javascript:confirmationDelete($(this));return false;' href="delete.php?del=<?php echo $row['USER_ID']; ?>"><button class="btn" style="background-color:red;color:white;"><i class="fa fa-trash-o" style="font-size:20px;"></i></button></a></td>
+			<td><button onclick="document.getElementById('id02').style.display='block'" type="submit" class="btn" style="background-color: green;color:white;">PAY</button></td>
+												<div id="id02" class="modal">
 						  
 												  <div style="width:50%;" class="modal-content animate">
 													<div class="imgcontainer">
 													  <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span><br>
 														<center><h3 class="heading3">TIME PAID</h3>
-														<form action="pay.php?del=<?php echo $user_id ?>" method="post">
+														<form action="pay.php?del=<?php echo $row['USER_ID']; ?>" method="post">
 															<label>SELECT DATE</label><br>
 															<input type="date" name="date"  style="width:50%" required><br><br>
 															
-															<button type="submit" onclick="pay.php?del=<?php echo $user_id ?>" class="btn btn-primary" name="assign">PAY</button><br><br>	
+															<button type="submit" class="btn btn-primary" name="assign">PAY</button><br><br>	
 														</form></center>
-														</div></div>
-
-            </div>
-												
 						
 						<script>
 						function confirmationDelete(anchor)
@@ -149,16 +137,57 @@
 						</script>
                     </tr>
 					
-					<?php }} else {
-    echo "0 results";
-}
-
-$conn->close(); ?>
                   </tbody>
                 </table>
-				
-              
-</div>
-</div>
-</div>
-          
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+
+allregistereduserss.php:
+
+<?php
+include_once('config.php');
+					  class allregistereduserss extends config{
+
+		public function details($sql){
+        $query = $this->conn->query($sql);
+							while($row = $query->fetch_assoc()) {
+        return $row;       
+		}}
+					  }
+					  
+						?>	
+
+config.php:
+
+<?php
+class config{
+ private $servername = "localhost";
+ private $username = "root";
+ private $password = "";
+ private $dbname = "hrms";
+ 
+protected $conn;
+    
+    public function __construct(){
+
+        if (!isset($this->conn)) {
+            
+            $this->conn = new mysqli($this->servername, $this->username, $this->password, $this->dbname);
+            
+            if (!$this->conn) {
+                echo 'Cannot connect to database server';
+                exit;
+            }            
+        }    
+        
+        return $this->conn;
+    }
+}
+?>
+						

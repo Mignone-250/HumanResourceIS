@@ -3,28 +3,98 @@
 
 if(isset($_POST['change']))
 {
-$sql=mysqli_query($conn,"SELECT PASSWORD FROM  user_registration where PASSWORD=PASSWORD('".$_POST['current']."') && USERNAME='".$_SESSION['username']."'");
-$num=mysqli_fetch_array($sql);
-if($num>0)
-{
- $con=mysqli_query($conn,"update user_registration set PASSWORD=PASSWORD('".$_POST['new']."') where USERNAME='".$_SESSION['username']."'");
-echo "<div  id='helpdiv'><div class='col-lg-9'>
-	<div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
-	<strong>Success!</strong> Password changed successfully.</div></div></div><br><br>";
-	
-	echo "<script type='text/javascript'>
-window.setTimeout('closeHelpDiv();', 3000);
-
-function closeHelpDiv(){
-document.getElementById('helpdiv').style.display=' none';
+  if($_POST["current"] == '')
+  {
+    echo "<div  id='helpdiv'><div class='col-lg-9'>
+    <div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+    <strong>Failed!</strong> Current Password Field is required !!</div></div></div><br><br>";
+    echo "<script type='text/javascript'>
+    window.setTimeout('closeHelpDiv();', 4000);
+    function closeHelpDiv(){
+      document.getElementById('helpdiv').style.display=' none';
+    }
+    </script>";
+  }
+  else if($_POST["new"] == '')
+  {
+    echo "<div  id='helpdiv'><div class='col-lg-9'>
+    <div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+    <strong>Failed!</strong> new Password Field is required !!</div></div></div><br><br>";
+    echo "<script type='text/javascript'>
+    window.setTimeout('closeHelpDiv();', 4000);
+    function closeHelpDiv(){
+    document.getElementById('helpdiv').style.display=' none';
+    }
+    </script>";
+  }
+  else if($_POST["confirm"] == '')
+  {
+    echo "<div  id='helpdiv'><div class='col-lg-9'>
+    <div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+    <strong>Failed!</strong> confirm Password Field is required !!</div></div></div><br><br>";
+    echo "<script type='text/javascript'>
+    window.setTimeout('closeHelpDiv();', 4000);
+    function closeHelpDiv(){
+    document.getElementById('helpdiv').style.display=' none';
+    }
+    </script>";
+  }
+  else if($_POST["new"] != $_POST["confirm"])
+  {
+    echo "<div  id='helpdiv'><div class='col-lg-9'>
+    <div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+    <strong>Failed!</strong> New password does not match with the confirmation password !!</div></div></div><br><br>";
+    echo "<script type='text/javascript'>
+    window.setTimeout('closeHelpDiv();', 4000);
+    function closeHelpDiv(){
+    document.getElementById('helpdiv').style.display=' none';
+    }
+    </script>";
+  }
+  else if($_POST["current"] == $_POST["new"])
+  {
+    echo "<div  id='helpdiv'><div class='col-lg-9'>
+    <div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+    <strong>Failed!</strong> New password can't be the same as the current password, try a different one !!</div></div></div><br><br>";
+    echo "<script type='text/javascript'>
+    window.setTimeout('closeHelpDiv();', 4000);
+    function closeHelpDiv(){
+    document.getElementById('helpdiv').style.display=' none';
+    }
+    </script>";
+  }
+  else
+  {
+    $sql=mysqli_query($conn,"SELECT PASSWORD FROM  user_registration where PASSWORD=PASSWORD('".$_POST['current']."') && USERNAME='".$_SESSION['username']."'");
+    $num=mysqli_fetch_array($sql);
+    if($num>0)
+    {
+      $con=mysqli_query($conn,"update user_registration set PASSWORD=PASSWORD('".$_POST['new']."') where USERNAME='".$_SESSION['username']."'");
+      echo "<div  id='helpdiv'><div class='col-lg-9'>
+      <div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+      <strong>Success!</strong> Password changed successfully.</div></div></div><br><br>";
+      echo "<script type='text/javascript'>
+    window.setTimeout('closeHelpDiv();', 4000);
+    function closeHelpDiv(){
+    document.getElementById('helpdiv').style.display=' none';
+    }
+    </script>";
+    }
+    else
+    {
+      echo "<div  id='helpdiv'><div class='col-lg-9'>
+      <div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+      <strong>Failed!</strong> Old password does not match</div></div></div><br><br>";
+      echo "<script type='text/javascript'>
+      window.setTimeout('closeHelpDiv();', 4000);
+      function closeHelpDiv(){
+      document.getElementById('helpdiv').style.display=' none';
+      }
+      </script>";
+    }
+  }
 }
-</script>";
-}
-else
-{
-echo "Old Password not match !!";
-}
-}
+  
 ?>
 
 		  <div class="col-lg-9 col-md-12">
@@ -83,37 +153,6 @@ echo "Old Password not match !!";
                     </form>
                   </div>
                 </div></div></div></div>
-
-<script type="text/javascript">
-function valid()
-{
-if(document.chngpwd.current.value=="")
-{
-alert("Current Password Field is Empty !!");
-document.chngpwd.current.focus();
-return false;
-}
-else if(document.chngpwd.new.value=="")
-{
-alert("New Password Field is Empty !!");
-document.chngpwd.new.focus();
-return false;
-}
-else if(document.chngpwd.confirm.value=="")
-{
-alert("Confirm Password Field is Empty !!");
-document.chngpwd.confirm.focus();
-return false;
-}
-else if(document.chngpwd.new.value!= document.chngpwd.confirm.value)
-{
-alert("Password and Confirm Password Field do not match  !!");
-document.chngpwd.confirm.focus();
-return false;
-}
-return true;
-}
-</script>
 
 <script type="text/javascript">
    function resetForm(register_form)

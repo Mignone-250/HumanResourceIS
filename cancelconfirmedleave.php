@@ -7,7 +7,7 @@ $delete_id=$_GET['del'];
 $title=$_POST['title'];
 $message=$_POST['message'];
 
-$sql = "SELECT * FROM confirmed_leave where LEAVE_ID='$delete_id'";
+$sql = "SELECT * FROM leave_application where LEAVE_ID='$delete_id' and STATUS='CONFIRMED'";
 					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {
@@ -23,19 +23,7 @@ $sql = "SELECT * FROM confirmed_leave where LEAVE_ID='$delete_id'";
 								$sql= "INSERT INTO cancelled_leave (LEAVE_ID,USER_ID,LEAVE_TYPE,REASON,TITLE,DESCRIPTION,USER_TYPE)
 																	VALUES ('$leave_id','$user_id', '$leave_type', '$reason', '$title','$message','User')";
 																			if ($conn->query($sql) === TRUE) {
-																				$delete_query="delete from confirmed_leave WHERE LEAVE_ID='$delete_id'";//delete query 
-																					
-																					$run=mysqli_query($conn,$delete_query) or die(mysqli_error($conn));  
-																					if($run)  
-																					{
-																					/*$msg = "hello";
-
-																								// use wordwrap() if lines are longer than 70 characters
-																								$msg = wordwrap($msg,70);
-
-																								// send email
-																								mail("tuyizereesther@akilahinstitute.org","My subject",$msg);
-																						die;*/	
+																				
 																					echo "<script>window.open('leaveinfor.php?deleted=user has been deleted','_self')
 																					
 																					</script>";
@@ -45,7 +33,7 @@ $sql = "SELECT * FROM confirmed_leave where LEAVE_ID='$delete_id'";
 																											echo "Error: " . $sql . "<br>" . $conn->error;
 																										}
 																					//javascript function to open in the same window 
-					}else{echo "Error: " . $sql . "<br>" . $conn->error;}}}
-}
+					}}}
+
 
 ?>  

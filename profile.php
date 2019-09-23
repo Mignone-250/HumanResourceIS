@@ -6,6 +6,69 @@
 <?php
 include"include/stylings.php";
 ?>
+<style>
+
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding-top: 0px;
+ 
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: white;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  border-radius:10px;
+  width: 80%; /* Could be more or less, depending on screen size */
+  color:black;
+}
+
+/* The Close Button (x) */
+.close {
+
+  color: black;
+  margin-top:-10px;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+</style> 
 </head>
 
 <body>
@@ -36,6 +99,27 @@ include"include/stylings.php";
         </div>
 		
 		<?php include"include/config.php";?>
+		<?php
+
+														if(isset($_POST['upload']))
+															{
+											
+													$fileinfo=PATHINFO($_FILES["picture"]["name"]);
+														$newFilename=$fileinfo['filename'] ."_". time() . "." . $fileinfo['extension'];
+														move_uploaded_file($_FILES["picture"]["tmp_name"],"upload/" . $newFilename);
+														$location="upload/" . $newFilename;
+
+
+													// Attempt insert query execution
+
+													 $sql="UPDATE user_registration SET PROFILE_PICTURE='$location' WHERE USER_ID ='".$_SESSION['user']."' ";
+
+													if ($conn->query($sql) === TRUE) {
+														echo "<script>window.open('Admin_profile.php?deleted=user has been deleted','_self')</script>";
+														} else {
+														echo "Error: " . $sql . "<br>" . $conn->error;
+															}}
+															?>
 <?php
 
     if(isset($_POST['editprofile']))
@@ -108,11 +192,33 @@ document.getElementById('helpdiv').style.display=' none';
               <div class="panel-body">
                 <div class="col-lg-3 col-sm-3">
                   <h4><?php  echo $_SESSION['name'];  ?></h4>
-                  <div class="follow-ava">
-                    <img src="img/profile-widget-avatar.jpg" alt="">
-                  </div>
-                  <h6><?php  echo 'TYPE:'." ".$_SESSION['type'];  ?></h6>
-				  
+				  <h6><?php  echo 'TYPE:'.' '.$_SESSION['type'];  ?></h6><br>
+                  <div>
+                    <?php
+		$query=mysqli_query($conn,"select * from user_registration where USER_ID='".$_SESSION['user']."'");
+		while($row=mysqli_fetch_array($query)){
+			$picture  =$row['PROFILE_PICTURE']; 
+			echo "<img src='".$picture."' style='border-radius:50%;width:70%;height:100px;'>";
+			}
+			?>
+                  
+				  				  <b><i class="fa fa-edit" onclick="document.getElementById('id02').style.display='block'" style="margin-top:-50px;margin-left:60px;font-size:30px;color:white"></i></b>
+				  </div>
+				  <div id="id02" class="modal">
+						  
+												  <div style="width:50%;" class="modal-content animate">
+													<div class="imgcontainer">
+														<center><h3 class="heading3" style="color:grey"><b>CHANGE PROFILE PICTURE </b><span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span></h3>
+														<br>
+														<form action="" method="post" enctype="multipart/form-data">
+															<input type="file" name="picture"  style="width:50%" required><br><br>
+															
+															<button type="submit" class="btn btn-primary" name="upload">UPLOAD</button><br><br>	
+														</form></center>
+														</div></div>
+														
+
+													</div>
                 </div>
               </div>
             </div>

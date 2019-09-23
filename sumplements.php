@@ -54,7 +54,7 @@
 		<br>
 		
 		<?php
-    include 'include/DeductionForm.php';
+    include 'include/SumplementsForm.php';
     ?>
 	
 	
@@ -65,8 +65,8 @@
                   <thead>
                     <tr>
                       <th style="background-color: #3C7792;color: white;">SN</th>
-                      <th style="background-color: #3C7792;color: white;">DEDUCTION_TYPE</th>
-                      <th style="background-color: #3C7792;color: white;">DEDUCTION_AMOUNT</th>
+                      <th style="background-color: #3C7792;color: white;">SUPPLEMENT_TYPE</th>
+                      <th style="background-color: #3C7792;color: white;">SUPPLEMENT_AMOUNT</th>
                       <th style="background-color: #3C7792;color: white;">ACTION</th>
                       
                      
@@ -76,16 +76,16 @@
                   <tbody>
                     <tr>
                       	  <?php
-						$sql = "SELECT * FROM deductions where DID !=4"; 
+						$sql = "SELECT * FROM supplements where SUPPLEMENTS_NAME !='Total'"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
 							// output data of each row
 							while($row = $result->fetch_assoc()) {
 								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
-									 $ID=$row["DID"];
-									$DEDUCTION=$row["DEDUCTION_TYPE"];  
-									$AMOUNT=$row["DEDUCTION_AMOUNT"];  
+									 $ID=$row["SUPPLEMENTS_ID"];
+									$SUPPLEMENT=$row["SUPPLEMENTS_NAME"];  
+									$AMOUNT=$row["SUPPLEMENTS_AMOUNT"];  
 									  
 									//$EXPENSES=$row["EXPENSES"];  
 									//$NET_SALARY=$row["NET_SALARY"];
@@ -95,9 +95,9 @@
 										
 						?>			
                     <td><?php echo $ID;  ?></td>
-                    <td><?php echo $DEDUCTION;  ?></td>
+                    <td><?php echo $SUPPLEMENT;  ?></td>
                     <td>Rwf&nbsp;<?php echo $AMOUNT;  ?></td>
-                    <td><form action="deletededuction.php?del=<?php echo $ID ?>" method="post" ><button class="btn" name="delete" style="background-color:red;color:white;">DELETE</button></form></td>
+                    <td><form action="deletesupplement.php?del=<?php echo $ID ?>" method="post" ><button class="btn" name="delete" style="background-color:red;color:white;">DELETE</button></form></td>
  
                   </tr>
 				  
@@ -107,7 +107,7 @@
 }?>
 <tr><td></td><td>TOTAL</td><td>
 				  <?php
-						$sql = "SELECT * FROM deductions where DID =4"; 
+						$sql = "SELECT * FROM supplements where SUPPLEMENTS_NAME ='Total'"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -115,7 +115,7 @@
 							while($row = $result->fetch_assoc()) {
 								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
 									   
-									$AMOUNT=$row["DEDUCTION_AMOUNT"];  
+									$AMOUNT=$row["SUPPLEMENTS_AMOUNT"];  
 									 echo "Rwf"." ".$AMOUNT;
 						}}
 				

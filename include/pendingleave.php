@@ -33,7 +33,7 @@
                   <tbody>
                     <tr>
                       <?php
-						$sql = "SELECT * FROM leave_application";
+						$sql = "SELECT * FROM leave_application where STATUS='PENDING'";
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -66,9 +66,9 @@
 						<td><?php echo $rleave_days ?></td> 
 						<td><?php echo $total_days ?></td> 
 						<td><?php echo $remaing_days ?></td> 
-						<td><form action="approveleave.php?del=<?php echo $user_id ?>&transferid=<?php echo $leave_id; ?>" method="post" ><button class="btn" name="approve" style="background-color:Green;color:white;">APPROVE</button></form></td> 
+						<td><form action="approveleave.php?leaveid=<?php echo $leave_id; ?>" method="post" ><button class="btn" name="approve" style="background-color:Green;color:white;"><i class="fa fa-check-circle" style="font-size:28px;"></i></button></form></td> 
 
-						<td><button onclick="document.getElementById('id02').style.display='block'"type="submit" class="btn" style="background-color:red;color:white;">CANCEL</button></td>
+						<td><button onclick="document.getElementById('id02').style.display='block'"type="submit" class="btn" style="background-color:red;color:white;"> <strong style="font-size:20px">&#10006 </strong> </button></td>
 						<div id="id02" class="modal">
   
 						  <div style="width:50%;" class="modal-content animate">

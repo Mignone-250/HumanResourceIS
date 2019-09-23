@@ -79,6 +79,7 @@
                       <th style="background-color: #3C7792;color: white;">SN</th>
                       <th style="background-color: #3C7792;color: white;">POSITION</th>
                       <th style="background-color: #3C7792;color: white;">GROSS_SALARY</th>
+                      <th style="background-color: #3C7792;color: white;">SUPPLEMENTS</th>
                       <th style="background-color: #3C7792;color: white;">DEDUCTION</th>
                       <th style="background-color: #3C7792;color: white;">NET_SALARY</th>
                      
@@ -98,6 +99,7 @@
 									 $ID=$row["PAYROLL_ID"];
 									$POSITION=$row["POSITION"];  
 									$GROSS_SALARY=$row["GROSS_SALARY"];  
+									$SUPPLEMENTS=$row["TOTAL_SUPPLEMENTS"];  
 									$DEDUCTION=$row["TOTAL_DEDUCTIONS"];  
 									$NET_SALARY=$row["NET_SALARY"];  
 									//$EXPENSES=$row["EXPENSES"];  
@@ -110,6 +112,7 @@
                     <td><?php echo $ID;  ?></td>
                     <td><?php echo $POSITION;  ?></td>
                     <td>Rwf&nbsp;<?php echo $GROSS_SALARY;  ?></td>
+                    <td>Rwf&nbsp;<?php echo $SUPPLEMENTS;  ?></td>
                     <td>Rwf&nbsp;<?php echo $DEDUCTION;  ?></td>
                     <td>Rwf&nbsp;<?php echo $NET_SALARY;  ?></td>
                 

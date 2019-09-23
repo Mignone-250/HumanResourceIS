@@ -25,6 +25,7 @@ $con  = mysqli_connect("localhost","root","","hrms");
      # code...
     echo "Problem in database connection! Contact administrator!" . mysqli_error();
  }else{
+	 if($_SESSION['gender']=='Female'){
          $sql ="SELECT * FROM leave_types where TYPE_ID !=4";
          $result = mysqli_query($con,$sql);
          $chart_data="";
@@ -33,7 +34,17 @@ $con  = mysqli_connect("localhost","root","","hrms");
             $productname[]  = $row['LEAVE_TYPE']  ;
             $sales[] = $row['LEAVE_DAYS'];
         }
+	 }
+	 else{
+		$sql ="SELECT * FROM leave_types where TYPE_ID !=4 and LEAVE_TYPE !='Maternity'";
+         $result = mysqli_query($con,$sql);
+         $chart_data="";
+         while ($row = mysqli_fetch_array($result)) { 
  
+            $productname[]  = $row['LEAVE_TYPE']  ;
+            $sales[] = $row['LEAVE_DAYS'];
+		 }			
+	 }
  
  }
  
@@ -86,7 +97,9 @@ $con  = mysqli_connect("localhost","root","","hrms");
     </script></div>
 	<div class="col-lg-6">
 				  <?php
-						$sql = "SELECT * FROM confirmed_leave WHERE USER_ID='".$_SESSION['user']."'"; 
+				  
+				  if($_SESSION['gender']=="Female"){
+						$sql = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."' and STATUS='CONFIRMED'"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -142,9 +155,100 @@ $con  = mysqli_connect("localhost","root","","hrms");
 									<td>".$days."</td></tr>";
 									
 						}
+						$sql = "SELECT * FROM leave_types where TYPE_ID =4"; 
+						$result = $conn->query($sql);
+
+						if ($result->num_rows > 0) {
+							// output data of each row
+							
+							while($row = $result->fetch_assoc()) {
+								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+									 
+									$leave=$row["LEAVE_DAYS"];
+									echo "<tr><td>TOTAL</td>
+									<td></td>
+									<td>".$leave."</td></tr>";
+						}}
+						
 						echo "</tbody>
 									</table>";
+				  }}}
+				  else{
+							$sql = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."' and STATUS='CONFIRMED'"; 
+						$result = $conn->query($sql);
+
+						if ($result->num_rows > 0) {
+							// output data of each row
+							echo "<table class='table'>
+								<thead>
+								 
+									<th>LEAVE_TYPE</th>
+									<th>REQUESTED_DAYS</th>
+									<th>REMAING_DAYS</th>
+									
+								  
+								
+								<tbody>";
+							while($row = $result->fetch_assoc()) {
+								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+									 
+									$leave=$row["LEAVE_TYPE"];  
+									$requested=$row["REQUESTED_DAYS"];
+									$rleave=$row["RLEAVE_DAYS"];
+									
+									echo "
+								  <tr><td>".$leave."</td>
+									<td>".$requested."</td>
+							<td>".$rleave."</td></tr>";}
+							echo "</tbody>
+									</table>";
+ } else {
+							$sql = "SELECT * FROM leave_types where TYPE_ID !=4 and LEAVE_TYPE !='Maternity'"; 
+						$result = $conn->query($sql);
+
+						if ($result->num_rows > 0) {
+							// output data of each row
+							echo "<table class='table'>
+								<thead>
+								  <tr>
+									<th>LEAVE_TYPE</th>
+									<th>REQUESTED_DAYS</th>
+									<th>REMAING_DAYS</th>
+									
+								  </tr>
+								</thead>
+								<tbody>";
+							while($row = $result->fetch_assoc()) {
+								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+									 
+									$leave=$row["LEAVE_TYPE"];  
+									$days=$row["LEAVE_DAYS"];
+
+							
+							echo "<tr><td>".$leave."</td>
+									<td>0</td>
+									<td>".$days."</td></tr>";
+							}
+							$abc="SELECT SUM(LEAVE_DAYS) as total FROM leave_types where TYPE_ID !=4 and LEAVE_TYPE !='Maternity'";
+							$result=mysqli_query($conn,$abc);
+							if($result)
+							{
+							while($row=mysqli_fetch_assoc($result))
+							{
+							$days=$row["total"];
+							echo "<tr><td>TOTAL</td>
+									<td></td>
+									<td>".$days."</td></tr>";
 						}}
+									
+						}
+						echo "</tbody>
+									</table>";
+				  }}  
+					  
+					  
+					  
+				  
 						
 
 				$conn->close(); ?>

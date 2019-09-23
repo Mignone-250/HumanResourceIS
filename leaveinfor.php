@@ -41,6 +41,10 @@
 		<?php
 		include 'include/leaveconfirmed.php';
 		?>
+		
+		<?php
+		include 'include/users_leave_cancelled.php';
+		?>
 
 
                 <div class="widget-foot">

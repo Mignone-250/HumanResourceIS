@@ -48,6 +48,10 @@
 <?php
 		include 'include/confirmed_leave.php';
 		?>
+		
+		<?php
+		include 'include/cancelledleave.php';
+		?>
 
 
                 <div class="widget-foot">

@@ -65,7 +65,7 @@
  <div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2><i class="fa fa-flag-o red"></i><strong>CONFIRMED LEAVES</strong></h2>
+                <h2><i class="fa fa-flag-o red"></i><strong>CANCELLED LEAVES</strong></h2>
                 <div class="panel-actions">
                   <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                   <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -83,7 +83,6 @@
                       <th class="info-box brown-bg">LEAVE_DATE</th>
                       <th class="info-box brown-bg">REASON</th>
                       <th class="info-box brown-bg">REQUESTED_DAYS</th>
-                      <th class="info-box brown-bg">RLEAVE_DAYS</th>
                       <th class="info-box brown-bg">TOTAL_DAYS</th>
                       <th class="info-box brown-bg">REMAINING_DAYS</th>
                       <th class="info-box brown-bg">ACTION</th>
@@ -93,7 +92,7 @@
                   <tbody>
                     <tr>
                       <?php
-						$sql = "SELECT * FROM leave_application where STATUS='CONFIRMED'";
+						$sql = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."' and STATUS='CANCELLED'";
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -107,7 +106,6 @@
 									$leave_date=$row["LEAVE_DATE"];  
 									$reason=$row["REASON"];
 									$requested_days=$row["REQUESTED_DAYS"];
-									$rleave_days=$row["RLEAVE_DAYS"];
 									$total_days=$row["TOTAL_DAYS"];
 									$remaing_days=$row["REMAINING_DAYS"];
 						?>			
@@ -122,25 +120,13 @@
 						<td><?php echo $leave_date ?></td> 
 						<td><?php echo $reason ?></td> 
 						<td><?php echo $requested_days ?></td> 
-						<td><?php echo $rleave_days ?></td> 
 						<td><?php echo $total_days ?></td> 
 						<td><?php echo $remaing_days ?></td>
-						<td><button onclick="document.getElementById('id02').style.display='block'"type="submit" class="btn" style="background-color:red;color:white;"><strong style="font-size:20px">&#10006 </strong></button></td>
-												<div id="id02" class="modal">
-						  
-												  <div style="width:50%;" class="modal-content animate">
-													<div class="imgcontainer">
-													  <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span><br>
-														<center><h3 class="heading3">MESSAGE</h3>
-														<form action="Admincancelconfirmedleave.php?del=<?php echo $leave_id ?>" method="post">
-															<label>TITLE</label><br>
-															<input type="text" name="title"  style="width:50%" required><br><br>
-															<label>DESCRIPTION</label><br>
-															<textarea style="width:50%" name="message" required></textarea>
-																		  
-																		<br><br>
-															<button type="submit" class="btn btn-primary" name="assign">SEND</button><br><br>	
-														</form></center> 						
+						
+						
+						<td><button type="submit" class="btn" style="background-color:red;color:white;"> <strong style="font-size:20px">&#10006 </strong> </button></td>
+						
+					
 					 
                     </tr>
 					<?php }} else {

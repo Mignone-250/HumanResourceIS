@@ -32,7 +32,7 @@
                   <tbody>
                     <tr>
                       <?php
-						$sql = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."'";
+						$sql = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."' and STATUS='PENDING'";
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {

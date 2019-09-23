@@ -151,7 +151,7 @@ document.getElementById('helpdiv').style.display=' none';
 
                 </div>
                 <div class="widget-foot">
-                  <!-- Footer goes here -->
+                  
                 </div>
               </div>
             </div>

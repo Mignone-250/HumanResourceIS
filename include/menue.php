@@ -52,6 +52,12 @@
                           <span>Deductions</span>
                           
                       </a></li>
+					  
+					  <li><a href="sumplements.php" class="">
+                          
+                          <span>Sumplements</span>
+                          
+                      </a></li>
 
             </ul></li>
 			

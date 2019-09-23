@@ -7,7 +7,7 @@ $delete_id=$_GET['del'];
 $title=$_POST['title'];
 $message=$_POST['message'];
 
-$sql = "SELECT * FROM leave_application where LEAVE_ID='$delete_id' and STATUS='CONFIRMED'";
+$sql = "SELECT * FROM leave_application where LEAVE_ID='$delete_id'";
 					$result = $conn->query($sql);
 
 					if ($result->num_rows > 0) {
@@ -18,16 +18,16 @@ $sql = "SELECT * FROM leave_application where LEAVE_ID='$delete_id' and STATUS='
 								$user_id=$row["USER_ID"];  
 								$leave_type=$row["LEAVE_TYPE"];  
 								$reason=$row["REASON"];
+								
 
-
-								$sql= "INSERT INTO cancelled_leave (LEAVE_ID,USER_ID,LEAVE_TYPE,REASON,TITLE,DESCRIPTION,USER_TYPE)
-																	VALUES ('$leave_id','$user_id', '$leave_type', '$reason', '$title','$message','Admin')";
+								$sql= "INSERT INTO cancelled_leave (LEAVE_ID,USER_ID,LEAVE_TYPE,REASON,TITLE,DESCRIPTION,USER_TYPE,STATUS)
+																	VALUES ('$leave_id','$user_id', '$leave_type', '$reason', '$title','$message','User','PENDING')";
 																			if ($conn->query($sql) === TRUE) {
-																				$delete_query="delete from leave_application WHERE LEAVE_ID='$delete_id' and STATUS='CONFIRMED'";//delete query 
+																				//$delete_query="delete from leave_application WHERE LEAVE_ID='$delete_id'";//delete query 
 																					
-																					$run=mysqli_query($conn,$delete_query) or die(mysqli_error($conn));  
-																					if($run)  
-																					{
+																					//$run=mysqli_query($conn,$delete_query) or die(mysqli_error($conn));  
+																					//if($run)  
+																					//{
 																					/*$msg = "hello";
 
 																								// use wordwrap() if lines are longer than 70 characters
@@ -36,14 +36,15 @@ $sql = "SELECT * FROM leave_application where LEAVE_ID='$delete_id' and STATUS='
 																								// send email
 																								mail("tuyizereesther@akilahinstitute.org","My subject",$msg);
 																						die;*/	
-																					echo "<script>window.open('pendingleave.php?deleted=user has been deleted','_self')
+																					echo "<script>window.open('leaveinfor.php?deleted=user has been deleted','_self')
 																					
 																					</script>";
 																													
 											
-																					} else {
-																											echo "Error: " . $sql . "<br>" . $conn->error;
-																										}
+																					//} 
+																					//else {
+																											//echo "Error: " . $sql . "<br>" . $conn->error;
+																										//}
 																					//javascript function to open in the same window 
 					}else{echo "Error: " . $sql . "<br>" . $conn->error;}}}
 }

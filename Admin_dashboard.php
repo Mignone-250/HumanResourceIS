@@ -77,7 +77,7 @@
               <i class="fa fa-clock-o" aria-hidden="true"></i>
               <div class="count">
 			  <?php 
-				$abc="SELECT count(*) as total FROM leave_application";
+				$abc="SELECT count(*) as total FROM leave_application where STATUS='PENDING'";
 				$result=mysqli_query($conn,$abc);
 				if($result)
 				{
@@ -99,7 +99,7 @@
               <i class="fa fa-check-circle" style="font-size:48px;color:white"></i>
               <div class="count">
 			  <?php 
-				$abc="SELECT count(*) as total FROM confirmed_leave";
+				$abc="SELECT count(*) as total FROM leave_application where STATUS='CONFIRMED'";
 				$result=mysqli_query($conn,$abc);
 				if($result)
 				{
