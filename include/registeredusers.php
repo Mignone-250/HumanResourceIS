@@ -121,22 +121,9 @@
 						<td><?php echo $user_type;  ?></td> 
 						<td><?php echo $user_name  ?></td> 
 						<td><a onclick='javascript:confirmationDelete($(this));return false;' href="delete.php?del=<?php echo $user_id ?>"><button class="btn" style="background-color:red;color:white;"><i class="fa fa-trash-o" style="font-size:20px;"></i></button></a></td>
-			<td><button onclick="document.getElementById('id02').style.display='block'" class="btn" style="background-color: green;color:white;">PAY</button></td>
-			<div id="id02" class="modal">
-						  
-												  <div style="width:50%;" class="modal-content animate">
-													<div class="imgcontainer">
-													  <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span><br>
-														<center><h3 class="heading3">TIME PAID</h3>
-														<form action="pay.php?del=<?php echo $user_id ?>" method="post">
-															<label>SELECT DATE</label><br>
-															<input type="date" name="date"  style="width:50%" required><br><br>
-															
-															<button type="submit" onclick="pay.php?del=<?php echo $user_id ?>" class="btn btn-primary" name="assign">PAY</button><br><br>	
-														</form></center>
-														</div></div>
-
-            </div>
+			<td><a href="pay.php<?php echo '?USER_ID='.$user_id; ?>"><button class="btn" style="background-color: green;color:white;">PAY</button></a></td>
+			
+			
 												
 						
 						<script>

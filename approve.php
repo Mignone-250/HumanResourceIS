@@ -1,11 +1,11 @@
  <?php
 		include('include/config.php');
+		$ID=$_GET['USER_ID'];
 	?> 
 <?php  
 if(isset($_POST['assign'])){
- $userid=$_GET['del'];
  $user_type=$_POST['user_type'];
-$sql = "SELECT * FROM create_account WHERE USER_ID='$userid'";
+$sql = "SELECT * FROM create_account WHERE USER_ID='$ID'";
 					$result = $conn->query($sql);
 					// echo $result->num_rows; die;
 					if ($result->num_rows > 0) {
@@ -22,7 +22,7 @@ $sql = "SELECT * FROM create_account WHERE USER_ID='$userid'";
 										VALUES ('$FIRST_NAME', '$LAST_NAME', '$USER_NAME','$user_type', '$PASSWORD' )";
 										if ($conn->query($sqle) === TRUE) {
 										 
-															$delete_query="delete  from create_account WHERE USER_ID='$userid'";//delete query 
+															$delete_query="delete  from create_account WHERE USER_ID='$ID'";//delete query 
 															
 															$run=mysqli_query($conn,$delete_query) or die(mysqli_error($conn));  
 															if($run)  
