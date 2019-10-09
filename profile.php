@@ -3,10 +3,28 @@
 <html lang="en">
 
 <head>
-<?php
-include"include/stylings.php";
-?>
-<style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+  <meta name="author" content="GeeksLabs">
+  <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+  <link rel="shortcut icon" href="img/favicon.png">
+
+  <title>HRMS</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- bootstrap theme -->
+  <link href="css/bootstrap-theme.css" rel="stylesheet">
+  <!--external css-->
+  <!-- font icon -->
+  <link href="css/elegant-icons-style.css" rel="stylesheet" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <!-- Custom styles -->
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/style-responsive.css" rel="stylesheet" />
+  
+  <style>
 
 
 /* The Modal (background) */
@@ -68,7 +86,8 @@ include"include/stylings.php";
   to {transform: scale(1)}
 }
 
-</style> 
+</style>  
+
 </head>
 
 <body>
@@ -84,20 +103,18 @@ include"include/stylings.php";
     <!--sidebar end-->
 
     <!--main content start-->
-	
     <section id="main-content">
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-12">
             <h3 class="page-header"><i class="fa fa-user-md"></i> Profile</h3>
             <ol class="breadcrumb">
-              <li><i class="fa fa-home"></i><a href="User_dashboard.php">Home</a></li>
-              <li><i class="icon_documents_alt"></i>Pages</li>
+              <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
+              <li><i class="fa fa-user"></i>Manage Users</li>
               <li><i class="fa fa-user-md"></i>Profile</li>
             </ol>
           </div>
         </div>
-		
 		<?php include"include/config.php";?>
 		<?php
 
@@ -115,7 +132,7 @@ include"include/stylings.php";
 													 $sql="UPDATE user_registration SET PROFILE_PICTURE='$location' WHERE USER_ID ='".$_SESSION['user']."' ";
 
 													if ($conn->query($sql) === TRUE) {
-														echo "<script>window.open('Admin_profile.php?deleted=user has been deleted','_self')</script>";
+														echo "<script>window.open('profile.php?deleted=user has been deleted','_self')</script>";
 														} else {
 														echo "Error: " . $sql . "<br>" . $conn->error;
 															}}
@@ -124,7 +141,6 @@ include"include/stylings.php";
 
     if(isset($_POST['editprofile']))
         {
-  
 $first_name = mysqli_real_escape_string($conn, $_REQUEST['fname']);
 $last_name = mysqli_real_escape_string($conn, $_REQUEST['lname']);
 $gender= mysqli_real_escape_string($conn, $_REQUEST['gender']);
@@ -134,14 +150,14 @@ $district= mysqli_real_escape_string($conn, $_REQUEST['district']);
 $position= mysqli_real_escape_string($conn, $_REQUEST['position']);
 $department= mysqli_real_escape_string($conn, $_REQUEST['department']);
 $username= mysqli_real_escape_string($conn, $_REQUEST['username']);
-
-$sql_t = "SELECT * FROM user_registration WHERE USERNAME='$username'";
+$email= mysqli_real_escape_string($conn, $_REQUEST['email']);
+$sql_t = "SELECT * FROM user_registration WHERE USER_ID != '".$_SESSION['user']."' AND USERNAME='$username'";
 		if ($conn->query($sql_t) ==TRUE) {
 		$result = mysqli_query($conn,$sql_t) or die(mysql_error());
 		$rows = mysqli_num_rows($result);
 		if($rows>0){
 		echo "<div class='alerte' id='helpdiv'> 
-  <div class='col-lg-9'>
+  <div class='col-lg-12'>
 	<div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
 	<strong> Username already exist <strong>&#10008</strong></div></div></div><br>";
 echo "<script type='text/javascript'>
@@ -155,24 +171,13 @@ document.getElementById('helpdiv').style.display=' none';
 		}
 		else{
 
-
-$sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"; 
-					$result = $conn->query($sql);
-					// echo $result->num_rows; die;
-					if ($result->num_rows > 0) {
-						// output data of each row
-						while($row = $result->fetch_assoc()) {
-							//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
-								$USER_ID=$row["USER_ID"];
-																
-
-$sql = "INSERT INTO account_request (USER_ID,FIRST_NAME, LAST_NAME, GENDER, NATIONAL_ID, PHONE_NUMBER, DISTRICT, POSITION, DEPARTMENT,USERNAME)
-VALUES ('$USER_ID','$first_name', '$last_name', '$gender', '$NationalID', '$phone', '$district', '$position', '$department','$username')";
-
+$sql="UPDATE user_registration SET FIRST_NAME='$first_name',LAST_NAME='$last_name',GENDER='$gender',NATIONAL_ID='$NationalID',
+											PHONE_NUMBER='$phone',EMAIL='$email',DISTRICT='$district',POSITION = '$position',DEPARTMENT='$department',USERNAME='$username'
+											WHERE USER_ID = '".$_SESSION['user']."'"; 
 if(mysqli_query($conn, $sql)){
-    echo "<div class='col-lg-9' id='helpdiv'>
+    echo "<div class='row' id='helpdiv'><div class='col-lg-12'>
 	<div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
-	<strong>Success!</strong> Records inserted successfully.</div></div><br><br>";
+	<strong>Success!</strong> Profile updated successfully.</div></div></div><br>";
 	
 	echo "<script type='text/javascript'>
 window.setTimeout('closeHelpDiv();', 3000);
@@ -184,26 +189,28 @@ document.getElementById('helpdiv').style.display=' none';
 } else{
     echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 }
-		}}}}}
+		}}}
 
-    ?><br>
-        <div class="col-lg-9">
+    ?>
+	
+														
+        <div class="row">
+          <!-- profile-widget -->
+          <div class="col-lg-12">
             <div class="profile-widget profile-widget-info">
               <div class="panel-body">
-                <div class="col-lg-3 col-sm-3">
-                  <h4><?php  echo $_SESSION['name'];  ?></h4>
-				  <h6><?php  echo 'TYPE:'.' '.$_SESSION['type'];  ?></h6><br>
-                  <div>
+                
+                  <div class="col-lg-2 col-sm-6">
                     <?php
 		$query=mysqli_query($conn,"select * from user_registration where USER_ID='".$_SESSION['user']."'");
 		while($row=mysqli_fetch_array($query)){
 			$picture  =$row['PROFILE_PICTURE']; 
-			echo "<img src='".$picture."' style='border-radius:50%;width:70%;height:100px;'>";
+			echo "<img src='".$picture."' style='border-radius:50%;width:90%;height:200px;'>";
 			}
 			?>
                   
-				  				  <b><i class="fa fa-edit" onclick="document.getElementById('id02').style.display='block'" style="margin-top:-50px;margin-left:60px;font-size:30px;color:white"></i></b>
-				  </div>
+				  <b><i class="fa fa-edit" onclick="document.getElementById('id02').style.display='block'" style="margin-top:-50px;margin-left:60px;font-size:30px;color:white"></i></b>
+				  <div>
 				  <div id="id02" class="modal">
 						  
 												  <div style="width:50%;" class="modal-content animate">
@@ -220,63 +227,105 @@ document.getElementById('helpdiv').style.display=' none';
 
 													</div>
                 </div>
+               
               </div>
+			  <div class="col-lg-2 col-sm-6">
+                  <h1><?php  echo $_SESSION['name'];  ?></h1>
+				  <h1><?php  echo 'TYPE:'.' '.$_SESSION['type'];  ?></h1><br>
+				  </div>
             </div>
           </div>
-        </div>
-                 
-              <div class="col-lg-9">
+        </div><br>
+        <!-- page start-->
+        <div class="row">
+          <div class="col-lg-12">
             <section class="panel">
               <header class="panel-heading tab-bg-info">
                 <ul class="nav nav-tabs">
-                  <li class="active"> 
+                  
+                  <li>
                     <a data-toggle="tab" href="#profile">
                                           <i class="icon-user"></i>
-                                          Profile
+                                          MY PROFILE
                                       </a>
                   </li>
                   <li class="">
                     <a data-toggle="tab" href="#edit-profile">
                                           <i class="icon-envelope"></i>
-                                          Edit Profile
+                                          EDIT PROFILE
                                       </a>
                   </li>
                 </ul>
               </header>
               <div class="panel-body">
                 <div class="tab-content">
+                  
                   <!-- profile -->
                   <div id="profile" class="tab-pane active">
                     <section class="panel">
-                      <div class="panel-body bio-graph-info">
-                        <h1>Bio Graph</h1>
+                     
+					  
+						<div class="panel-body bio-graph-info" >
+						<?php include"include/config.php";?>
+<?php
+
+
+$sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"; 
+					$result = $conn->query($sql);
+					// echo $result->num_rows; die;
+					if ($result->num_rows > 0) {
+						// output data of each row
+						while($row = $result->fetch_assoc()) {
+							//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+								$USER_ID=$row["USER_ID"];
+								$FIRST=$row["FIRST_NAME"];
+								$LAST=$row["LAST_NAME"];
+								$GENDER=$row["GENDER"];
+								$NATIONAL=$row["NATIONAL_ID"];
+								$PHONE=$row["PHONE_NUMBER"];
+								$DISTRICT=$row["DISTRICT"];
+								$POSITION=$row["POSITION"];
+								$DEPARTMENT=$row["DEPARTMENT"];
+								$USERNAME=$row["USERNAME"];
+								$EMAIL=$row["EMAIL"];
+								?>
+																
+	
+                        
                         <div class="row">
                           <div class="bio-row">
-                            <p><span>First Name </span>: <?php  echo $_SESSION['firstname'];  ?> </p>
+                            <p><span>FIRSTNAME </span>: <?php  echo $FIRST;  ?> </p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Last Name </span>: <?php  echo $_SESSION['lastname'];  ?></p>
+                            <p><span>LASTNAME </span>: <?php  echo $LAST;  ?></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Department</span>: <?php  echo $_SESSION['department'];  ?></p>
+                            <p><span>DEPARTMENT</span>: <?php  echo $DEPARTMENT;  ?></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Gender </span>: <?php  echo $_SESSION['gender'];  ?></p>
+                            <p><span>GENDER </span>: <?php  echo $GENDER;  ?></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Position </span>: <?php  echo $_SESSION['Position'];  ?></p>
+                            <p><span>POSITION </span>: <?php  echo $POSITION;  ?></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>District </span>:<?php  echo $_SESSION['district'];  ?></p>
+                            <p><span>DISTRICT </span>:<?php  echo $DISTRICT;  ?></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>Mobile </span>: <?php  echo $_SESSION['mobile'];  ?></p>
+                            <p><span>MOBILE </span>: <?php  echo $PHONE;  ?></p>
+                          </div>
+						  <div class="bio-row">
+                            <p><span>EMAIL </span>: <?php  echo $EMAIL;  ?></p>
                           </div>
                           <div class="bio-row">
-                            <p><span>National Id/Passport </span>: <?php  echo $_SESSION['nda'];  ?></p> 
+                            <p><span>NATIONAL ID </span>: <?php  echo $NATIONAL;  ?></p> 
                           </div>
                         </div>
-                      </div>
+                      </div> <?php	}}
+
+    ?>
+	
+                      
                     </section>
                     <section>
                       <div class="row">
@@ -286,57 +335,86 @@ document.getElementById('helpdiv').style.display=' none';
                   <!-- edit-profile -->
                   <div id="edit-profile" class="tab-pane">
                     <section class="panel">
-                      <div class="panel-body bio-graph-info">
-                        <h1> Profile Info</h1>
-											
-                        <form class="form-horizontal" role="form" action="#" method="post" enctype="multipart/form-data">
+                      <div class="panel-body bio-graph-info" >
+					  <br><br>
+					  <?php include"include/config.php";?>
+<?php
+
+
+$sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"; 
+					$result = $conn->query($sql);
+					// echo $result->num_rows; die;
+					if ($result->num_rows > 0) {
+						// output data of each row
+						while($row = $result->fetch_assoc()) {
+							//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+								$USER_ID=$row["USER_ID"];
+								$FIRST=$row["FIRST_NAME"];
+								$LAST=$row["LAST_NAME"];
+								$GENDER=$row["GENDER"];
+								$NATIONAL=$row["NATIONAL_ID"];
+								$PHONE=$row["PHONE_NUMBER"];
+								$DISTRICT=$row["DISTRICT"];
+								$POSITION=$row["POSITION"];
+								$DEPARTMENT=$row["DEPARTMENT"];
+								$USERNAME=$row["USERNAME"];
+								$EMAIL=$row["EMAIL"];
+								?>
+                        
+                                                <form class="form-horizontal" role="form" id="register_form" action="#" method="post" enctype="multipart/form-data">
                           <div class="form-group">
-                            <label class="col-lg-2 control-label">First Name</label>
+                            <label class="col-lg-2 control-label">FIRSTNAME</label>
                             <div class="col-lg-6">
-                              <input type="text"  class="form-control" id="f-name" name="fname" value="<?php  echo $_SESSION['firstname'];  ?>">
+                              <input type="text"    class="form-control" id="f-name" name="fname" value="<?php  echo $FIRST;  ?>">
                             </div>
                           </div>
                           <div class="form-group">
-                            <label class="col-lg-2 control-label">Last Name</label>
+                            <label class="col-lg-2 control-label">LASTNAME</label>
                             <div class="col-lg-6">
-                              <input type="text"   class="form-control" id="l-name" name="lname" value="<?php  echo $_SESSION['lastname'];  ?>">
+                              <input type="text"    class="form-control" id="l-name" name="lname" value="<?php  echo $LAST;  ?>">
                             </div>
                           </div>
 						  
 						  
 						  
 						  <div class="form-group">
-                        <label class="col-lg-2 control-label">Gender</label>
+                        <label class="col-lg-2 control-label">GENDER</label>
                         <div class="col-lg-6">
                           <select class="form-control" name="gender">
-                                                  <option><?php  echo $_SESSION['gender'];  ?></option>
-                                                  <option>Male</option>
+                                                  <option><?php  echo $GENDER;  ?></option>
                                                   <option>Female</option>
+                                                  <option>Male</option>
                                                   
                                                 </select>
                         </div>
                       </div>
 						  
 						  <div class="form-group">
-                            <label class="col-lg-2 control-label">National Id/Passport</label>
+                            <label class="col-lg-2 control-label">NATIONAL_ID</label>
                             <div class="col-lg-6">
-                              <input type="number" class="form-control" id="nda" name="NationalID"  value="<?php  echo $_SESSION['nda'];  ?>">
+                              <input type="number"  class="form-control" id="nda" name="NationalID"  value="<?php  echo $NATIONAL;  ?>">
                             </div>
                           </div>
 						  
 						  <div class="form-group">
-                            <label class="col-lg-2 control-label">Mobile</label>
+                            <label class="col-lg-2 control-label">PHONE_NUMBER</label>
                             <div class="col-lg-6">
-                              <input type="number" class="form-control" id="mobile" name="PhoneNumber" value="<?php  echo $_SESSION['mobile'];  ?>">
+                              <input type="number"  class="form-control" id="mobile" name="PhoneNumber" value="<?php  echo $PHONE;  ?>">
+                            </div>
+                          </div>
+						  <div class="form-group">
+                            <label class="col-lg-2 control-label">EMAIL</label>
+                            <div class="col-lg-6">
+                              <input type="email"  class="form-control" id="email" name="email" value="<?php  echo $EMAIL;  ?>">
                             </div>
                           </div>
 						  
 						  
 						  <div class="form-group">
-                        <label class="col-lg-2 control-label">District</label>
+                        <label class="col-lg-2 control-label">DISTRICT</label>
                         <div class="col-lg-6">
                           <select class="form-control" name="district">
-                                                  <option><?php  echo $_SESSION['district'];  ?></option>
+                                                  <option><?php  echo $DISTRICT;  ?></option>
                                                   <option>Gasabo</option>
                                                   <option>Nyagatare</option>
                                                   <option>Gatsibo</option>
@@ -354,10 +432,10 @@ document.getElementById('helpdiv').style.display=' none';
 						  
 						  
 						  <div class="form-group">
-                        <label class="col-lg-2 control-label">Position</label>
+                        <label class="col-lg-2 control-label">POSITION</label>
                         <div class="col-lg-6">
                           <select class="form-control" name="position">
-                                                  <option><?php  echo $_SESSION['Position'];  ?></option>
+                                                  <option><?php  echo $POSITION;  ?></option>
                                                   <option>Chief Executive Officer</option>
                                                   <option>Chief Operation Manager</option>
                                                   <option>Chief Technology Officer</option>
@@ -369,47 +447,65 @@ document.getElementById('helpdiv').style.display=' none';
                       </div>
 	  
 						 <div class="form-group">
-                        <label class="col-lg-2 control-label">department</label>
+                        <label class="col-lg-2 control-label">DEPARTMENT</label>
                         <div class="col-lg-6">
                           <select class="form-control" name="department">
-                                                  <option><?php  echo $_SESSION['department'];  ?></option>
+                                                  <option><?php  echo $DEPARTMENT;  ?></option>
                                                   <option>Finance Department</option>
                                                   <option>IT Department</option>
                                                   <option>Operational Department</option>
                                                 </select>
                         </div>
                       </div>
-				  
-						   <div class="form-group">
-                            <label class="col-lg-2 control-label">Username</label>
+					  
+					  <div class="form-group">
+                            <label class="col-lg-2 control-label">USERNAME</label>
                             <div class="col-lg-6">
-                              <input type="text"  class="form-control" id="l-name" name="username" value="<?php  echo $_SESSION['username'];  ?>">
+                              <input type="text"  class="form-control" id="mobile" name="username" value="<?php  echo $USERNAME;  ?>">
                             </div>
                           </div>
-						 
-
+						  
+						   
 
                           <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
-                              <button type="submit" class="btn btn-primary" name="editprofile">Update</button>
-                              <button type="button" class="btn btn-danger">Cancel</button>
+                              <button type="submit" class="btn btn-primary" name="editprofile">UPDATE</button>
+                              <button type="button" class="btn btn-danger" onclick="resetForm('register_form'); return false;">CANCEL</button>
                             </div>
                           </div>
-                        </form>
-                      </div>
+                        </form> <?php	}}
+
+    ?>
+						
+                      </div>				  
                     </section>
-					
                   </div>
                 </div>
               </div>
-                </div>
-            </div>
-            </div>
             </section>
           </div>
         </div>
+
+        <!-- page end-->
       </section>
     </section>
+	
+	<script type="text/javascript">
+   function resetForm(register_form)
+   {
+       var myForm = document.getElementById(register_form);
+
+       for (var i = 0; i < myForm.elements.length; i++)
+       {
+           if ('submit' != myForm.elements[i].type && 'reset' != myForm.elements[i].type)
+           {
+               myForm.elements[i].checked = false;
+               myForm.elements[i].value = '';
+               myForm.elements[i].selectedIndex = 0;
+           }
+       }
+   }
+</script>
     <!--main content end-->
     <div class="text-right">
       <div class="credits">

@@ -76,7 +76,7 @@
                   <tbody>
                     <tr>
                       	  <?php
-						$sql = "SELECT * FROM deductions where DID !=4"; 
+						$sql = "SELECT * FROM deductions where DEDUCTION_TYPE !='TOTAL'"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -107,7 +107,7 @@
 }?>
 <tr><td></td><td>TOTAL</td><td>
 				  <?php
-						$sql = "SELECT * FROM deductions where DID =4"; 
+						$sql = "SELECT * FROM deductions where DEDUCTION_TYPE ='TOTAL'"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -127,11 +127,6 @@
 
             </div>
 </div>
-
-
-	
-	 
-
 
 <br><br>
 

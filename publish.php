@@ -28,7 +28,7 @@ $sql = "SELECT * FROM post_draft WHERE POST_ID='$postid'";
 															if($run)  
 															{
 																				
-															echo "<script>window.open('draftpost.php?deleted=user has been deleted','_self')</script>";
+															echo "<script>window.open(post.php?deleted=user has been deleted','_self')</script>";
 																							
 																					
 															} else {

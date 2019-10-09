@@ -17,9 +17,10 @@ $sql = "SELECT * FROM create_account WHERE USER_ID='$ID'";
 								$LAST_NAME=$row["LAST_NAME"];  
 								$USER_NAME=$row["USERNAME"];
 								$PASSWORD=$row["PASSWORD"];
+								$EMAIL=$row["EMAIL"];
 							
-										$sqle = "INSERT INTO user_registration (FIRST_NAME, LAST_NAME, USERNAME, USER_TYPE, PASSWORD)
-										VALUES ('$FIRST_NAME', '$LAST_NAME', '$USER_NAME','$user_type', '$PASSWORD' )";
+										$sqle = "INSERT INTO user_registration (FIRST_NAME, LAST_NAME, USERNAME, EMAIL,USER_TYPE, PASSWORD)
+										VALUES ('$FIRST_NAME', '$LAST_NAME', '$USER_NAME','$EMAIL','$user_type', '$PASSWORD' )";
 										if ($conn->query($sqle) === TRUE) {
 										 
 															$delete_query="delete  from create_account WHERE USER_ID='$ID'";//delete query 

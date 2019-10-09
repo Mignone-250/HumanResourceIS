@@ -24,11 +24,11 @@ include"include/stylings.php";
   <section class="wrapper">
   <div class="row">
           <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-user-md"></i> LEAVE REQUEST APPLICATION</h3>
+            <h3 class="page-header"><i class="fa fa-user-md"></i> LEAVE APPLICATION</h3>
             <ol class="breadcrumb">
               <li><i class="fa fa-home"></i><a href="User_dashboard.php">Home</a></li>
-              <li><i class="icon_documents_alt"></i>Pages</li>
-              <li><i class="fa fa-user-md"></i>Leave Request</li>
+              <li><i class="icon_documents_alt"></i>Leave</li>
+              <li><i class="fa fa-user-md"></i>Leave Application</li>
             </ol>
           </div>
         </div>
@@ -65,7 +65,7 @@ $check = "SELECT * FROM leave_application WHERE LEAVE_DATE='$date'";
 				if($rows>0){
 					echo "<div class='col-lg-9' id='helpdiv'>
 								 <div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
-								 <strong>Success!</strong> Date has been taken.</div></div><br><br><br>";
+								 <strong>Sorry!</strong> Date has been taken.</div></div><br><br><br>";
 								 
 								 echo "<script type='text/javascript'>
 								window.setTimeout('closeHelpDiv();', 3000);
@@ -196,44 +196,68 @@ document.getElementById('helpdiv').style.display=' none';
 		}}}
 
     ?>
-  <div id="edit-profile"  class='col-lg-9'>
+ <div class="col-lg-12">
+            <section class="panel">
+              <header class="panel-heading tab-bg-info">
+                <ul class="nav nav-tabs">
+                  
+                  <li>
+                    <a data-toggle="tab" href="#profile">
+                                          <i class="icon-user"></i>
+                                          LEAVE APPLICATION FORM
+                                      </a>
+                 
+                </ul>
+              </header>
+              <div class="panel-body">
+                <div class="tab-content">
+                 
+                  <!-- profile -->
+                  <div id="profile" class="tab-pane active" >
                     <section class="panel">
-                      <div class="panel-body bio-graph-info">
-                        <h1>Leave Application Form</h1>
-                        <form class="form-horizontal" action="" method="post" enctype="multipart/form-data" autocomplete="off">
+                     
+					  
+						<div class="panel-body bio-graph-info" style="background-color:Lavender">
+						<form class="form-horizontal" action="" method="post" enctype="multipart/form-data" autocomplete="off">
                           <div class="form-group">
-                            <label class="col-lg-2 control-label">Type Of Leave </label>
+                            <label class="col-lg-2 control-label">TYPE OF LEAVE</label>
                             <div class="col-lg-6">
                               
 							  <select class="form-control" name="leave" required>
 						<option value="">-- Choose Type Of Leave</option>
                             <?php 
-							$ret=mysqli_query($conn,"select * from leave_types where TYPE_ID!=4");
+							if($_SESSION['gender']=='Female'){
+							$ret=mysqli_query($conn,"select * from leave_types where LEAVE_TYPE!='Normal/Annual'");
+							}
+							else{
+							$ret=mysqli_query($conn,"select * from leave_types where LEAVE_TYPE!='Normal/Annual' and LEAVE_TYPE!='Maternity'");	
+							}
+							
                             while($row=mysqli_fetch_array($ret))
                             {
                            ?>
 						<option>
 						<?php echo htmlentities($row['LEAVE_TYPE']);?>
 						</option>
-						<?php } ?>	
+							<?php } ?>	
 					  </select>
 							  
                             </div>
                           </div>
                           <div class="form-group">
-                            <label class="col-lg-2 control-label">Number Of Days</label>
+                            <label class="col-lg-2 control-label">NUMBER OF DAYS</label>
                             <div class="col-lg-6">
                               <input type="number" required class="form-control" id="l-name" placeholder=" " name="days">
                             </div>
                           </div>
                           <div class="form-group">
-                            <label class="col-lg-2 control-label">Reason</label>
+                            <label class="col-lg-2 control-label">REASON</label>
                             <div class="col-lg-6">
                               <textarea class="form-control" name="reason" required></textarea>
                             </div>
                           </div>
 						  <div class="form-group">
-                            <label class="col-lg-2 control-label">Leave Date</label>
+                            <label class="col-lg-2 control-label">DATE OF LEAVE</label>
                             <div class="col-lg-6">
                               <input type="date" required class="form-control" id="l-name" placeholder=" " name="date">
                             </div>
@@ -242,14 +266,15 @@ document.getElementById('helpdiv').style.display=' none';
 
                           <div class="form-group">
                             <div class="col-lg-offset-2 col-lg-10">
-                              <button type="submit" class="btn btn-primary" name="request">Send</button>
-                              <button type="button" class="btn btn-danger">Cancel</button>
+                              <button type="submit" class="btn btn-primary" name="request">APPLY</button>
+                              <button type="button" class="btn btn-danger">CANCEL</button>
                             </div>
                           </div>
                         </form>
-                      </div>
                     </section>
-						
+                    <section>
+                      
+                    </section>
                   </div>
 				  </section>
 				  </section>

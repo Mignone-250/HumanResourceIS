@@ -10,15 +10,15 @@ $amount = mysqli_real_escape_string($conn, $_REQUEST['amount']);
 $sql = "UPDATE deductions set DEDUCTION_AMOUNT='$amount' WHERE DEDUCTION_TYPE='$deduction'";
 
 if(mysqli_query($conn, $sql)){
-	$abc="SELECT SUM(DEDUCTION_AMOUNT) as total FROM deductions where DID !=4";
+	$abc="SELECT SUM(DEDUCTION_AMOUNT) as TOTAL FROM deductions where DEDUCTION_TYPE!='TOTAL'";
 				$result=mysqli_query($conn,$abc);
 				if($result)
 				{
 				while($row=mysqli_fetch_assoc($result))
 				{
-				$total=$row["total"];
+				$total=$row["TOTAL"];
 				
-				$sqle = "UPDATE deductions set DEDUCTION_AMOUNT='$total' WHERE DEDUCTION_TYPE='Total'";
+				$sqle = "UPDATE deductions set DEDUCTION_AMOUNT='$total' WHERE DEDUCTION_TYPE='TOTAL'";
 				
 				if ($conn->query($sqle) === TRUE) {
 					

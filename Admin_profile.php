@@ -10,7 +10,7 @@
   <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
   <link rel="shortcut icon" href="img/favicon.png">
 
-  <title>Profile | Creative - Bootstrap 3 Responsive Admin Template</title>
+  <title>HRMS</title>
 
   <!-- Bootstrap CSS -->
   <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -159,8 +159,8 @@ $district= mysqli_real_escape_string($conn, $_REQUEST['district']);
 $position= mysqli_real_escape_string($conn, $_REQUEST['position']);
 $department= mysqli_real_escape_string($conn, $_REQUEST['department']);
 $username= mysqli_real_escape_string($conn, $_REQUEST['username']);
-
-$sql_t = "SELECT * FROM user_registration WHERE USERNAME='$username'";
+$email= mysqli_real_escape_string($conn, $_REQUEST['email']);
+$sql_t = "SELECT * FROM user_registration WHERE USER_ID != '".$_SESSION['user']."' AND USERNAME='$username'";
 		if ($conn->query($sql_t) ==TRUE) {
 		$result = mysqli_query($conn,$sql_t) or die(mysql_error());
 		$rows = mysqli_num_rows($result);
@@ -181,7 +181,7 @@ document.getElementById('helpdiv').style.display=' none';
 		else{
 
 $sql="UPDATE user_registration SET FIRST_NAME='$first_name',LAST_NAME='$last_name',GENDER='$gender',NATIONAL_ID='$NationalID',
-											PHONE_NUMBER='$phone',DISTRICT='$district',POSITION = '$position',DEPARTMENT='$department',USERNAME='$username'
+											PHONE_NUMBER='$phone',EMAIL='$email',DISTRICT='$district',POSITION = '$position',DEPARTMENT='$department',USERNAME='$username'
 											WHERE USER_ID = '".$_SESSION['user']."'"; 
 if(mysqli_query($conn, $sql)){
     echo "<div class='row' id='helpdiv'><div class='col-lg-12'>
@@ -209,14 +209,12 @@ document.getElementById('helpdiv').style.display=' none';
             <div class="profile-widget profile-widget-info">
               <div class="panel-body">
                 <div class="col-lg-2 col-sm-2">
-                  <h4><?php  echo $_SESSION['name'];  ?></h4>
-				  <h6><?php  echo 'TYPE:'.' '.$_SESSION['type'];  ?></h6><br>
-                  <div>
+                 
                     <?php
 		$query=mysqli_query($conn,"select * from user_registration where USER_ID='".$_SESSION['user']."'");
 		while($row=mysqli_fetch_array($query)){
 			$picture  =$row['PROFILE_PICTURE']; 
-			echo "<img src='".$picture."' style='border-radius:50%;width:70%;height:100px;'>";
+			echo "<img src='".$picture."' style='border-radius:50%;width:90%;height:200px;'>";
 			}
 			?>
                   
@@ -240,6 +238,10 @@ document.getElementById('helpdiv').style.display=' none';
                 </div>
                
               </div>
+			  <div class="col-lg-2 col-sm-6">
+                  <h1><?php  echo $_SESSION['name'];  ?></h1>
+				  <h1><?php  echo 'TYPE:'.' '.$_SESSION['type'];  ?></h1><br>
+				  </div>
             </div>
           </div>
         </div><br>
@@ -377,9 +379,7 @@ document.getElementById('helpdiv').style.display=' none';
                   <!-- profile -->
                   <div id="profile" class="tab-pane">
                     <section class="panel">
-                      <div class="profile-widget profile-widget-info">
-                       <h1>Bio Graph</h1>
-                      </div>
+                      
 					  
 						<div class="panel-body bio-graph-info">
 						<?php include"include/config.php";?>
@@ -403,6 +403,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 								$POSITION=$row["POSITION"];
 								$DEPARTMENT=$row["DEPARTMENT"];
 								$USERNAME=$row["USERNAME"];
+								$EMAIL=$row["EMAIL"];
 								?>
 																
 	
@@ -429,6 +430,9 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
                           <div class="bio-row">
                             <p><span>Mobile </span>: <?php  echo $PHONE;  ?></p>
                           </div>
+						  <div class="bio-row">
+                            <p><span>Email </span>: <?php  echo $EMAIL;  ?></p>
+                          </div>
                           <div class="bio-row">
                             <p><span>National Id/Passport </span>: <?php  echo $NATIONAL;  ?></p> 
                           </div>
@@ -448,9 +452,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
                   <div id="edit-profile" class="tab-pane">
                     <section class="panel">
                       <div class="panel-body bio-graph-info">
-					  <div class="profile-widget profile-widget-info">
-                       <h1 style="font-size:30px"> Profile Info</h1>
-                      </div><br><br>
+					  
 					  <?php include"include/config.php";?>
 <?php
 
@@ -472,6 +474,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 								$POSITION=$row["POSITION"];
 								$DEPARTMENT=$row["DEPARTMENT"];
 								$USERNAME=$row["USERNAME"];
+								$EMAIL=$row["EMAIL"];
 								?>
                         
                                                 <form class="form-horizontal" role="form" id="register_form" action="#" method="post" enctype="multipart/form-data">
@@ -515,7 +518,12 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
                               <input type="number"  class="form-control" id="mobile" name="PhoneNumber" value="<?php  echo $PHONE;  ?>">
                             </div>
                           </div>
-						  
+						  <div class="form-group">
+                            <label class="col-lg-2 control-label">Email</label>
+                            <div class="col-lg-6">
+                              <input type="email"  class="form-control" id="email" name="email" value="<?php  echo $EMAIL;  ?>">
+                            </div>
+                          </div>
 						  
 						  <div class="form-group">
                         <label class="col-lg-2 control-label">District</label>

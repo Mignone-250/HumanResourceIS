@@ -20,8 +20,8 @@ $sql = "SELECT * FROM leave_application where LEAVE_ID='$delete_id'";
 								$reason=$row["REASON"];
 								
 
-								$sql= "INSERT INTO cancelled_leave (LEAVE_ID,USER_ID,LEAVE_TYPE,REASON,TITLE,DESCRIPTION,USER_TYPE)
-																	VALUES ('$leave_id','$user_id', '$leave_type', '$reason', '$title','$message','Admin')";
+								$sql= "INSERT INTO cancelled_leave (LEAVE_ID,USER_ID,LEAVE_TYPE,REASON,TITLE,DESCRIPTION,USER_TYPE,STATUS)
+																	VALUES ('$leave_id','$user_id', '$leave_type', '$reason', '$title','$message','Admin','CANCELLED')";
 																			if ($conn->query($sql) === TRUE) {
 																				$delete_query="delete from leave_application WHERE LEAVE_ID='$delete_id'";//delete query 
 																					

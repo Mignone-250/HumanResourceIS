@@ -143,11 +143,21 @@
           <!--/.col-->
 
 		            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <div class="info-box green-bg">
+            <a href="paidusers.php" style="text-decoration:none;color:white"><div class="info-box green-bg">
               <i class="fa fa-money" aria-hidden="true"></i>
-              <div class="count">1.426</div>
+              <div class="count"><?php 
+				$abc="SELECT count(*) as total FROM paid_users";
+				$result=mysqli_query($conn,$abc);
+				if($result)
+				{
+				while($row=mysqli_fetch_assoc($result))
+				{
+				echo $row['total'];
+				}     
+				}
+				?></div>
               <div class="title">Payroll</div>
-            </div>
+            </div></a>
             <!--/.info-box-->
           </div>
           <!--/.col-->
@@ -163,7 +173,102 @@
 
         <div class="row">
 
-          <div class="col-lg-12 col-md-12">
+<?php
+// Below is optional, remove if you have already connected to your database.
+$mysqli = mysqli_connect('localhost', 'root', '', 'hrms');
+
+// Get the total number of records from our table "students".
+$total_pages = $mysqli->query('SELECT * FROM user_registration')->num_rows;
+
+// Check if the page number is specified and check if it's a number, if not return the default page number which is 1.
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+
+// Number of results to show on each page.
+$num_results_on_page = 5;
+
+if ($stmt = $mysqli->prepare('SELECT * FROM user_registration ORDER BY USER_ID LIMIT ?,?')) {
+	// Calculate the page to get the results we need from our table.
+	$calc_page = ($page - 1) * $num_results_on_page;
+	$stmt->bind_param('ii', $calc_page, $num_results_on_page);
+	$stmt->execute(); 
+	// Get the results...
+	$result = $stmt->get_result();
+	?>
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>PHP & MySQL Pagination by CodeShack</title>
+			<meta charset="utf-8">
+			<style>
+			html {
+				font-family: Tahoma, Geneva, sans-serif;
+				padding: 20px;
+				background-color: #F8F9F9;
+			}
+			table {
+				border-collapse: collapse;
+				width: 500px;
+			}
+			td, th {
+				padding: 10px;
+			}
+			th {
+				background-color: #54585d;
+				color: #ffffff;
+				font-weight: bold;
+				font-size: 13px;
+				border: 1px solid #54585d;
+			}
+			td {
+				color: #636363;
+				border: 1px solid #dddfe1;
+			}
+			tr {
+				background-color: #f9fafb;
+			}
+			tr:nth-child(odd) {
+				background-color: #ffffff;
+			}
+			.pagination {
+				list-style-type: none;
+				padding: 10px 0;
+				display: inline-flex;
+				justify-content: space-between;
+				box-sizing: border-box;
+				
+			}
+			.pagination li {
+				box-sizing: border-box;
+				padding-right: 10px;
+			}
+			.pagination li a {
+				box-sizing: border-box;
+				background-color: #e2e6e6;
+				padding: 8px;
+				text-decoration: none;
+				font-size: 12px;
+				font-weight: bold;
+				color: #616872;
+				border-radius: 4px;
+			}
+			.pagination li a:hover {
+				background-color: #d4dada;
+			}
+			.pagination .next a, .pagination .prev a {
+				text-transform: uppercase;
+				font-size: 12px;
+			}
+			.pagination .currentpage a {
+				background-color: #518acb;
+				color: #fff;
+			}
+			.pagination .currentpage a:hover {
+				background-color: #518acb;
+			}
+			</style>
+		</head>
+		<body>
+		<div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h2><i class="fa fa-flag-o red"></i><strong>REGISTERED USERS</strong></h2>
@@ -173,69 +278,89 @@
                   <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
                 </div>
               </div>
-              <div class="panel-body">
-                <table class="table bootstrap-datatable countries" class="col-lg-8 col-md-12">
-                   <thead>
-                    <tr>
-                      <th  class="info-box dark-bg">SN</th>
-                      <th  class="info-box dark-bg">NAMES</th>
-                      <th  class="info-box dark-bg">GENDER</th>
-                      <th  class="info-box dark-bg">NATIONAL_ID</th>
-                      <th  class="info-box dark-bg">PHONE_NUMBER</th>
-                      <th  class="info-box dark-bg">POSITION</th>
-                      <th  class="info-box dark-bg">DEPARTMENT</th>
-                      <th  class="info-box dark-bg">USER_TYPE</th>
-                      <th  class="info-box dark-bg">USERNAME</th>
+			   <div class="panel-body">
+			<table border="1"class="table bootstrap-datatable countries">
+				<tr>
+					<th  style="background-color: #152E48;color: white;">SN</th>
+                      <th  style="background-color: #152E48;color: white;">NAMES</th>
+					 
+                      <th  style="background-color: #152E48;color: white;">GENDER</th>
+                      <th  style="background-color: #152E48;color: white;">NATIONAL_ID</th>
+                      <th  style="background-color: #152E48;color: white;">PHONE_NUMBER</th>
+                      <th  style="background-color: #152E48;color: white;">POSITION</th>
+                      <th  style="background-color: #152E48;color: white;">DEPARTMENT</th>
+                      <th  style="background-color: #152E48;color: white;">USER_TYPE</th>
                       
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <?php
-						$sql = "SELECT * FROM user_registration ORDER BY USER_ID ASC";
-						$result = $conn->query($sql);
-
-						if ($result->num_rows > 0) {
-							// output data of each row
-							while($row = $result->fetch_assoc()) {
-								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
-									$user_id=$row["USER_ID"];  
+				</tr>
+				<?php while ($row = $result->fetch_assoc()):
+				$user_id=$row["USER_ID"];  
 									$user_Fname=$row["FIRST_NAME"];  
-									$user_Lname=$row["LAST_NAME"];  
+									$user_Lname=$row["LAST_NAME"];
+                    
 									$user_gender=$row["GENDER"];  
 									$user_national=$row["NATIONAL_ID"];
 									$user_phone=$row["PHONE_NUMBER"];
 									$user_position=$row["POSITION"];
 									$user_department=$row["DEPARTMENT"];
 									$user_type=$row["USER_TYPE"];
-									$user_name=$row["USERNAME"];
-						?>			
-						 
-						  
+									
+				?>
+				<tr>
+					<td><?php echo $user_id;  ?></td>
+						<td><?php echo $user_Fname." ".$user_Lname;  ?></td>
+            
+						<td><?php echo $user_gender;  ?></td>
+						<td><?php echo $user_national;  ?></td>
+						<td><?php echo $user_phone;  ?></td> 
+						<td><?php echo $user_position;  ?></td> 
+						<td><?php echo $user_department;  ?></td> 
+						<td><?php echo $user_type;  ?></td> 
+						
+						
+						
+						
+						
+				</tr>
+				<?php endwhile; ?>
+			</table>
+			 </div>
+			<?php if (ceil($total_pages / $num_results_on_page) > 0): ?>
+			<CENTER>
+			<ul class="pagination">
+				<?php if ($page > 1): ?>
+				<li class="prev"><a href="Admin_dashboard.php?page=<?php echo $page-1 ?>">Prev</a></li>
+				<?php endif; ?>
 
-						<!--here showing results in the table -->  
-						<td><?php echo $user_id;  ?></td>
-						<td><?php echo $user_Fname." ".$user_Lname  ?></td>
-						<td><?php echo $user_gender  ?></td>
-						<td><?php echo $user_national  ?></td>
-						<td><?php echo $user_phone  ?></td> 
-						<td><?php echo $user_position  ?></td> 
-						<td><?php echo $user_department  ?></td> 
-						<td><?php echo $user_type  ?></td> 
-						<td><?php echo $user_name  ?></td> 
-                    </tr>
-					<?php }} else {
-    echo "0 results";
+				<?php if ($page > 3): ?>
+				<li class="start"><a href="Admin_dashboard.php?page=1">1</a></li>
+				<li class="dots">...</li>
+				<?php endif; ?>
+
+				<?php if ($page-2 > 0): ?><li class="page"><a href="Admin_dashboard.php?page=<?php echo $page-2 ?>"><?php echo $page-2 ?></a></li><?php endif; ?>
+				<?php if ($page-1 > 0): ?><li class="page"><a href="Admin_dashboard.php?page=<?php echo $page-1 ?>"><?php echo $page-1 ?></a></li><?php endif; ?>
+
+				<li class="currentpage"><a href="Admin_dashboard.php?page=<?php echo $page ?>"><?php echo $page ?></a></li>
+
+				<?php if ($page+1 < ceil($total_pages / $num_results_on_page)+1): ?><li class="page"><a href="Admin_dashboard.php?page=<?php echo $page+1 ?>"><?php echo $page+1 ?></a></li><?php endif; ?>
+				<?php if ($page+2 < ceil($total_pages / $num_results_on_page)+1): ?><li class="page"><a href="Admin_dashboard.php?page=<?php echo $page+2 ?>"><?php echo $page+2 ?></a></li><?php endif; ?>
+
+				<?php if ($page < ceil($total_pages / $num_results_on_page)-2): ?>
+				<li class="dots">...</li>
+				<li class="end"><a href="Admin_dashboard.php?page=<?php echo ceil($total_pages / $num_results_on_page) ?>"><?php echo ceil($total_pages / $num_results_on_page) ?></a></li>
+				<?php endif; ?>
+
+				<?php if ($page < ceil($total_pages / $num_results_on_page)): ?>
+				<li class="next"><a href="Admin_dashboard.php?page=<?php echo $page+1 ?>">Next</a></li>
+				<?php endif; ?>
+			</ul>
+			</CENTER>
+			<?php endif; ?>
+		</body>
+	</html>
+	<?php
+	$stmt->close();
 }
-
-$conn->close(); ?>
-                  </tbody>
-                </table>
-              </div>
-
-            </div>
-
-          </div>
+?>
           <!--/col-->
           
          
@@ -476,24 +601,117 @@ $conn->close(); ?>
             <!--Project Activity end-->
           </div>
         </div><br><br>
-<div class="row">
 
-          <div class="col-lg-12 col-md-12">
+<?php
+// Below is optional, remove if you have already connected to your database.
+$mysqli = mysqli_connect('localhost', 'root', '', 'hrms');
+
+// Get the total number of records from our table "students".
+$total_pages = $mysqli->query('select * from post ORDER BY POST_ID DESC')->num_rows;
+
+// Check if the page number is specified and check if it's a number, if not return the default page number which is 1.
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
+
+// Number of results to show on each page.
+$num_results_on_page = 2;
+
+if ($stmt = $mysqli->prepare('select * from post  ORDER BY POST_ID LIMIT ?,?')) {
+	// Calculate the page to get the results we need from our table.
+	$calc_page = ($page - 1) * $num_results_on_page;
+	$stmt->bind_param('ii', $calc_page, $num_results_on_page);
+	$stmt->execute(); 
+	// Get the results...
+	$result = $stmt->get_result();
+	?>
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<title>PHP & MySQL Pagination by CodeShack</title>
+			<meta charset="utf-8">
+			<style>
+			html {
+				font-family: Tahoma, Geneva, sans-serif;
+				padding: 20px;
+				background-color: #F8F9F9;
+			}
+			table {
+				border-collapse: collapse;
+				width: 500px;
+			}
+			td, th {
+				padding: 10px;
+			}
+			th {
+				background-color: #54585d;
+				color: #ffffff;
+				font-weight: bold;
+				font-size: 13px;
+				border: 1px solid #54585d;
+			}
+			td {
+				color: #636363;
+				border: 1px solid #dddfe1;
+			}
+			tr {
+				background-color: #f9fafb;
+			}
+			tr:nth-child(odd) {
+				background-color: #ffffff;
+			}
+			.pagination {
+				list-style-type: none;
+				padding: 10px 0;
+				display: inline-flex;
+				justify-content: space-between;
+				box-sizing: border-box;
+				
+			}
+			.pagination li {
+				box-sizing: border-box;
+				padding-right: 10px;
+			}
+			.pagination li a {
+				box-sizing: border-box;
+				background-color: #e2e6e6;
+				padding: 8px;
+				text-decoration: none;
+				font-size: 12px;
+				font-weight: bold;
+				color: #616872;
+				border-radius: 4px;
+			}
+			.pagination li a:hover {
+				background-color: #d4dada;
+			}
+			.pagination .next a, .pagination .prev a {
+				text-transform: uppercase;
+				font-size: 12px;
+			}
+			.pagination .currentpage a {
+				background-color: #518acb;
+				color: #fff;
+			}
+			.pagination .currentpage a:hover {
+				background-color: #518acb;
+			}
+			</style>
+		</head>
+		<body>
+		<div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2><i class="fa fa-flag-o red"></i><strong>ALL ANNOUNCEMNETS</strong></h2>
+                <h2><i class="fa fa-flag-o red"></i><strong>Registered Users</strong></h2>
                 <div class="panel-actions">
                   <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                   <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
                   <a href="index.html#" class="btn-close"><i class="fa fa-times"></i></a>
                 </div>
               </div>
-              
-                <?php
-		include('include/config.php');
-		$query=mysqli_query($conn,"select * from post ORDER BY POST_ID DESC");
-		while($row=mysqli_fetch_array($query)){
-			$picture  =$row['PICTURE']; 
+			   <div class="panel-body">
+			<table border="1"class="table bootstrap-datatable countries">
+				
+				<?php while ($row = $result->fetch_assoc()):
+				$picture  =$row['PICTURE']; 
 			$title=$row['TITLE'];
 			$content=$row['CONTENT'];
 			$category=$row['CATEGORY'];
@@ -506,22 +724,53 @@ $conn->close(); ?>
 			<p>EVENT DATE:".$date."</p>
 			<br><br>
 			<p>PUBLISHED ON: ".$post."</p></div></div><br><br>";
-			}
-			?>
+				?>
+				
+				<?php endwhile; ?>
+			</table>
+			 </div>
+			<?php if (ceil($total_pages / $num_results_on_page) > 0): ?>
+			<CENTER>
+			<ul class="pagination">
+				<?php if ($page > 1): ?>
+				<li class="prev"><a href="Admin_dashboard.php?page=<?php echo $page-1 ?>">Prev</a></li>
+				<?php endif; ?>
+
+				<?php if ($page > 3): ?>
+				<li class="start"><a href="Admin_dashboard.php?page=1">1</a></li>
+				<li class="dots">...</li>
+				<?php endif; ?>
+
+				<?php if ($page-2 > 0): ?><li class="page"><a href="Admin_dashboard.php?page=<?php echo $page-2 ?>"><?php echo $page-2 ?></a></li><?php endif; ?>
+				<?php if ($page-1 > 0): ?><li class="page"><a href="Admin_dashboard.php?page=<?php echo $page-1 ?>"><?php echo $page-1 ?></a></li><?php endif; ?>
+
+				<li class="currentpage"><a href="Admin_dashboard.php?page=<?php echo $page ?>"><?php echo $page ?></a></li>
+
+				<?php if ($page+1 < ceil($total_pages / $num_results_on_page)+1): ?><li class="page"><a href="Admin_dashboard.php?page=<?php echo $page+1 ?>"><?php echo $page+1 ?></a></li><?php endif; ?>
+				<?php if ($page+2 < ceil($total_pages / $num_results_on_page)+1): ?><li class="page"><a href="Admin_dashboard.php?page=<?php echo $page+2 ?>"><?php echo $page+2 ?></a></li><?php endif; ?>
+
+				<?php if ($page < ceil($total_pages / $num_results_on_page)-2): ?>
+				<li class="dots">...</li>
+				<li class="end"><a href="Admin_dashboard.php?page=<?php echo ceil($total_pages / $num_results_on_page) ?>"><?php echo ceil($total_pages / $num_results_on_page) ?></a></li>
+				<?php endif; ?>
+
+				<?php if ($page < ceil($total_pages / $num_results_on_page)): ?>
+				<li class="next"><a href="Admin_dashboard.php?page=<?php echo $page+1 ?>">Next</a></li>
+				<?php endif; ?>
+			</ul>
+			</CENTER>
+			<?php endif; ?>
+		</body>
+	</html>
+	<?php
+	$stmt->close();
+}
+?>
 
 
-            </div>
 
-          </div>
-          <!--/col-->
-          
-         
 
-          <!--/col-->
 
-          <!--/col-->
-
-        </div>
 		<div class="row">
         
           <div class="col-md-9 portlets">

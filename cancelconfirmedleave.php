@@ -20,8 +20,8 @@ $sql = "SELECT * FROM leave_application where LEAVE_ID='$delete_id' and STATUS='
 								$reason=$row["REASON"];
 
 
-								$sql= "INSERT INTO cancelled_leave (LEAVE_ID,USER_ID,LEAVE_TYPE,REASON,TITLE,DESCRIPTION,USER_TYPE)
-																	VALUES ('$leave_id','$user_id', '$leave_type', '$reason', '$title','$message','User')";
+								$sql= "INSERT INTO cancelled_leave (LEAVE_ID,USER_ID,LEAVE_TYPE,REASON,TITLE,DESCRIPTION,USER_TYPE,STATUS)
+																	VALUES ('$leave_id','$user_id', '$leave_type', '$reason', '$title','$message','User','CANCELLED')";
 																			if ($conn->query($sql) === TRUE) {
 																				
 																					echo "<script>window.open('leaveinfor.php?deleted=user has been deleted','_self')

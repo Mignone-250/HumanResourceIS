@@ -49,6 +49,7 @@
 $first_name = mysqli_real_escape_string($conn, $_REQUEST['Fname']);
 $last_name = mysqli_real_escape_string($conn, $_REQUEST['Lname']);
 $username= mysqli_real_escape_string($conn, $_REQUEST['username']);
+$email=mysqli_real_escape_string($conn,$_REQUEST['email']);
 $password= mysqli_real_escape_string($conn, $_REQUEST['password']);
 $re_password= mysqli_real_escape_string($conn, $_REQUEST['re-password']);
 
@@ -80,8 +81,8 @@ document.getElementById('helpdiv').style.display=' none';
 
 
 // Attempt insert query execution
-$sql = "INSERT INTO create_account (FIRST_NAME, LAST_NAME,USERNAME,PASSWORD)
-VALUES ('$first_name', '$last_name','$username',PASSWORD('$password'))";
+$sql = "INSERT INTO create_account (FIRST_NAME, LAST_NAME,USERNAME,EMAIL,PASSWORD)
+VALUES ('$first_name', '$last_name','$username','$email',PASSWORD('$password'))";
 
 if(mysqli_query($conn, $sql)){
    
@@ -126,6 +127,11 @@ document.getElementById('helpdiv').style.display=' none';
 				
 				<div class="wrap-input100 validate-input">
 					<input id="email" class="input100" type="text" name="username" placeholder="Username" required>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input">
+					<input id="mail" class="input100" type="text" name="email" placeholder="Email" required>
 					<span class="focus-input100"></span>
 				</div>
 

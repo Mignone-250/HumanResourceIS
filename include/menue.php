@@ -37,25 +37,31 @@
             <ul class="sub">
               <li><a href="salaryhistory.php" class="">
                           
-                          <span>Salary History</span>
+                          <span>SALARY HISTORY</span>
                        
                       </a>
 
 			  </li>
-			  <li><a href="Admin_payroll.php" class="">
-                          
-                          <span>Payment Form</span>
-                          
-                      </a></li>
+			  
 					  <li><a href="Deduction.php" class="">
                           
-                          <span>Deductions</span>
+                          <span>DEDUCTIONS</span>
                           
                       </a></li>
 					  
 					  <li><a href="sumplements.php" class="">
                           
-                          <span>Sumplements</span>
+                          <span>SUPPLEMENTS</span>
+                          
+                      </a></li>
+					  <li><a href="Admin_payroll.php" class="">
+                          
+                          <span>PAYMENT FORM</span>
+                          
+                      </a></li>
+					   <li><a href="paidusers.php" class="">
+                          
+                          <span>PAID USERS</span>
                           
                       </a></li>
 
@@ -133,27 +139,13 @@
 		  
 		  
 		  <li class="sub-menu">
-            <a href="javascript:;" class="">
+            <a  href="post.php" class="">
                           
         <i class="fa fa-bullhorn"></i>
                           <span>POSTS</span>
                           <span class="menu-arrow arrow_carrot-right"></span>
                       </a>
-            <ul class="sub">
-              <li><a href="post.php" class="">
-                          
-                          <span>Quick Post</span>
-                       
-                      </a>
-
-			  </li>
-			  <li><a href="draftpost.php" class="">
-                          
-                          <span>Draft Posts</span>
-                          
-                      </a></li>
-
-            </ul></li>
+           </li>
 
 
         </ul>

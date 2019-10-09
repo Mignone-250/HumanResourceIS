@@ -20,31 +20,21 @@ $sql = "SELECT * FROM leave_application where LEAVE_ID='$delete_id' and STATUS='
 								$reason=$row["REASON"];
 
 
-								$sql= "INSERT INTO cancelled_leave (LEAVE_ID,USER_ID,LEAVE_TYPE,REASON,TITLE,DESCRIPTION,USER_TYPE)
-																	VALUES ('$leave_id','$user_id', '$leave_type', '$reason', '$title','$message','Admin')";
+								$sql= "INSERT INTO cancelled_leave (LEAVE_ID,USER_ID,LEAVE_TYPE,REASON,TITLE,DESCRIPTION,USER_TYPE,STATUS)
+																	VALUES ('$leave_id','$user_id', '$leave_type', '$reason', '$title','$message','Admin','CANCELLED')";
 																			if ($conn->query($sql) === TRUE) {
-																				$delete_query="delete from leave_application WHERE LEAVE_ID='$delete_id' and STATUS='CONFIRMED'";//delete query 
-																					
-																					$run=mysqli_query($conn,$delete_query) or die(mysqli_error($conn));  
-																					if($run)  
-																					{
-																					/*$msg = "hello";
+																				$delete_query="UPDATE leave_application SET STATUS='CANCELLED' WHERE LEAVE_ID = $delete_id"; 
 
-																								// use wordwrap() if lines are longer than 70 characters
-																								$msg = wordwrap($msg,70);
-
-																								// send email
-																								mail("tuyizereesther@akilahinstitute.org","My subject",$msg);
-																						die;*/	
-																					echo "<script>window.open('pendingleave.php?deleted=user has been deleted','_self')
-																					
-																					</script>";
+																					if ($conn->query($delete_query) === TRUE) {
+																		 
+																										
+																							echo "<script>window.open('pendingleave.php?deleted=user has been deleted','_self')</script>";
+																															
 																													
-											
-																					} else {
-																											echo "Error: " . $sql . "<br>" . $conn->error;
-																										}
-																					//javascript function to open in the same window 
+																							} else {
+																													echo "Error: " . $delete_query . "<br>" . $conn->error;
+																												}
+
 					}else{echo "Error: " . $sql . "<br>" . $conn->error;}}}
 }
 

@@ -97,28 +97,35 @@ if(isset($_POST['change']))
   
 ?>
 
-		  <div class="col-lg-9 col-md-12">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <div class="pull-left">Change Password</div>
-                <div class="widget-icons pull-right">
-                  <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
-                  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
-                </div>
-                <div class="clearfix"></div>
-              </div>
+		  <div class="col-lg-9">
+            <section class="panel">
+              <header class="panel-heading tab-bg-info">
+                <ul class="nav nav-tabs">
+                  
+                  <li>
+                    <a data-toggle="tab" href="#profile">
+                                          <i class="icon-user"></i>
+                                          CHANGE PASSWORD FORM
+                                      </a>
+                 
+                </ul>
+              </header>
               <div class="panel-body">
-                <div class="padd">
-
-                  <div class="form quick-post">
-                    <!-- Edit profile form (not working)-->
-                    <form class="form-horizontal" action="" id="register_form" name="chngpwd" method="post" enctype="multipart/form-data" autocomplete="off" onSubmit="return valid();">
+                <div class="tab-content">
+                 
+                  <!-- profile -->
+                  <div id="profile" class="tab-pane active" >
+                    <section class="panel">
+                     
+					  
+						<div class="panel-body bio-graph-info" style="background-color:Lavender">
+						<form class="form-horizontal" action="" id="register_form" name="chngpwd" method="post" enctype="multipart/form-data" autocomplete="off" onSubmit="return valid();">
                       <!-- Title -->
  
                       <!-- Cateogry -->
                       
 					<div class="form-group">
-                        <label class="control-label col-lg-2" for="tags">Current password: </label>
+                        <label class="control-label col-lg-2" for="tags">CURRENT PASSWORD: </label>
                         <div class="col-lg-10">
                           <input type="password" class="form-control" id="tags" name="current">
                         </div>
@@ -128,7 +135,7 @@ if(isset($_POST['change']))
 					  
                       <!-- Tags -->
                       <div class="form-group">
-                        <label class="control-label col-lg-2" for="tags">New Password: </label>
+                        <label class="control-label col-lg-2" for="tags">NEW PASSWORD: </label>
                         <div class="col-lg-10">
                           <input type="password" class="form-control" id="tags" name="new" required pattern=".{6,10}" title="6 to 10 characters">
                         </div>
@@ -136,7 +143,7 @@ if(isset($_POST['change']))
                       </div>
 					  
 					  <div class="form-group">
-                        <label class="control-label col-lg-2" for="tags">Confirm Password: </label>
+                        <label class="control-label col-lg-2" for="tags">CONFIRM PASSWORD: </label>
                         <div class="col-lg-10">
                           <input type="password" class="form-control" id="tags" name="confirm">
                         </div>
@@ -146,13 +153,16 @@ if(isset($_POST['change']))
                       <div class="form-group">
                         <!-- Buttons -->
                         <div class="col-lg-offset-2 col-lg-9">
-                          <button type="submit" class="btn btn-primary" name="change">Change</button>
-                          <button type="submit" class="btn btn-danger" onclick="resetForm('register_form'); return false;">Reset</button>
+                          <button type="submit" class="btn btn-primary" name="change">CHANGE</button>
+                          <button type="submit" class="btn btn-danger" onclick="resetForm('register_form'); return false;">RESET</button>
                         </div>
                       </div>
                     </form>
+                    </section>
+                    <section>
+                      
+                    </section>
                   </div>
-                </div></div></div></div>
 
 <script type="text/javascript">
    function resetForm(register_form)

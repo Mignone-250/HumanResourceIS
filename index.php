@@ -144,11 +144,7 @@ mysqli_close($conn);
 			</form>
 
 			<div class="contact100-more flex-col-c-m" style="background-image: url('img/bg-01.jpg');">
-				<div class="flex-w size1 p-b-47">
-					<div class="txt1 p-r-25">
-						<span class=""></span>
-					</div>
-
+					<?php include 'slideshow.php' ?>
 					<div class=" ">
 						<span class="txt1">
 							Not already a member ?
@@ -160,7 +156,6 @@ mysqli_close($conn);
 							</button></a>
 						</span>
 					</div>
-				</div>
 			</div>
 				
 		</div>
