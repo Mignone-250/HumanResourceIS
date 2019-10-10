@@ -550,14 +550,14 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
                       <div class="panel-body bio-graph-info">
 					  <div class="profile-widget profile-widget-info">
                       <div class="col-lg-9">
-            <section class="panel">
+            <section class="panel" id="tblCustomers">
               <header class="panel-heading">
                 MONTHLY SALARY STATEMENT
               </header>
               <div class="panel-body">
                 <div class="form">				
           <div class="col-sm-12">
-            <section class="panel" id="tblCustomers">
+            <section class="panel" >
 			
 			
 			  <table border="1" class="table"> 
@@ -711,20 +711,30 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
     window.print();
 }
  function Export() {
-            html2canvas(document.getElementById('tblCustomers'), {
-                onrendered: function (canvas) {
-                    var data = canvas.toDataURL();
-                    var docDefinition = {
+            var doc = new jsPDF();
+var elementHTML = $('#tblCustomers').html();
+var specialElementHandlers = {
+    '#tblCustomers': function (element, renderer) {
+        return true;
+    }
+};
+doc.fromHTML(elementHTML, 15, 15, {
+    'width': 170,
+    'elementHandlers': specialElementHandlers
+});
+
+// Save the PDF
+doc.save('payroll.pdf');
+var docDefinition = {
                         content: [{
                             image: data,
                             width: 500
                         }]
                     };
-                    pdfMake.createPdf(docDefinition).download("Payroll.pdf");
-                }
-            });
+pdfMake.createPdf(docDefinition).download("Payroll.pdf");
         }
-        
+
+
 </script>
           </div>
              
