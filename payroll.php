@@ -109,11 +109,11 @@ include ('include/config.php');
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-user-md"></i> USERS</h3>
+            <h3 class="page-header"><i class="fa fa-money"></i> PAYROLL</h3>
             <ol class="breadcrumb">
-              <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
+              <li><i class="fa fa-home"></i><a href="User_dashboard.php">Home</a></li>
               
-              <li><i class="fa fa-user-md"></i>PAY</li>
+              <li><i class="fa fa-user-md"></i>My payroll History</li>
             </ol>
           </div>
         </div>
@@ -151,13 +151,13 @@ include ('include/config.php');
                   <li class="">
                     <a data-toggle="tab" href="#edit-profile">
                                           <i class="icon-envelope"></i>
-                                          SALARY IN ADVANCE
+                                          SALARY IN ADVANCE STATEMENT
                                       </a>
                   </li>
 				  <li class="">
                     <a data-toggle="tab" href="#month">
                                           <i class="icon-envelope"></i>
-                                          MONTHLY SALARY
+                                          MONTHLY SALARY STATEMENT
                                       </a>
                   </li>
                 </ul>
@@ -246,11 +246,11 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
               <table border="1" class="table" id="tblCustomers">
                 <thead>
                   <tr>
-          <th style="background-color:Lavender ">SUPPLEMENTS</th>
-          <th style="background-color:Lavender ">PERCENTAGE</th>
-		  <th style="background-color:Lavender ">GROSS_SALARY</th>
-		  <th style="background-color:Lavender ">SUPPLEMENT_AMOUNT</th>
-		 <th style="background-color:Lavender ">TOTAL</th>
+          <th style="background-color:Lavender ">Supplements</th>
+          <th style="background-color:Lavender ">Amount(%)</th>
+		  
+		  
+		 
                   </tr>
                 </thead>
                 <tbody>
@@ -267,7 +267,9 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
                    
                   $deduction=$row["SUPPLEMENT_TYPE"];  
                   $amount=$row["SUPPLEMENT_AMOUNT"]; 
+				  $newamou=$amount/100;
 				  $total=$row["TOTAL"];
+				  $newtot=$total/100;
 				  
 				  $sqls = "SELECT * FROM paid_users where USER_ID='".$_SESSION['user']."' and TYPE='Monthly salary'"; 
             $results = $conn->query($sqls);
@@ -277,14 +279,14 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
               while($row = $results->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
                  $gross=$row["AMOUNT"];
-				  $supplement= ($gross*$amount)/100;
+				  $supplement= $gross+$total;
                   
             ?>  
              <td><?php echo $deduction;  ?></td>
-                    <td><?php echo  $amount;  ?> % &nbsp;</td> 
-				<td><?php echo $gross;  ?></td>	
-				<td><?php echo $supplement;  ?></td>
-<td><?php echo $total; ?> % &nbsp;</td>
+                    <td><?php echo  $newamou;  ?> % &nbsp;</td> 
+					
+				
+
                   </tr>
 			<?php }}}} else {
     echo "No Data Found";
@@ -292,7 +294,11 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 
 
  ?>
+ <tr><td style='background-color:lavender;'><b>Net Salary </b></td ><td style='background-color:lavender;'><?php echo @$gross;  ?></td></tr>
+ <tr><td style='background-color:lavender;'><b>Total Supplements(%)</b></td><td style='background-color:lavender;'><?php echo @$newtot; ?> % &nbsp;</td></tr>
 
+ <tr><td style='background-color:lavender;'><b>Net Salary With Suppliment Added</b></td><td style='background-color:lavender;'><?php echo @$supplement;  ?></td></tr>
+ 
 
                 </tbody>
               </table>        
@@ -335,12 +341,11 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
               <table border="1" class="table" id="tblCustomers">
                 <thead>
                   <tr>
-          <th style="background-color:Lavender ">DEDUCTION_TYPE</th>
+          <th style="background-color:Lavender ">Deduction</th>
           
-		  <th style="background-color:Lavender ">PERCENTAGE</th>
-		  <th style="background-color:Lavender ">GROSS_SALARY</th>
-		  <th style="background-color:Lavender ">DEDUCTION_AMOUNT</th>
-		  <th style="background-color:Lavender ">TOTAL</th>
+		  <th style="background-color:Lavender ">Amount(%)</th>
+		  
+		  
                   </tr>
                 </thead>
                 <tbody>
@@ -373,18 +378,12 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
              <td><?php echo $deduction;  ?></td>
 			
                     <td><?php echo $amount;  ?> % &nbsp;</td>
-<td>
-					<?php echo $gross;  ?>
 					
-					</td>					
-					<td>
-					<?php echo $deductions;  ?>
+					<!--<td>
+					<?php //echo $deductions;  ?>
 					
-					</td>
-<td>
-					<?php echo $total;  ?>
-					% &nbsp;
-					</td>
+					</td>-->
+
                   </tr>
 			<?php }}}} else {
     echo "0 results";
@@ -392,6 +391,9 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 
 
  ?>
+  <tr><td style='background-color:lavender;'><b>Total Deductions</b></td><td style='background-color:lavender;'><?php echo @$total;  ?>% &nbsp;</td></tr>
+
+ <tr><td style='background-color:lavender;'><b>Net Salary</b></td><td style='background-color:lavender;'><?php echo @$gross;  ?></td></tr>
 
 
                 </tbody>
@@ -421,7 +423,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
                       <div class="col-lg-9">
             <section class="panel">
               <header class="panel-heading">
-                PAYROLL STATEMENT
+                SALARY IN ADVANCE STATEMENT
               </header>
               <div class="panel-body">
                 <div class="form">				
@@ -450,7 +452,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 			  <td  style="color:black;" > <strong>EMPLOYEE INFO</strong>
 			  <br>NAMES: <?php echo $first. " ". $last;  ?><br> PHONE: <?php echo $phone;  ?>
 			   <br> POSITION: <?php echo $position;  ?><br> DEPARTMENT: <?php echo $department;  ?><br></td> 
-			   <td style="color:black;"> <strong> MVEND ORGANIZATION</strong></td>
+			   <td style="color:black;"> <strong>VATEL RWANDA</strong></td>
 			 
 			 
 			  </tr>
@@ -468,26 +470,26 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 			   <tr> 
 			     <?php
 				
-            $sql = "SELECT * FROM paid_users where USER_ID= '".$_SESSION['user']."' and TYPE='Salary in Advance'"; 
-            $result = $conn->query($sql);
+            $sqly = "SELECT * FROM paid_users where USER_ID= '".$_SESSION['user']."' and TYPE='Salary in Advance'"; 
+            $resulty = $conn->query($sqly);
 
-            if ($result->num_rows > 0) {
+            if ($resulty->num_rows > 0) {
               // output data of each row
-              while($row = $result->fetch_assoc()) {
+              while($row = $resulty->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
                    
                   $first=$row["DATE_PAID"];  
                   $last=$row["TYPE"]; 
 				  $phone=$row["AMOUNT"];
 				   
-            ?>  <tr > <th style="color:black;">DATE OF PAYMENT</th> <td style="color:black;"><?php echo $first;  ?> </td> 
+            ?>  <tr > <th style="color:black;">DATE OF PAYMENT</th> <td style="color:black;"><?php echo @$first;  ?> </td> 
           
 			  </tr> 
-          <tr > <th style="color:black;">TYPE OF PAYMENT</th> <td style="color:black;"><?php echo $last;  ?> </td> 
+          <tr > <th style="color:black;">TYPE OF PAYMENT</th> <td style="color:black;"><?php echo @$last;  ?> </td> 
           
 			  </tr>
 			   </tbody> <tfoot>
-			  <tr style="background-color:Lavender  "> <th style="color:black;">AMOUNT</th> <td style="color:black;"><?php echo $phone;  ?> </td> 
+			  <tr style="background-color:Lavender  "> <th style="color:black;">AMOUNT</th> <td style="color:black;">Rwf &nbsp;<?php echo @$phone;  ?> </td> 
           
 			  </tr> 
 			  
@@ -581,7 +583,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 			  <td  style="color:black;" > <strong>EMPLOYEE INFO</strong>
 			  <br>NAMES: <?php echo $first. " ". $last;  ?><br> PHONE: <?php echo $phone;  ?>
 			   <br> POSITION: <?php echo $position;  ?><br> DEPARTMENT: <?php echo $department;  ?><br></td> 
-			   <td style="color:black;"> <strong> MVEND ORGANIZATION</strong></td>
+			   <td style="color:black;"> <strong> VATEL RWANDA</strong></td>
 			  </tr>
 			  <?php }} else {
     echo "No Data Found";
@@ -597,56 +599,98 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 			   <tr> 
 			     <?php
 				
-            $sql = "SELECT * FROM paid_users where USER_ID= '".$_SESSION['user']."' and TYPE='Monthly salary'"; 
-            $result = $conn->query($sql);
+            $sqla = "SELECT * FROM paid_users where USER_ID= '".$_SESSION['user']."' and TYPE='Monthly salary'"; 
+            $resulta = $conn->query($sqla);
 
-            if ($result->num_rows > 0) {
+            if ($resulta->num_rows > 0) {
               // output data of each row
-              while($row = $result->fetch_assoc()) {
+              while($row = $resulta->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
                    
-                  $firsts=$row["AMOUNT"];  
-                  
-            ?>  <tr> <th style="color:black;" >GROSS_SALARY</th> <td style="color:black;"><?php echo $firsts;  ?></td> 
-			  </tr> 
+                  $firsts=$row["AMOUNT"];
+				  $datea= $row['DATE_PAID'];
+
+
+
+$sqlselect2 = "SELECT * FROM user_registration where USER_ID= '".$_SESSION['user']."'" or die(mysqli_error($conn));; 
+			//echo ($sqlselect2);
+            $resultselect2 = $conn->query($sqlselect2);
+
+            if ($resultselect2->num_rows > 0) {
+              // output data of each row
+              while($row = $resultselect2->fetch_assoc()) {
+                //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+                   
+                  //$firsts=$row["AMOUNT"]; 
+                  $posttt=$row["POSITION"]; 
+
+
+
+$sqlselect3 = "SELECT * FROM payroll where POSITION= '$posttt'"; 
+            $resultselect3 = $conn->query($sqlselect3);
+
+            if ($resultselect3->num_rows > 0) {
+              // output data of each row
+              while($row = $resultselect3->fetch_assoc()) {
+                //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+                   
+                  $grossa=$row["GROSS_SALARY"];	
+				  
+				  
+				  $sqli = "SELECT * FROM user_deduction where USER_ID= '".$_SESSION['user']."' order by DID desc limit 1"; 
+            $resulti = $conn->query($sqli);
+
+            if ($resulti->num_rows > 0) {
+              // output data of each row
+              while($row = $resulti->fetch_assoc()) {
+                //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+                   
+                  $totldeductions=$row["TOTAL"];
+?>				  
+                  				  
+                <tr> <th style="color:black;" >PAYMENT DATE</th> <td style="color:black;"><?php echo $datea;  ?></td> </tr>
+				<tr> <th style="color:black;" >GROSS SALARY</th> <td style="color:black;">RWF &nbsp;<?php echo $grossa;  ?></td> </tr> 
+				<tr> <th style="color:black;" >DEDUCTIONS</th> <td style="color:black;"><?php echo $totldeductions;  ?>&nbsp;%</td> </tr> 
+				<tr> <th style="color:black;" >NET SALARY WITH DEDUCTIONS</th> <td style="color:black;">RWF &nbsp;<?php echo $firsts;  ?></td></tr>
+				
 			  </tr> 
 			  <tr> 
 			     <?php
 				 
-            $sql = "SELECT * FROM user_supplement where USER_ID= '".$_SESSION['user']."'"; 
-            $result = $conn->query($sql);
+            $sqlu = "SELECT * FROM user_supplement where USER_ID= '".$_SESSION['user']."' order by SID desc limit 1"; 
+            $resultu = $conn->query($sqlu);
 
-            if ($result->num_rows > 0) {
+            if ($resultu->num_rows > 0) {
               // output data of each row
-              while($row = $result->fetch_assoc()) {
+              while($row = $resultu->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
                    
                   $first=$row["TOTAL"]; 
-				  $amount=($firsts*$first)/100;
+				  $amount=$first/100;
 				  
                   
-            ?>  <tr > <th style="color:black;" >TOTAL_SUPPLEMENTS</th> <td style="color:black;"><?php echo $amount;  ?></td>
+            ?>  <tr > <th style="color:black;" >SUPPLEMENTS</th> <td style="color:black;"><?php echo $amount;  ?>% &nbsp;</td>
 			
 			  </tr> 
 			  </tr> 
 			  
         <?php
           
-          $peramount= $firsts + $amount;
+          $peramount= $firsts + $first;
         ?>
 			  
 			   </tbody> <tfoot>
-			  <tr style="background-color:Lavender  "> <th style="color:black;">SUBTOTAL</th> <td style="color:black;"><?php echo $peramount;  ?> </td>
+			  <tr style="background-color:Lavender  "> <th style="color:black;">NET SALARY WITH SUPPLEMENTS</th> <td style="color:black;">RWF &nbsp;<?php echo $peramount;  ?> </td>
 <tr> 
 			     <?php
 			
-            $sql = "SELECT * FROM user_deduction where USER_ID= '".$_SESSION['user']."'"; 
+            $sqld = "SELECT * FROM user_deduction where USER_ID= '".$_SESSION['user']."'"; 
 			
-            $result = $conn->query($sql);
+            $resultd = $conn->query($sqld);
 			
-            if ($result->num_rows > 0) {
+            if ($resultd->num_rows > 0) {
               // output data of each row
-              while($row = $result->fetch_assoc()) {
+              while($row = $resultd->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
                    
                   $first=$row["TOTAL"]; 
@@ -663,20 +707,20 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 				  
                   
             ?>  
-			<tr > <th style="color:black;" >TOTAL_DEDUCTIONS</th> <td style="color:black;"><?php echo $amountss;  ?></td>
+			<!--<tr > <th style="color:black;" >TOTAL_DEDUCTIONS</th> <td style="color:black;"><?php echo $amountss;  ?></td>
 			
 			  </tr> 
 			  <tr > <th style="color:black;" >SALARY IN ADVANCE</th> <td style="color:black;"><?php echo $salary;  ?></td>
 			
 			  </tr>
-			  </tr> 			  
+			  </tr> -->			  
           <?php
-          $peramount= $firsts + $amount;
-          $peramounts= $peramount -($amountss +$salary);
+          //$peramount= $firsts + $amount;
+          //$peramounts= $peramount -($amountss +$salary);
         ?>
 			  
-			  </tr> <tr style="background-color:Lavender "> <th style="color:black;" >NET_SALARY</th> <td style="color:black;"><?php echo $peramounts;  ?></td> 
-			  </tr> 
+			  <!--</tr> <tr style="background-color:Lavender "> <th style="color:black;" >NET_SALARY</th> <td style="color:black;"><?php echo $peramounts;  ?></td> 
+			  </tr> -->
 			  
 				  <?php }}}}
 						  else {
@@ -688,7 +732,9 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
     echo "0 results";
 }
 
- ?>			   
+ ?>	
+			<?php }}}} ?> 
+			<?php }}?>
 <?php }} else {
     echo "0 results";
 }
@@ -790,17 +836,20 @@ function yesnoCheck(that) {
 </script>
 
     <!--main content end-->
-    <div class="text-right">
-      <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+   <div class="text-center">
+        <div class="credits">
+
+          <?php
+		$select111="select * from dev ";
+//echo ($select);
+$result111 = $conn->query($select111);
+if ($result111->num_rows > 0) {
+	while($row = $result111->fetch_assoc()) {
+		$year=$row["year"]; ?>
+
+Copyright &copy Mignone Unguyeneza <?php echo $year; ?><?php }}?> 
         </div>
-    </div>
+      </div>
   </section>
   <!-- container section end -->
   <!-- javascripts -->

@@ -1,0 +1,25 @@
+$sql_t2 = "SELECT RLEAVE_DAYS FROM leave_application WHERE USER_ID='".$_SESSION['user']."' and LEAVE_TYPE='$leave' ORDER BY LEAVE_ID DESC LIMIT 1";
+							if ($conn->query($sql_t2) ==TRUE) {
+								$result = mysqli_query($conn,$sql_t2) or die(mysql_error());
+								$rows = mysqli_num_rows($result);
+								if($rows>0){
+									while($row = $result->fetch_assoc()) {
+										$remained=$row["RLEAVE_DAYS"];
+										$newremained=$remained-$days;
+										if($days>$remained){
+											
+											echo "<div class='col-lg-9' id='helpdiv'>
+								 <div style='background-color:red;color:white;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+								 <strong>Sorry!</strong> have requested days that are greater than the days you are remaining with on this leave , try again.</div></div><br><br><br>";
+								 
+								 echo "<script type='text/javascript'>
+								window.setTimeout('closeHelpDiv();', 3000);
+
+								function closeHelpDiv(){
+								document.getElementById('helpdiv').style.display=' none';
+								}
+				</script>";	
+											
+										}
+										
+										else{

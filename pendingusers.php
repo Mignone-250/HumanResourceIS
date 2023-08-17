@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+<head><link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'></head>
 <?php
 		include('include/stylings.php');
 	?>
 
 <body>
   <!-- container section start -->
-  <section id="container" class="">
+  <section id="container" class="" >
 	<?php
 		include 'include/header.php';
 		?>
@@ -14,7 +15,7 @@
 
     <!--sidebar start-->
     <aside>
-      <div id="sidebar" class="nav-collapse ">
+      <div id="sidebar" class="nav-collapse " >
         <!-- sidebar menu start-->
 		<?php
 		include 'include/menue.php';
@@ -30,11 +31,11 @@
         <!--overview start-->
         <div class="row">
           <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-users"></i> Users</h3>
+            <h3 class="page-header"><i class="fa fa-users"></i> Accounts</h3>
             <ol class="breadcrumb">
               <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
-			  <li><i class="fa fa-users"></i>Manage Users</li>
-              <li><i class="fa fa-users"></i>Pending Users</li>
+			  <li><i class="fa fa-users"></i>Manage Accounts</li>
+              <li><i class="fa fa-users"></i>Pending Employees Accounts</li>
             </ol>
           </div>
         </div>
@@ -59,15 +60,10 @@
         <!-- project team & activity end -->
 
       </section>
-      <div class="text-right">
+      <div class="text-center">
         <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+
+          Copyright &copy Mignone Unguyeneza 2019
         </div>
       </div>
     </section>

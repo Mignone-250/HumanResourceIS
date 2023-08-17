@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,8 +118,8 @@
             <h3 class="page-header"><i class="fa fa-user-md"></i> Profile</h3>
             <ol class="breadcrumb">
               <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
-              <li><i class="fa fa-user"></i>Manage Admin</li>
-              <li><i class="fa fa-user-md"></i>Profile</li>
+              <li><i class="fa fa-user"></i>Manage Profile's Details</li>
+              <li><i class="fa fa-user-md"></i>Admin Profile</li>
             </ol>
           </div>
         </div>
@@ -136,7 +135,7 @@
 														$location="upload/" . $newFilename;
 
 
-													// Attempt insert query execution
+													
 
 													 $sql="UPDATE user_registration SET PROFILE_PICTURE='$location' WHERE USER_ID ='".$_SESSION['user']."' ";
 
@@ -214,7 +213,7 @@ document.getElementById('helpdiv').style.display=' none';
 		$query=mysqli_query($conn,"select * from user_registration where USER_ID='".$_SESSION['user']."'");
 		while($row=mysqli_fetch_array($query)){
 			$picture  =$row['PROFILE_PICTURE']; 
-			echo "<img src='".$picture."' style='border-radius:50%;width:90%;height:200px;'>";
+			echo "<img src='".$picture."' style='border-radius:50%;width:80%;height:150px;'>";
 			}
 			?>
                   
@@ -239,27 +238,22 @@ document.getElementById('helpdiv').style.display=' none';
                
               </div>
 			  <div class="col-lg-2 col-sm-6">
-                  <h1><?php  echo $_SESSION['name'];  ?></h1>
-				  <h1><?php  echo 'TYPE:'.' '.$_SESSION['type'];  ?></h1><br>
+                  <h3><?php  echo $_SESSION['name'];  ?></h3>
+				  <h3><?php  echo 'TYPE:'.' '.$_SESSION['type'];  ?></h3><br>
 				  </div>
             </div>
           </div>
         </div><br>
         <!-- page start-->
-        <div class="row">
-          <div class="col-lg-12">
+     
+          <div class="col-lg-12 ">
             <section class="panel">
               <header class="panel-heading tab-bg-info">
                 <ul class="nav nav-tabs">
+                  
                   <li class="active">
-                    <a data-toggle="tab" href="#recent-activity">
-                                          <i class="icon-home"></i>
-                                          Daily Activity
-                                      </a>
-                  </li>
-                  <li>
                     <a data-toggle="tab" href="#profile">
-                                          <i class="icon-user"></i>
+                                          <i class="icon-home"></i>
                                           Profile
                                       </a>
                   </li>
@@ -273,111 +267,9 @@ document.getElementById('helpdiv').style.display=' none';
               </header>
               <div class="panel-body">
                 <div class="tab-content">
-                  <div id="recent-activity" class="tab-pane active">
-                    <div class="profile-activity">
-                      <div class="act-time">
-                        <div class="activity-body act-in">
-                          <span class="arrow"></span>
-                          <div class="text">
-                            <a href="#" class="activity-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                            <p class="attribution"><a href="#">Jonatanh Doe</a> at 4:25pm, 30th Octmber 2014</p>
-                            <p>It is a long established fact that a reader will be distracted layout</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="act-time">
-                        <div class="activity-body act-in">
-                          <span class="arrow"></span>
-                          <div class="text">
-                            <a href="#" class="activity-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                            <p class="attribution"><a href="#">Jhon Loves </a> at 5:25am, 30th Octmber 2014</p>
-                            <p>Knowledge speaks, but wisdom listens.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="act-time">
-                        <div class="activity-body act-in">
-                          <span class="arrow"></span>
-                          <div class="text">
-                            <a href="#" class="activity-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                            <p class="attribution"><a href="#">Rose Crack</a> at 5:25am, 30th Octmber 2014</p>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="act-time">
-                        <div class="activity-body act-in">
-                          <span class="arrow"></span>
-                          <div class="text">
-                            <a href="#" class="activity-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                            <p class="attribution"><a href="#">Jimy Smith</a> at 5:25am, 30th Octmber 2014</p>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-                              ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="act-time">
-                        <div class="activity-body act-in">
-                          <span class="arrow"></span>
-                          <div class="text">
-                            <a href="#" class="activity-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                            <p class="attribution"><a href="#">Maria Willyam</a> at 5:25am, 30th Octmber 2014</p>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-                              ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt
-                              condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
-                              eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="act-time">
-                        <div class="activity-body act-in">
-                          <span class="arrow"></span>
-                          <div class="text">
-                            <a href="#" class="activity-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                            <p class="attribution"><a href="#">Sarah saw</a> at 5:25am, 30th Octmber 2014</p>
-                            <p>Knowledge speaks, but wisdom listens.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="act-time">
-                        <div class="activity-body act-in">
-                          <span class="arrow"></span>
-                          <div class="text">
-                            <a href="#" class="activity-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                            <p class="attribution"><a href="#">Layla night</a> at 5:25am, 30th Octmber 2014</p>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="act-time">
-                        <div class="activity-body act-in">
-                          <span class="arrow"></span>
-                          <div class="text">
-                            <a href="#" class="activity-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                            <p class="attribution"><a href="#">Andriana lee</a> at 5:25am, 30th Octmber 2014</p>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-                              ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="act-time">
-                        <div class="activity-body act-in">
-                          <span class="arrow"></span>
-                          <div class="text">
-                            <a href="#" class="activity-img"><img class="avatar" src="img/chat-avatar.jpg" alt=""></a>
-                            <p class="attribution"><a href="#">Maria Willyam</a> at 5:25am, 30th Octmber 2014</p>
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
-                              ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt
-                              condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros
-                              eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus</p>
-                          </div>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
+                
                   <!-- profile -->
-                  <div id="profile" class="tab-pane">
+                  <div id="profile" class="tab-pane active">
                     <section class="panel">
                       
 					  
@@ -598,8 +490,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
                 </div>
               </div>
             </section>
-          </div>
-        </div>
+       
 
         <!-- page end-->
       </section>
@@ -622,17 +513,12 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
    }
 </script>
     <!--main content end-->
-    <div class="text-right">
-      <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    <div class="text-center">
+        <div class="credits">
+
+          Copyright &copy Mignone Unguyeneza 2019
         </div>
-    </div>
+      </div>
   </section>
   <!-- container section end -->
   <!-- javascripts -->

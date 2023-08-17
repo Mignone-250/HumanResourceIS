@@ -100,15 +100,7 @@ if(isset($_POST['change']))
 		  <div class="col-lg-9">
             <section class="panel">
               <header class="panel-heading tab-bg-info">
-                <ul class="nav nav-tabs">
-                  
-                  <li>
-                    <a data-toggle="tab" href="#profile">
-                                          <i class="icon-user"></i>
-                                          CHANGE PASSWORD FORM
-                                      </a>
-                 
-                </ul>
+               
               </header>
               <div class="panel-body">
                 <div class="tab-content">

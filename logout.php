@@ -1,7 +1,5 @@
 <?php  
-
 session_start();
-
 include('include/config.php');
 date_default_timezone_set('Canada/Pacific');
 $ldate=date( 'd-m-Y h:i:s A', time () );

@@ -15,7 +15,7 @@ if(!$_SESSION['name'])
       </div>
 
       <!--logo start-->
-      <a href="index.html" class="logo">HRMS <span class="lite">MVEND</span></a>
+      <a href="index.html" class="logo">HRMS <span class="lite">EMPLOYEE DASHBOARD</span></a>
       <!--logo end-->
 
       
@@ -51,7 +51,7 @@ if(!$_SESSION['name'])
 				{
 				while($row=mysqli_fetch_assoc($result))
 				{
-				echo "You have ".$row['total']. "pending Leaves";
+				echo " ".$row['total']. "&nbsp;pending Leave(s)";
 				}     
 				}
 				?>
@@ -70,10 +70,10 @@ if(!$_SESSION['name'])
 			  
                 <a href="#">
                                     <span class="label label-warning"><i class="icon_pin"></i></span>
-                                    <span><strong>This leave type is still in pending</strong></span><br>
-                                    &nbsp &nbsp &nbsp &nbsp <span><?php echo $title?></span><br>
-                                    &nbsp &nbsp &nbsp &nbsp<span><?php echo $description?></span>
-                                    <span class="small italic pull-right">50 mins</span>
+                                    <span><strong>Your &nbsp;<?php echo  $title ?>&nbsp; leave which <br>was requested on &nbsp;<?php echo $description?> is still<br> pending</strong></span><br>
+                                    
+									
+                                    <span class="small italic pull-right"></span>
                                 </a>
 								<?php
 									}
@@ -81,10 +81,130 @@ if(!$_SESSION['name'])
 										?>
               </li>
               <li class="external">
-                <a href="#">See All Leaves</a>
+                <a href="#"></a>
               </li>
             </ul>
           </li>
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		   <li id="task_notificatoin_bar" class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="icon-task-l"></i>
+                            <span class="badge bg-important">0<?php 
+							date_default_timezone_set('US/Pacific');
+				$todays_date=date('Y-m-d');
+				$dateTimestamp2 = strtotime($todays_date);
+				$abc="SELECT * FROM leave_application where USER_ID='".$_SESSION['user']."' and STATUS='CONFIRMED' order by LEAVE_ID DESC limit 1";
+				$result=mysqli_query($conn,$abc);
+				if($result)
+				{
+				while($row=mysqli_fetch_assoc($result))
+				{
+				$TOOO=$row["TOOO"];
+				$dateTimestamp3 = strtotime($TOOO);
+				//echo $row['total'];
+				if($dateTimestamp3 > $dateTimestamp2 ){
+					
+					
+					echo "0";
+					
+				}
+				else{
+					
+					echo '1';
+				}
+				}     
+				}
+				
+					
+					
+				
+				?></span>
+                        </a>
+            <ul class="dropdown-menu extended tasks-bar">
+              <div class="notify-arrow notify-arrow-blue"></div>
+              <li>
+                <p class="blue">
+				0 Updates on Confirmed leaves
+				<?php
+				$todays_date=date('Y-m-d');
+				$dateTimestamp2 = strtotime($todays_date);
+				$abc="SELECT * FROM leave_application where USER_ID='".$_SESSION['user']."' and STATUS='CONFIRMED' order by LEAVE_ID DESC limit 1";
+				$result=mysqli_query($conn,$abc);
+				if($result)
+				{
+				while($row=mysqli_fetch_assoc($result))
+				{
+				$TOOO=$row["TOOO"];
+				$dateTimestamp3 = strtotime($TOOO);
+				$LEAVE_TYPE = $row["LEAVE_TYPE"];
+				//echo $row['total'];
+				if($dateTimestamp3 > $dateTimestamp2 ){
+					echo 'No Updates On The Leave';
+					
+					
+					
+				}
+				else{
+					echo "Your &nbsp; ".$row['LEAVE_TYPE']. " &nbsp; Leave has ended";
+				}
+				}     
+				}?>
+				
+				</p>
+              </li>
+              <li>
+			 <?php
+				
+				$abc="SELECT * FROM leave_application where USER_ID='".$_SESSION['user']."' and STATUS='CONFIRMED' order by LEAVE_ID DESC limit 1";
+				$result=mysqli_query($conn,$abc);
+				if($result)
+				{
+				while($row=mysqli_fetch_assoc($result))
+				{
+				$FROM = $row["LEAVE_DATE"];
+				$TOOO=$row["TOOO"];
+				$LEAVE_TYPE = $row["LEAVE_TYPE"];
+				//echo $row['total'];
+				
+				?>
+			  
+                <a href="#">
+                                    <span class="label label-warning"><i class="icon_pin"></i></span>
+                                    <span><strong>Your recently confrimed leave &nbsp;&nbsp;&nbsp; <br><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php echo $LEAVE_TYPE ?></strong>
+                                    &nbsp;(FROM &nbsp; <?php echo $FROM?></span><br>
+                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TO &nbsp;&nbsp;&nbsp;<?php echo $TOOO?>)</span>
+                                    <span class="small italic pull-right"></span>
+                                </a>
+								<?php
+				}}
+										
+										?>
+              </li>
+              <li class="external">
+                <a href="#"></a>
+              </li>
+            </ul>
+          </li>
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
           <!-- task notificatoin end -->
           <!-- inbox notificatoin start-->
           <li id="mail_notificatoin_bar" class="dropdown">
@@ -112,7 +232,7 @@ if(!$_SESSION['name'])
 				{
 				while($row=mysqli_fetch_assoc($result))
 				{
-				echo "You have ".$row['total']." messages";
+				echo " ".$row['total']." messages";
 				}     
 				}
 				?></p>
@@ -135,7 +255,7 @@ if(!$_SESSION['name'])
 									<?php echo "<img alt='avatar' src='".$picture."'>";?>
                                     <span class="subject">
                                     <span class="from"><?php echo $title; ?></span>
-                                    <span class="time">1 min</span>
+                                    <span class="time"></span>
                                     </span>
                                     <span class="message">
                                         <?php echo $description; ?>
@@ -147,7 +267,7 @@ if(!$_SESSION['name'])
 										?>
               </li>
               <li>
-                <a href="#">See all messages</a>
+                <a href="#">Messages</a>
               </li>
             </ul>
           </li>
@@ -185,7 +305,7 @@ if(!$_SESSION['name'])
 							while($row=mysqli_fetch_assoc($result))
 							{
 								$TOTAL=$row['Total_user']+$row['Total_paid'];
-							echo "You have ".$TOTAL." new notifications";
+							echo "".$TOTAL." notifications";
 							}     
 							}
 							?>
@@ -203,10 +323,10 @@ if(!$_SESSION['name'])
 										?>
                 <a href="#">
                                     <span class="label label-primary"><i class="icon_profile"></i></span>
-                                    <span><strong>you have been paid</strong></span><br>
+                                    <span><strong>Payment</strong></span><br>
                                     &nbsp &nbsp &nbsp &nbsp <span><?php echo $title?></span>
                                     <span><?php echo $description?></span>
-                                    <span class="small italic pull-right">5 mins</span>
+                                    <span class="small italic pull-right"></span>
                                 </a>
 								<?php
 									}
@@ -224,10 +344,10 @@ if(!$_SESSION['name'])
 										?>
                 <a href="#">
                                     <span class="label label-warning"><i class="icon_pin"></i></span>
-                                    <span><strong>This leave type was cancelled</strong></span><br>
+                                    <span><strong>This leave was cancelled</strong></span><br>
                                     &nbsp &nbsp &nbsp &nbsp <span><?php echo $title?></span><br>
                                     &nbsp &nbsp &nbsp &nbsp<span><?php echo $description?></span>
-                                    <span class="small italic pull-right">50 mins</span>
+                                    <span class="small italic pull-right"></span>
                                 </a>
 								<?php
 									}
@@ -235,10 +355,37 @@ if(!$_SESSION['name'])
 										?>
               </li>
               <li>
-                <a href="#">See all notifications</a>
+                <a href="#">Notifications</a>
               </li>
             </ul>
           </li>
+		  
+		  
+		  
+		  
+		  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           <!-- alert notification end-->
           <!-- user login dropdown start-->
           <li class="dropdown">
@@ -254,13 +401,9 @@ if(!$_SESSION['name'])
             <ul class="dropdown-menu extended logout">
               <div class="log-arrow-up"></div>
               
-              <li>
-                <a href="#"><i class="icon_mail_alt"></i> My Inbox</a>
-              </li>
+             
               
-              <li>
-                <a href="#"><i class="icon_chat_alt"></i> Chats</a>
-              </li>
+              
 			  <li>
                 <a href="changepassworduser.php"><i class="fa fa-lock"></i> Change Password</a>
               </li>
@@ -314,7 +457,7 @@ if(!$_SESSION['name'])
             <ul class="sub">
               <li><a href="leaverequest.php" class="">
                           
-                          <span>APPLICATION FORM</span>
+                          <span>APPLICATION</span>
                        
                       </a>
 			  
@@ -325,6 +468,95 @@ if(!$_SESSION['name'])
                       </a></li>
 
             </ul></li>
+			
+			<li class="sub-menu">
+            <a href="attendancehistory4.php" class="">
+                          <i class="fa fa-list"></i>
+                          <span>MY ATTENDANCE</span>
+                      </a>
+            
+          </li>
+		  
+		  
+		  
+		  
+		  <li class="sub-menu">
+            <a href="javascript:;" class="">
+			
+                          
+        <i class="fa fa-long-arrow-right"> </i>
+                          <span>SCHEDULE</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+            <ul class="sub">
+              <li><a href="schedules.php" class="">
+                          
+                          <span>MY SCHEDULE</span>
+                       
+                      </a>
+			  
+			  </li>
+			  
+			   <li><a href="reviewMydepartmentSchedules.php" class="">
+                          
+                          <span>MY DEPARTMENT'S</span>
+                       
+                      </a>
+			  
+			  </li>
+			  <li><a href="AddToMyschedule.php" class="">
+                          <span>CREATE SCDL</span>
+                          
+                      </a></li>
+                      </ul></li>
+
+
+
+                      <li class="sub-menu">
+            <a href="javascript:;" class="">
+			
+                          
+        <i class="fa fa-long-arrow-right"> </i>
+                          <span>PERFORMANC</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+            <ul class="sub">
+              <li><a href="ReviewMyP.php" class="">
+                          
+                          <span>EVALUATE</span>
+                       
+                      </a>
+			  
+			  </li>
+
+                      </ul></li>
+					  
+					  
+					  
+					  
+					  
+					                        <li class="sub-menu">
+            <a href="javascript:;" class="">
+			
+                          
+        <i class="fa fa-long-arrow-right"> </i>
+                          <span>ONBOARDING</span>
+                          <span class="menu-arrow arrow_carrot-right"></span>
+                      </a>
+            <ul class="sub">
+              <li><a href="mytasks.php" class="">
+                          
+                          <span>MY TASKS</span>
+                       
+                      </a>
+			  
+			  </li>
+
+                      </ul></li>
+
+
+            
+
          
           
         <!-- sidebar menu end-->

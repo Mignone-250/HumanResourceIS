@@ -96,7 +96,7 @@ include ('include/config.php');
 
 <body>
   <!-- container section start -->
-  <section id="container" class="">
+  <section id="container" class="" style="margin-top:-20px">
     <!--header start-->
 <?php
 		include 'include/header.php';
@@ -105,7 +105,7 @@ include ('include/config.php');
 
     <!--sidebar start-->
     <aside>
-      <div id="sidebar" class="nav-collapse ">
+      <div id="sidebar" class="nav-collapse " style="margin-left:-20px">
         <!-- sidebar menu start-->
         <?php
 		include 'include/menue.php';
@@ -124,7 +124,7 @@ include ('include/config.php');
             <ol class="breadcrumb">
               <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
               
-              <li><i class="fa fa-user-md"></i>QUICK POST</li>
+              <li><i class="fa fa-user-md"></i>Posts</li>
             </ol>
           </div>
         </div>
@@ -713,17 +713,12 @@ if ($stmt = $mysqli->prepare("SELECT * FROM post ORDER BY POST_ID  LIMIT ?,?")) 
    }
 </script>
     <!--main content end-->
-    <div class="text-right">
-      <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    <div class="text-center">
+        <div class="credits">
+
+          Copyright &copy Mignone Unguyeneza 2019
         </div>
-    </div>
+      </div>
   </section>
   <!-- container section end -->
   <!-- javascripts -->

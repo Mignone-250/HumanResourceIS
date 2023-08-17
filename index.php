@@ -1,6 +1,178 @@
-<?php  
-session_start();//session starts here  
+<?php session_start();
+include 'include/config.php';
+//var_dump($_POST);
+if(isset($_POST['login'])){
+$username = $_POST['username'];
+$password = $_POST['password'];
+
+
+$qz = "SELECT * FROM user_registration where USERNAME='".$username."' and PASSWORD=PASSWORD('".$password."')" ;
+//echo mysqli_errno($conn) . ": " . mysqli_error($conn). "\n";
+//$conn_class = connect($par);
+$qz = str_replace("\'","",$qz);
+$result = mysqli_query($conn,$qz);
+$rows = mysqli_num_rows($result);
+if($rows==1){
+while($row = mysqli_fetch_array($result))
+	
+  {
   
+  if($row['USER_TYPE']=="Admin" && $row['POSITION']==="Chief Executive Officer" ){
+	  //echo mysqli_errno($conn) . ": " . mysqli_error($conn). "\n";
+$sql = "INSERT INTO user_logs (USERNAME) VALUES ('$username')"; 
+//echo ($sql);
+//if(mysqli_query($conn, $sql)){
+	header("Location: Admin_dashboard.php");
+  $_SESSION['name']=$row['FIRST_NAME']." ".$row['LAST_NAME'];
+   $_SESSION['type']=$row['USER_TYPE'];
+
+	$_SESSION['username']=$row['USERNAME'];
+	$_SESSION['user']=$row['USER_ID'];
+
+	$_SESSION['picture']=$row['PROFILE_PICTURE'];
+	$_SESSION['lastname']=$row['LAST_NAME'];
+	$_SESSION['firstname']=$row['FIRST_NAME'];
+	$_SESSION['department']=$row['DEPARTMENT'];
+	$_SESSION['gender']=$row['GENDER'];
+	$_SESSION['Position']=$row['POSITION'];
+	$_SESSION['district']=$row['DISTRICT'];
+	$_SESSION['mobile']=$row['PHONE_NUMBER'];
+	$_SESSION['nda']=$row['NATIONAL_ID'];
+	$_SESSION['password']=$row['PASSWORD'];    
+//}
+//else{
+	//echo 'confirmed';
+//}
+  }
+  
+   else if($row['USER_TYPE']==="User" && $row['POSITION']==="Receptionist"){
+	  $sql = "INSERT INTO user_logs (USERNAME) VALUES ('$username')"; 
+//if(mysqli_query($conn, $sql)){
+	header("Location: receptionist_dashboard.php"); 
+$_SESSION['name']=$row['FIRST_NAME']." ".$row['LAST_NAME'];	
+$_SESSION['picture']=$row['PROFILE_PICTURE'];
+$_SESSION['type']=$row['USER_TYPE'];
+
+$_SESSION['username']=$row['USERNAME'];
+$_SESSION['user']=$row['USER_ID'];
+$_SESSION['lastname']=$row['LAST_NAME'];
+$_SESSION['firstname']=$row['FIRST_NAME'];
+$_SESSION['department']=$row['DEPARTMENT'];
+$_SESSION['gender']=$row['GENDER'];
+$_SESSION['Position']=$row['POSITION'];
+$_SESSION['district']=$row['DISTRICT'];
+$_SESSION['mobile']=$row['PHONE_NUMBER'];
+$_SESSION['nda']=$row['NATIONAL_ID'];
+$_SESSION['password']=$row['PASSWORD'];
+  //}
+  }
+  
+  
+     else if($row['USER_TYPE']==="Admin" && $row['DEPARTMENT']==="Finance Department"){
+	  $sql = "INSERT INTO user_logs (USERNAME) VALUES ('$username')"; 
+//if(mysqli_query($conn, $sql)){
+	header("Location: Admin_dashboard.php"); 
+$_SESSION['name']=$row['FIRST_NAME']." ".$row['LAST_NAME'];	
+$_SESSION['picture']=$row['PROFILE_PICTURE'];
+$_SESSION['type']=$row['USER_TYPE'];
+
+$_SESSION['username']=$row['USERNAME'];
+$_SESSION['user']=$row['USER_ID'];
+$_SESSION['lastname']=$row['LAST_NAME'];
+$_SESSION['firstname']=$row['FIRST_NAME'];
+$_SESSION['department']=$row['DEPARTMENT'];
+$_SESSION['gender']=$row['GENDER'];
+$_SESSION['Position']=$row['POSITION'];
+$_SESSION['district']=$row['DISTRICT'];
+$_SESSION['mobile']=$row['PHONE_NUMBER'];
+$_SESSION['nda']=$row['NATIONAL_ID'];
+$_SESSION['password']=$row['PASSWORD'];
+  //}
+  }
+  
+  
+  
+  else if($row['USER_TYPE']==="Admin" && $row['POSITION']==="Deputy Head Of Academics"){
+	  $sql = "INSERT INTO user_logs (USERNAME) VALUES ('$username')"; 
+//if(mysqli_query($conn, $sql)){
+	header("Location: Academics_dashboard.php"); 
+$_SESSION['name']=$row['FIRST_NAME']." ".$row['LAST_NAME'];	
+$_SESSION['picture']=$row['PROFILE_PICTURE'];
+$_SESSION['type']=$row['USER_TYPE'];
+
+$_SESSION['username']=$row['USERNAME'];
+$_SESSION['user']=$row['USER_ID'];
+$_SESSION['lastname']=$row['LAST_NAME'];
+$_SESSION['firstname']=$row['FIRST_NAME'];
+$_SESSION['department']=$row['DEPARTMENT'];
+$_SESSION['gender']=$row['GENDER'];
+$_SESSION['Position']=$row['POSITION'];
+$_SESSION['district']=$row['DISTRICT'];
+$_SESSION['mobile']=$row['PHONE_NUMBER'];
+$_SESSION['nda']=$row['NATIONAL_ID'];
+$_SESSION['password']=$row['PASSWORD'];
+  //}
+  }
+  
+  
+    else if($row['USER_TYPE']==="User" && $row['POSITION']==="Lecturer"){
+	  $sql = "INSERT INTO user_logs (USERNAME) VALUES ('$username')"; 
+//if(mysqli_query($conn, $sql)){
+	header("Location: Academics_dashboard.php"); 
+$_SESSION['name']=$row['FIRST_NAME']." ".$row['LAST_NAME'];	
+$_SESSION['picture']=$row['PROFILE_PICTURE'];
+$_SESSION['type']=$row['USER_TYPE'];
+
+$_SESSION['username']=$row['USERNAME'];
+$_SESSION['user']=$row['USER_ID'];
+$_SESSION['lastname']=$row['LAST_NAME'];
+$_SESSION['firstname']=$row['FIRST_NAME'];
+$_SESSION['department']=$row['DEPARTMENT'];
+$_SESSION['gender']=$row['GENDER'];
+$_SESSION['Position']=$row['POSITION'];
+$_SESSION['district']=$row['DISTRICT'];
+$_SESSION['mobile']=$row['PHONE_NUMBER'];
+$_SESSION['nda']=$row['NATIONAL_ID'];
+$_SESSION['password']=$row['PASSWORD'];
+  //}
+  }
+  
+  else{
+	  $sql = "INSERT INTO user_logs (USERNAME) VALUES ('$username')"; 
+//if(mysqli_query($conn, $sql)){
+	header("Location: User_dashboard.php"); 
+$_SESSION['name']=$row['FIRST_NAME']." ".$row['LAST_NAME'];	
+$_SESSION['picture']=$row['PROFILE_PICTURE'];
+$_SESSION['type']=$row['USER_TYPE'];
+
+$_SESSION['username']=$row['USERNAME'];
+$_SESSION['user']=$row['USER_ID'];
+$_SESSION['lastname']=$row['LAST_NAME'];
+$_SESSION['firstname']=$row['FIRST_NAME'];
+$_SESSION['department']=$row['DEPARTMENT'];
+$_SESSION['gender']=$row['GENDER'];
+$_SESSION['Position']=$row['POSITION'];
+$_SESSION['district']=$row['DISTRICT'];
+$_SESSION['mobile']=$row['PHONE_NUMBER'];
+$_SESSION['nda']=$row['NATIONAL_ID'];
+$_SESSION['password']=$row['PASSWORD'];
+  //}
+  }
+}}
+else{
+	
+	echo "<div class='alerte' id='helpdiv'> 
+  <center>Invalid username/password &#10008</center>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+}}
+mysqli_close($conn);
 ?>  
 <!DOCTYPE html>
 <html lang="en">
@@ -39,98 +211,20 @@ session_start();//session starts here
 </style>
 </head>
 <body>
-
-<?php include 'include/config.php'; ?> 
-
-<?php
-
-if(isset($_POST['login'])){
-$username = $_POST['username'];
-$password = $_POST['password'];
-
-
-$qz = "SELECT * FROM user_registration where USERNAME='".$username."' and PASSWORD=PASSWORD('".$password."')" ;
-//$conn_class = connect($par);
-$qz = str_replace("\'","",$qz);
-$result = mysqli_query($conn,$qz);
-$rows = mysqli_num_rows($result);
-if($rows==1){
-while($row = mysqli_fetch_array($result))
-	
-  {
-  
-  if($row['USER_TYPE']=="Admin"){
-$sql = "INSERT INTO user_logs (USERNAME) VALUES ('$username')"; 
-if(mysqli_query($conn, $sql)){
-	header("Location: Admin_dashboard.php");
-  $_SESSION['name']=$row['FIRST_NAME']." ".$row['LAST_NAME'];
-   $_SESSION['type']=$row['USER_TYPE'];
-
-	$_SESSION['username']=$row['USERNAME'];
-	$_SESSION['user']=$row['USER_ID'];
-
-	$_SESSION['picture']=$row['PROFILE_PICTURE'];
-	$_SESSION['lastname']=$row['LAST_NAME'];
-	$_SESSION['firstname']=$row['FIRST_NAME'];
-	$_SESSION['department']=$row['DEPARTMENT'];
-	$_SESSION['gender']=$row['GENDER'];
-	$_SESSION['Position']=$row['POSITION'];
-	$_SESSION['district']=$row['DISTRICT'];
-	$_SESSION['mobile']=$row['PHONE_NUMBER'];
-	$_SESSION['nda']=$row['NATIONAL_ID'];
-	$_SESSION['password']=$row['PASSWORD'];    
-}
-  }
-  else{
-	  $sql = "INSERT INTO user_logs (USERNAME) VALUES ('$username')"; 
-if(mysqli_query($conn, $sql)){
-	header("Location: User_dashboard.php"); 
-$_SESSION['name']=$row['FIRST_NAME']." ".$row['LAST_NAME'];	
-$_SESSION['picture']=$row['PROFILE_PICTURE'];
-$_SESSION['type']=$row['USER_TYPE'];
-
-$_SESSION['username']=$row['USERNAME'];
-$_SESSION['user']=$row['USER_ID'];
-$_SESSION['lastname']=$row['LAST_NAME'];
-$_SESSION['firstname']=$row['FIRST_NAME'];
-$_SESSION['department']=$row['DEPARTMENT'];
-$_SESSION['gender']=$row['GENDER'];
-$_SESSION['Position']=$row['POSITION'];
-$_SESSION['district']=$row['DISTRICT'];
-$_SESSION['mobile']=$row['PHONE_NUMBER'];
-$_SESSION['nda']=$row['NATIONAL_ID'];
-$_SESSION['password']=$row['PASSWORD'];
-  }}
-}}
-else{
-	
-	echo "<div class='alerte' id='helpdiv'> 
-  <center>Invalid username/password &#10008</center>
-</div>";
-echo "<script type='text/javascript'>
-window.setTimeout('closeHelpDiv();', 3000);
-
-function closeHelpDiv(){
-document.getElementById('helpdiv').style.display=' none';
-}
-</script>";
-}}
-mysqli_close($conn);
-?>
 	<div class="container-contact100">
 		<div class="wrap-contact100">
-			<form class="contact100-form validate-form" action="" method="POST" autocomplete="off">
+			<form class="contact100-form validate-form" action="" method="post" autocomplete="off">
 				<span class="contact100-form-title">
 					Login 
 				</span>
 
-				<label class="label-input100" for="email">Enter your Username *</label>
+				<label class="label-input100" for="email">Enter your Username <p style='color:red;'>*</p></label>
 				<div class="wrap-input100" >
 					<input id="username" class="input100" type="text" name="username" placeholder="" required>
 					<span class="focus-input100"></span>
 				</div>
 
-				<label class="label-input100" for="phone">Enter your Password</label>
+				<label class="label-input100" for="phone">Enter your Password <p style='color:red;'>*</p></label>
 				<div class="wrap-input100">
 					<input id="password" class="input100" type="password" name="password" placeholder="" required>
 					<span class="focus-input100"></span>

@@ -120,11 +120,11 @@ include ('include/config.php');
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-user-md"></i> Profile</h3>
+            <h3 class="page-header"><i class="fa fa-user-md"></i> Leave(s)</h3>
             <ol class="breadcrumb">
               <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
-              <li><i class="fa fa-user"></i>EDIT PROFILE</li>
-              <li><i class="fa fa-user-md"></i>Profile</li>
+              <li><i class="fa fa-user"></i>LEAVE(S)</li>
+              <li><i class="fa fa-user-md"></i>Add New Leave Application Type</li>
             </ol>
           </div>
         </div>
@@ -142,7 +142,7 @@ $sql = "UPDATE leave_types set LEAVE_DAYS='$number' WHERE LEAVE_TYPE='$leave'";
 
 if(mysqli_query($conn, $sql)){
 
-				$abc="SELECT SUM(LEAVE_DAYS) as total FROM leave_types where TYPE_ID !=4";
+				$abc="SELECT SUM(LEAVE_DAYS) as total FROM leave_types where LEAVE_TYPE!='Normal/Annual'";
 				$result=mysqli_query($conn,$abc);
 				if($result)
 				{
@@ -183,7 +183,7 @@ $sql= "INSERT INTO leave_types (LEAVE_TYPE)VALUES ('$leave')";
 if ($conn->query($sql) === TRUE) {
 	echo "<div  id='helpdiv'><div class='col-lg-9'>
 						<div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
-						<strong>Success!</strong> Deduction added successfully.</div></div></div><br><br><br>";
+						<strong>Success!</strong> Leave added successfully.</div></div></div><br><br><br>";
 						
 						echo "<script type='text/javascript'>
 					window.setTimeout('closeHelpDiv();', 3000);
@@ -206,6 +206,23 @@ if ($conn->query($sql) === TRUE) {
 		
           <div class="col-lg-12">
             <section class="panel">
+			
+			
+			
+			
+			
+			
+		
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
               <header class="panel-heading tab-bg-info">
                 <ul class="nav nav-tabs">
                   
@@ -218,7 +235,7 @@ if ($conn->query($sql) === TRUE) {
                   <li class="">
                     <a data-toggle="tab" href="#edit-profile">
                                           <i class="icon-envelope"></i>
-                                          DAYS NUMBER
+                                          ASSIGN NUMBER OF DAYS
                                       </a>
                   </li>
                 </ul>
@@ -255,7 +272,7 @@ if ($conn->query($sql) === TRUE) {
                       
                       <!-- Tags -->
                       <div class="form-group">
-                        <label class="control-label col-lg-2" for="tags" name="number">Type</label>
+                        <label class="control-label col-lg-2" for="tags" name="number">Name Of a Leave</label>
                         <div class="col-lg-10">
                           <input type="text" class="form-control" id="tags" name="type" required>
                         </div>
@@ -293,7 +310,7 @@ if ($conn->query($sql) === TRUE) {
 <div class="col-lg-9 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <div class="pull-left">Add Numbers to type of leave</div>
+                <div class="pull-left">Add Number of days on a leave</div>
                 <div class="widget-icons pull-right">
                   <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
                   <a href="#" class="wclose"><i class="fa fa-times"></i></a>
@@ -310,7 +327,7 @@ if ($conn->query($sql) === TRUE) {
 
                       <!-- Cateogry -->
                       <div class="form-group">
-                        <label class="control-label col-lg-2">LEAVE_TYPE</label>
+                        <label class="control-label col-lg-2">LEAVE TYPE</label>
                         <div class="col-lg-10">
                           <select class="form-control" name="leave" required>
 						<option value="">-- Choose Type Of Leave</option>
@@ -328,7 +345,7 @@ if ($conn->query($sql) === TRUE) {
 					  
                       <!-- Tags -->
                       <div class="form-group">
-                        <label class="control-label col-lg-2" for="tags" name="number">Number of Leaves</label>
+                        <label class="control-label col-lg-2" for="tags" name="number">Number of days</label>
                         <div class="col-lg-10">
                           <input type="number" class="form-control" id="tags" name="number">
                         </div>
@@ -357,6 +374,53 @@ if ($conn->query($sql) === TRUE) {
                       </div>				  
                     </section>
                   </div>
+				  
+				  
+                <table class="table bootstrap-datatable countries" border="1">
+                  <thead>
+                    <tr>
+                      
+                      <th style="background-color: #152E48;color: white;">Leave Name</th>
+                      <th style="background-color: #152E48;color: white;">Leave Days</th>
+                      <th style="background-color: #152E48;color: white;">Delete</th>
+                      
+                     
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      	  <?php
+						$sql = "SELECT * FROM leave_types"; 
+						$result = $conn->query($sql);
+
+						if ($result->num_rows > 0) {
+							// output data of each row
+							while($row = $result->fetch_assoc()) {
+								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+								$ID=$row["TYPE_ID"];
+									 $ltype=$row["LEAVE_TYPE"];
+									$ldays=$row["LEAVE_DAYS"];  
+									
+									
+											
+										
+						?>			
+                    
+                    <td><?php echo $ltype;  ?></td>
+                    <td><?php echo $ldays;  ?></td>
+                    <td><form action="deleteleave.php?del=<?php echo $ID ?>" method="post" ><button class="btn" name="delete" style="background-color:lavender;color:red;"><i class="fa fa-trash-o" style="font-size:20px;"></i></button></form></td>
+ 
+                  </tr>
+				  
+						<?php }} else {
+    echo " ";
+						
+}?>
+
+                  </tbody>
+                </table><br>
+				
                 </div>
               </div>
             </section>
@@ -384,17 +448,12 @@ if ($conn->query($sql) === TRUE) {
    }
 </script>
     <!--main content end-->
-    <div class="text-right">
-      <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    <div class="text-center">
+        <div class="credits">
+
+          Copyright &copy Mignone Unguyeneza 2019
         </div>
-    </div>
+      </div>
   </section>
   <!-- container section end -->
   <!-- javascripts -->

@@ -16,8 +16,8 @@ if(isset($_POST['approve_cancelling'])){
 															} else {
 																					echo "Error: " . $sql . "<br>" . $conn->error;
 																				}
-																				
-																				 
+																				 																				
+
  //$sql2="UPDATE leave_application SET STATUS='CANCELLED' WHERE LEAVE_ID = $leave_id"; 
 
 									}

@@ -115,66 +115,7 @@ if ($conn->query($sql) === TRUE) {
                 </div></div></div>
            </div>
 				
-						  <div class="col-lg-6">
-                 <div class="panel panel-default">
-              <div class="panel-heading">
-                <div class="pull-left">Assign amount to Supplement</div>
-                <div class="widget-icons pull-right">
-                  <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
-                  <a href="#" class="wclose"><i class="fa fa-times"></i></a>
-                </div>
-                <div class="clearfix"></div>
-              </div>
-              <div class="panel-body">
-                <div class="padd">
-
-                  <div class="form quick-post">
-                    <!-- Edit profile form (not working)-->
-                    <form class="form-horizontal" action="" id="register_form" method="post" enctype="multipart/form-data" autocomplete="off">
-                      <!-- Title -->
- 
-                      <!-- Cateogry -->
-                      <div class="form-group">
-                        <label class="control-label col-lg-2">Supplement</label>
-                        <div class="col-lg-10">
-                          <select class="form-control" name="deduction" required>
-            <option value="">-- Choose Type Of Supplement</option>
-                            <?php $ret=mysqli_query($conn,"select * from supplements WHERE NOT (SUPPLEMENTS_NAME = 'Total')");
-                            while($row=mysqli_fetch_array($ret))
-                            {
-                           ?>
-            <option>
-            <?php echo htmlentities($row['SUPPLEMENTS_NAME']);?>
-            </option>
-            <?php } ?>  
-            </select>
-                        </div>
-                      </div>
-
-            
-            
-                      <!-- Tags -->
-                      <div class="form-group">
-                        <label class="control-label col-lg-2" for="tags">Supplement Amount</label>
-                        <div class="col-lg-10">
-                          <input type="number" class="form-control" id="tags" name="amount">
-                        </div>
-
-                      </div>          
-                      <!-- Buttons -->
-                      <div class="form-group">
-                        <!-- Buttons -->
-                        <div class="col-lg-offset-2 col-lg-9">
-                          <button type="submit" class="btn btn-primary" name="add">ASSIGN</button>
-                          <button type="submit" class="btn btn-danger" onclick="resetForm('register_form'); return false;">Reset</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-
-
-                </div></div></div>
-            </div></div>
+						</div>
 				
 				<script type="text/javascript">
    function resetForm(register_form)

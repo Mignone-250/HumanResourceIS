@@ -4,7 +4,7 @@ $con  = mysqli_connect("localhost","root","","hrms");
      # code...
     echo "Problem in database connection! Contact administrator!" . mysqli_error();
  }else{
-         $sql ="SELECT * FROM payroll";
+         $sql ="SELECT * FROM Payroll,positions where payroll.POSITION = positions.position_name";
          $result = mysqli_query($con,$sql);
          $chart_data="";
          while ($row = mysqli_fetch_array($result)) { 

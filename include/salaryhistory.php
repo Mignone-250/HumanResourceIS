@@ -1,6 +1,6 @@
+
+
 <style>
-
-
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */
@@ -76,12 +76,11 @@
                 <table class="table bootstrap-datatable countries" border="1">
                   <thead>
                     <tr>
-                      <th style="background-color: #3C7792;color: white;">SN</th>
-                      <th style="background-color: #3C7792;color: white;">POSITION</th>
-                      <th style="background-color: #3C7792;color: white;">GROSS_SALARY</th>
-                      <th style="background-color: #3C7792;color: white;">SUPPLEMENTS</th>
-                      <th style="background-color: #3C7792;color: white;">DEDUCTION</th>
-                      <th style="background-color: #3C7792;color: white;">NET_SALARY</th>
+                      <th style="background-color: #152E48;color: white;">POSITION</th>
+                      <th style="background-color: #152E48;color: white;">GROSS SALARY</th>
+                      
+                      <th style="background-color: #152E48;color: white;">DEDUCTION</th>
+                      <th style="background-color: #152E48;color: white;">NET SALARY</th>
                      
                       
                     </tr>
@@ -89,7 +88,7 @@
                   <tbody>
                     <tr>
                       	  <?php
-						$sql = "SELECT * FROM Payroll"; 
+						$sql = "SELECT * FROM Payroll,positions where payroll.POSITION = positions.position_name"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -109,10 +108,10 @@
 											
 										
 						?>			
-                    <td><?php echo $ID;  ?></td>
+                    
                     <td><?php echo $POSITION;  ?></td>
                     <td>Rwf&nbsp;<?php echo $GROSS_SALARY;  ?></td>
-                    <td>Rwf&nbsp;<?php echo $SUPPLEMENTS;  ?></td>
+                    
                     <td>Rwf&nbsp;<?php echo $DEDUCTION;  ?></td>
                     <td>Rwf&nbsp;<?php echo $NET_SALARY;  ?></td>
                 

@@ -19,11 +19,6 @@ if ($stmt = $mysqli->prepare('SELECT * FROM create_account ORDER BY USER_ID LIMI
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title>HRMS</title>
-			<meta charset="utf-8">
 			<style>
 			/* The Modal (background) */
 .modal {
@@ -80,11 +75,7 @@ if ($stmt = $mysqli->prepare('SELECT * FROM create_account ORDER BY USER_ID LIMI
   from {transform: scale(0)} 
   to {transform: scale(1)}
 }
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
+			
 			table {
 				border-collapse: collapse;
 				width: 500px;
@@ -146,8 +137,7 @@ if ($stmt = $mysqli->prepare('SELECT * FROM create_account ORDER BY USER_ID LIMI
 				background-color: #518acb;
 			}
 			</style>
-		</head>
-		<body>
+
 		<div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
@@ -161,16 +151,16 @@ if ($stmt = $mysqli->prepare('SELECT * FROM create_account ORDER BY USER_ID LIMI
 			   <div class="panel-body">
 			<table border="1"class="table bootstrap-datatable countries">
 				<tr>
-					<th  style="background-color: #152E48;color: white;">SN</th>
-                      <th  style="background-color: #152E48;color: white;">FIRST_NAME</th>
+					<th  style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif;">Employee ID</th>
+                      <th  style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif;">Firstname</th>
 					 
-                      <th  style="background-color: #152E48;color: white;">LAST_NAME</th>
-                      <th  style="background-color: #152E48;color: white;">USERNAME</th>
-                      <th  style="background-color: #152E48;color: white;">EMAIL</th>
-                      <th  style="background-color: #152E48;color: white;">POSTING_DATE</th>
+                      <th  style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif;">Lastname </th>
+                      <th  style="background-color: #152E48;color: white;font-family: 'Lato', sans-serif;">Username</th>
+                      <th  style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif;">Email</th>
+                      <th  style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif;">Date/Time on which account requested</th>
                       
-                      <th  style="background-color: #152E48;color: white;">APPROVE</th>
-                      <th  style="background-color: #152E48;color: white;">DENY</th>
+                      <th  style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif;">approve</th>
+                      <th  style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif;">Deny</th>
 				</tr>
 				<?php while ($row = $result->fetch_assoc()):
 				$user_id=$row["USER_ID"];  
@@ -203,6 +193,7 @@ if ($stmt = $mysqli->prepare('SELECT * FROM create_account ORDER BY USER_ID LIMI
                   <select  name="user_type" style="width:50%" required>
                                                   <option disabled selected>- Choose Type -</option>
                                                   <option>User</option>
+                                                  <!--<option><?php echo $user_id;  ?></option>-->
                                                   <option>Admin</option>
                                                 </select><br><br>
                   <button type="submit" class="btn btn-primary" name="assign">ASSIGN</button><br><br> 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 include ('include/config.php'); 
 $ID=$_GET['USER_ID'];
 ?>
@@ -123,12 +123,11 @@ $ID=$_GET['USER_ID'];
             <h3 class="page-header"><i class="fa fa-user-md"></i> Profile</h3>
             <ol class="breadcrumb">
               <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
-              <li><i class="fa fa-user"></i>EDIT PROFILE</li>
-              <li><i class="fa fa-user-md"></i>Profile</li>
+              <li><i class="fa fa-user"></i>Edit Profile</li>
+              <li><i class="fa fa-user-md"></i>Employee Profile</li>
             </ol>
           </div>
         </div>
-		
 		
 <?php
 
@@ -144,9 +143,11 @@ $position= mysqli_real_escape_string($conn, $_REQUEST['position']);
 $department= mysqli_real_escape_string($conn, $_REQUEST['department']);
 $username= mysqli_real_escape_string($conn, $_REQUEST['username']);
 $email= mysqli_real_escape_string($conn, $_REQUEST['email']);
+//$ADDITIONAL_ROLE= mysqli_real_escape_string($conn, $_REQUEST['ADDITIONAL_ROLE']);
+$user_type= mysqli_real_escape_string($conn, $_REQUEST['ucategorie']);
 
 $sql="UPDATE user_registration SET FIRST_NAME='$first_name',LAST_NAME='$last_name',GENDER='$gender',NATIONAL_ID='$NationalID',
-											PHONE_NUMBER='$phone',EMAIL='$email',DISTRICT='$district',POSITION = '$position',DEPARTMENT='$department',USERNAME='$username'
+											PHONE_NUMBER='$phone',EMAIL='$email',DISTRICT='$district',POSITION = '$position',DEPARTMENT='$department',USERNAME='$username',USER_TYPE='$user_type'
 											WHERE USER_ID = '$ID'"; 
 if(mysqli_query($conn, $sql)){
     echo "<div class='row' id='helpdiv'><div class='col-lg-12'>
@@ -166,15 +167,15 @@ document.getElementById('helpdiv').style.display=' none';
 		}
 
     ?>
+
 	
-														
         <div class="row">
          
           <br>
         <!-- page start-->
         
 		
-          <div class="col-lg-9">
+          <div class="col-lg-12">
             <section class="panel">
               <header class="panel-heading tab-bg-info">
                 <ul class="nav nav-tabs">
@@ -188,7 +189,7 @@ document.getElementById('helpdiv').style.display=' none';
                   <li class="">
                     <a data-toggle="tab" href="#edit-profile">
                                           <i class="icon-envelope"></i>
-                                          EDIT PROFILE
+                                          EDIT EMPLOYEE PROFILE
                                       </a>
                   </li>
                 </ul>
@@ -203,7 +204,10 @@ document.getElementById('helpdiv').style.display=' none';
                      
 					  
 						<div class="panel-body bio-graph-info" >
-						<?php include"include/config.php";?>
+						
+						
+						
+						
 <?php
 
 
@@ -226,6 +230,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 								$USERNAME=$row["USERNAME"];
 								$email=$row["EMAIL"];
 								$USER_TYPE=$row["USER_TYPE"];
+								//$ADDITIONAL_ROLE=$row["ADDITIONAL_ROLE"];
 								?>
 																
 	
@@ -240,6 +245,8 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
                           <div class="bio-row">
                             <p><span><strong>DEPARTMENT</strong></span>: <?php  echo $DEPARTMENT;  ?></p>
                           </div>
+						  
+						  
                           <div class="bio-row">
                             <p><span><strong>GENDER</strong> </span>: <?php  echo $GENDER;  ?></p>
                           </div>
@@ -265,14 +272,58 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
                             <p><span><strong>USERTYPE </strong></span>: <?php  echo $USER_TYPE;  ?></p> 
                           </div>
                        
-                      </div> <?php	}}
+                      <?php	}}
 
     ?>
+	</div> 
 	
-                      
-                    </section>
-                    <section>
-                      
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+				
+				
+				
+				
+				
+						
+            
+              
+              
+			  
+			  
+			  
+			  
+			  
+			  
+				
+				
+				
+				
+				
+				
+				
+						
+					
                     </section>
                   </div>
                   <!-- edit-profile -->
@@ -283,6 +334,10 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
                       
                       </div><br><br>
 					  
+
+
+
+
 <?php
 
 
@@ -304,6 +359,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 								$DEPARTMENT=$row["DEPARTMENT"];
 								$USERNAME=$row["USERNAME"];
 								$EMAIL=$row["EMAIL"];
+								//$ADDITIONAL_ROLE=$row["ADDITIONAL_ROLE"];
 								?>
                         
                                                 <form class="form-horizontal" role="form" id="register_form" action="#" method="post" enctype="multipart/form-data">
@@ -370,6 +426,25 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 												  <option>Bugesera</option>
 												  <option>Kayonza</option>
 												  <option>Kamonyi</option>
+												  <option>Nyamagabe</option>
+												  <option>Ngoma</option>
+												  <option>Gakenke</option>
+												  <option>Kirehe</option>
+												  <option>Burera</option>
+												  <option>Ngororero</option>
+												  <option>Karongi</option>
+												  <option>Huye</option>
+												  <option>Nyanza</option>
+												  <option>Rutsiro</option>
+												  <option>Gisagara</option>
+												  <option>Ruhango</option>
+												  <option>Kicukiro</option>
+												  <option>Muhanga</option>
+												  <option>Rwamagana</option>
+												  <option>Nyabihu</option>
+												  <option>Nyaruguru</option>
+												  <option>Rulindo</option>
+												  <option>Nyarugenge</option>
                                                 </select>
                         </div>
                       </div>
@@ -380,12 +455,14 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
                         <div class="col-lg-6">
                           <select class="form-control" name="position">
                                                   <option><?php  echo $POSITION;  ?></option>
-                                                  <option>Chief Executive Officer</option>
-                                                  <option>Chief Operation Manager</option>
-                                                  <option>Chief Technology Officer</option>
-                                                  <option>Techinical Support</option>
-                                                  <option>Chief Finance Manager</option>
-                                                  <option>Software Developers</option>
+                                                  <?php $ret=mysqli_query($conn,"select * from positions");
+                            while($row=mysqli_fetch_array($ret))
+                            {
+                           ?>
+						<option>
+						<?php echo htmlentities($row['position_name']);?>
+						</option>
+						<?php } ?>
                                                 </select>
                         </div>
                       </div>
@@ -395,12 +472,32 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
                         <div class="col-lg-6">
                           <select class="form-control" name="department">
                                                   <option><?php  echo $DEPARTMENT;  ?></option>
-                                                  <option>Finance Department</option>
-                                                  <option>IT Department</option>
-                                                  <option>Operational Department</option>
+												  
+												  <?php $ret=mysqli_query($conn,"select * from departments");
+                            while($row=mysqli_fetch_array($ret))
+                            {
+                           ?>
+                                                  <option><?php echo htmlentities($row['department_name']);?></option>
+												  <?php } ?>
+                                                  
                                                 </select>
                         </div>
                       </div>
+					  
+					  
+					   
+					  
+					  <div class="form-group">
+                        <label class="col-lg-2 control-label">Employee Categorie</label>
+                        <div class="col-lg-6">
+                          <select class="form-control" name="ucategorie">
+                                                  <option><?php  echo $USER_TYPE;  ?></option>
+                                                  <option>User</option>
+                                                  <option>Admin</option>
+                                                </select>
+                        </div>
+                      </div>
+					  
 					  
 					  <div class="form-group">
                             <label class="col-lg-2 control-label">Username</label>
@@ -420,7 +517,9 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
                         </form> <?php	}}
 
     ?>
-						
+
+
+
                       </div>				  
                     </section>
                   </div>
@@ -451,17 +550,12 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
    }
 </script>
     <!--main content end-->
-    <div class="text-right">
-      <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    <div class="text-center">
+        <div class="credits">
+
+          Copyright &copy Mignone Unguyeneza 2019
         </div>
-    </div>
+      </div>
   </section>
   <!-- container section end -->
   <!-- javascripts -->

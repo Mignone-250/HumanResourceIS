@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,11 +106,11 @@
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-user-md"></i> Profile</h3>
+            <h3 class="page-header"><i class="fa fa-user-md"></i> My Profile</h3>
             <ol class="breadcrumb">
-              <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
-              <li><i class="fa fa-user"></i>Manage Users</li>
-              <li><i class="fa fa-user-md"></i>Profile</li>
+              <li><i class="fa fa-home"></i><a href="Academics_dashboard.php">Home</a></li>
+              <li><i class="fa fa-user"></i>My Account</li>
+              <li><i class="fa fa-user-md"></i>My Profile</li>
             </ol>
           </div>
         </div>
@@ -213,15 +212,15 @@ document.getElementById('helpdiv').style.display=' none';
 				  <div>
 				  <div id="id02" class="modal">
 						  
-												  <div style="width:50%;" class="modal-content animate">
+												  <div style="width:40%;" class="modal-content animate">
 													<div class="imgcontainer">
-														<center><h3 class="heading3" style="color:grey"><b>CHANGE PROFILE PICTURE </b><span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span></h3>
-														<br>
-														<form action="" method="post" enctype="multipart/form-data">
+														<center><h4 class="heading2" style="color:grey; font-family:lato;">SELECT A PROFILE PICTURE<span onclick="document.getElementById('id02').style.display='none'" class="close" style='color:red; width:10%;' title="Close Modal">&times;</span></h4>
+														<br></center>
+														<form action="" method="post" enctype="multipart/form-data" style='margin-left:27%;'>
 															<input type="file" name="picture"  style="width:50%" required><br><br>
 															
-															<button type="submit" class="btn btn-primary" name="upload">UPLOAD</button><br><br>	
-														</form></center>
+															<button type="submit" class="btn btn-primary" name="upload" style='margin-left:-81%;'>UPLOAD</button><br><br>	
+														</form>
 														</div></div>
 														
 
@@ -230,14 +229,14 @@ document.getElementById('helpdiv').style.display=' none';
                
               </div>
 			  <div class="col-lg-2 col-sm-6">
-                  <h1><?php  echo $_SESSION['name'];  ?></h1>
-				  <h1><?php  echo 'TYPE:'.' '.$_SESSION['type'];  ?></h1><br>
+                  <h3><?php  echo $_SESSION['name'];  ?></h3>
+				  <h3 style='font-size:15px;'><?php  echo $_SESSION['Position'];  ?></h3><br>
 				  </div>
             </div>
           </div>
         </div><br>
         <!-- page start-->
-        <div class="row">
+        
           <div class="col-lg-12">
             <section class="panel">
               <header class="panel-heading tab-bg-info">
@@ -390,14 +389,14 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
                       </div>
 						  
 						  <div class="form-group">
-                            <label class="col-lg-2 control-label">NATIONAL_ID</label>
+                            <label class="col-lg-2 control-label">NATIONAL ID/PASSPORT</label>
                             <div class="col-lg-6">
                               <input type="number"  class="form-control" id="nda" name="NationalID"  value="<?php  echo $NATIONAL;  ?>">
                             </div>
                           </div>
 						  
 						  <div class="form-group">
-                            <label class="col-lg-2 control-label">PHONE_NUMBER</label>
+                            <label class="col-lg-2 control-label">PHONE NUMBER</label>
                             <div class="col-lg-6">
                               <input type="number"  class="form-control" id="mobile" name="PhoneNumber" value="<?php  echo $PHONE;  ?>">
                             </div>
@@ -426,6 +425,25 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 												  <option>Bugesera</option>
 												  <option>Kayonza</option>
 												  <option>Kamonyi</option>
+												  <option>Nyamagabe</option>
+												  <option>Ngoma</option>
+												  <option>Gakenke</option>
+												  <option>Kirehe</option>
+												  <option>Burera</option>
+												  <option>Ngororero</option>
+												  <option>Karongi</option>
+												  <option>Huye</option>
+												  <option>Nyanza</option>
+												  <option>Rutsiro</option>
+												  <option>Gisagara</option>
+												  <option>Ruhango</option>
+												  <option>Kicukiro</option>
+												  <option>Muhanga</option>
+												  <option>Rwamagana</option>
+												  <option>Nyabihu</option>
+												  <option>Nyaruguru</option>
+												  <option>Rulindo</option>
+												  <option>Nyarugenge</option>
                                                 </select>
                         </div>
                       </div>
@@ -434,14 +452,14 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 						  <div class="form-group">
                         <label class="col-lg-2 control-label">POSITION</label>
                         <div class="col-lg-6">
-                          <select class="form-control" name="position">
-                                                  <option><?php  echo $POSITION;  ?></option>
-                                                  <option>Chief Executive Officer</option>
-                                                  <option>Chief Operation Manager</option>
-                                                  <option>Chief Technology Officer</option>
-                                                  <option>Techinical Support</option>
-                                                  <option>Chief Finance Manager</option>
-                                                  <option>Software Developers</option>
+                          <select class="form-control" name="position" style="background-color:	#E6E6FA;">
+                                                  <option selected><?php  echo $POSITION;  ?></option>
+                                                  <option disabled>Chief Executive Officer</option>
+                                                  <option disabled>Chief Operation Manager</option>
+                                                  <option disabled>Chief Technology Officer</option>
+                                                  <option disabled>Techinical Support</option>
+                                                  <option disabled>Chief Finance Manager</option>
+                                                  <option disabled>Software Developers</option>
                                                 </select>
                         </div>
                       </div>
@@ -449,11 +467,11 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
 						 <div class="form-group">
                         <label class="col-lg-2 control-label">DEPARTMENT</label>
                         <div class="col-lg-6">
-                          <select class="form-control" name="department">
-                                                  <option><?php  echo $DEPARTMENT;  ?></option>
-                                                  <option>Finance Department</option>
-                                                  <option>IT Department</option>
-                                                  <option>Operational Department</option>
+                          <select class="form-control" name="department" style="background-color:#E6E6FA;">
+                                                  <option selected><?php  echo $DEPARTMENT;  ?></option>
+                                                  <option disabled>Finance Department</option>
+                                                  <option disabled>IT Department</option>
+                                                  <option disabled>Operational Department</option>
                                                 </select>
                         </div>
                       </div>
@@ -507,17 +525,20 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '".$_SESSION['user']."'"
    }
 </script>
     <!--main content end-->
-    <div class="text-right">
-      <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    <div class="text-center">
+        <div class="credits">
+
+          <?php
+		$select111="select * from dev ";
+//echo ($select);
+$result111 = $conn->query($select111);
+if ($result111->num_rows > 0) {
+	while($row = $result111->fetch_assoc()) {
+		$year=$row["year"]; ?>
+
+Copyright &copy Mignone Unguyeneza <?php echo $year; ?><?php }}?> 
         </div>
-    </div>
+      </div>
   </section>
   <!-- container section end -->
   <!-- javascripts -->

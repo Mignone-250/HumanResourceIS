@@ -1,0 +1,747 @@
+<?php $ID=$_GET['USER_ID'];?>
+<?php 
+include ('include/config.php');
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+  <meta name="author" content="GeeksLabs">
+  <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+  <link rel="shortcut icon" href="img/favicon.png">
+
+  <title>HRMS</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- bootstrap theme -->
+  <link href="css/bootstrap-theme.css" rel="stylesheet">
+  <!--external css-->
+  <!-- font icon -->
+  <link href="css/elegant-icons-style.css" rel="stylesheet" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <!-- Custom styles -->
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/style-responsive.css" rel="stylesheet" />
+  
+  <style>
+</style>  
+
+</head>
+
+<body>
+  <!-- container section start -->
+  <section id="container" class="">
+    <!--header start-->
+<?php
+		include 'include/receptionsitbannermenue.php';
+		?>
+
+    <!--main content start-->
+    <section id="main-content">
+      <section class="wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+            <h3 class="page-header"><i class="fas fa-list"></i> Attendance</h3>
+            <ol class="breadcrumb">
+              <li><i class="fa fa-list"></i><a href="receptionist_dashboard.php">Home</a></li>
+              <li><i class="fa fa-list"></i>ATTENDANCE/TAKE ATTENDANCE</li>
+              <li><i class="fa fa-list">Take Attendance</i></li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="row">
+         
+          <br>
+        <!-- page start-->
+        
+		
+          <div class="col-lg-12">
+            <section class="panel">
+              <header class="panel-heading tab-bg-info">
+                <ul class="nav nav-tabs">
+                  
+                  <li>
+                    <a data-toggle="tab" href="#profile">
+                                          <i class="icon-user"></i>
+                                          TAKE ATTENDANCE
+                                      </a>
+                  </li>
+                  <li class="">
+                    <a data-toggle="tab" href="#edit-profile">
+                                          <i class="icon-envelope"></i>
+                                         EDIT ATTENDANCE RECORDED
+                                      </a>
+                  </li>
+                </ul>
+              </header>
+			  <br><br>
+			  
+			  <br><br><br><br>
+			  
+              <div class="panel-body">
+                <div class="tab-content">
+				
+                 
+                  <!-- profile -->
+                  <div id="profile" class="tab-pane active" >
+                    <section class="panel">
+                     
+					  
+						
+						
+						
+						
+			
+						 <?php
+						 
+
+$sql = "SELECT * FROM user_registration WHERE USER_ID = $ID"; 
+					$result = $conn->query($sql);
+					if ($result->num_rows > 0) {
+						while($row = $result->fetch_assoc()) {
+								$USER_ID=$row["USER_ID"];
+								$FIRST=$row["FIRST_NAME"];
+								$LAST=$row["LAST_NAME"];
+								$POSITION=$row["POSITION"];
+								$DEPARTMENT=$row["DEPARTMENT"];
+								
+								?>
+								
+								
+							
+																			
+  
+  <div class="tbl-header2">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <tr><th style=" font-size:15px;font-family:Gill Sans MT;">Employee Name:&nbsp;&nbsp; &nbsp;&nbsp;<span style="color:blue;font-family:Gill Sans MT;"><?php  echo $FIRST." ".$LAST  ?></span></th>
+          <th style=" font-size:15px;font-family:Gill Sans MT">Employee Post:&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;font-family:Gill Sans MT"><?php  echo $POSITION ?></span></th></tr>
+          <tr><th style=" font-size:15px;font-family:Gill Sans MT">Employee Department:&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;font-family:Gill Sans MT"><?php  echo $DEPARTMENT ?></span></th>
+          <th style=" font-size:15px;font-family:Gill Sans MT">Employee Supervisor:&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;font-family:Gill Sans MT">Liliane Uwimana</span></th></tr>
+          
+        </tr>
+      </thead>
+    </table>
+  </div><?php	}}?>
+  
+  
+  
+  <?php
+  
+    if(isset($_POST['record']))
+        {
+		$date= mysqli_real_escape_string($conn, $_REQUEST['CurrentDate']);
+		$arrivedat= mysqli_real_escape_string($conn, $_REQUEST['arrivedat']);
+		$leftat= mysqli_real_escape_string($conn, $_REQUEST['leftat']);
+$arrival_status= mysqli_real_escape_string($conn, $_REQUEST['arrival_status']);
+$leaving_status=mysqli_real_escape_string($conn,$_REQUEST['leaving_status']);
+$day_status= mysqli_real_escape_string($conn, $_REQUEST['day_status']);
+
+
+$sql_t = "SELECT * FROM roll_call_attendance WHERE todate='$date'";
+	if ($conn->query($sql_t) ==TRUE) {
+		$result = mysqli_query($conn,$sql_t) or die(mysql_error());
+		$rows = mysqli_num_rows($result);
+		if($rows>0){
+		echo "<div class='alerte' id='helpdiv' style='background-color:red;' > 
+  <center> Attendance has already been taken <strong>&#10008</strong></center>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+	
+	}
+	else{
+	
+	
+
+		
+		
+
+// Attempt insert query execution
+$sql = "INSERT INTO roll_call_attendance (USER_ID,todate,arrived_at,arrival_status,left_at,leaving_status,day_status)
+VALUES ('$ID','$date','$arrivedat','$arrival_status','$leftat','$leaving_status','$day_status')";
+
+if(mysqli_query($conn, $sql)){
+   
+	echo "<div class='alertO' id='helpdiv' style='background-color:blue;'> 
+  <center> Attendance for today was taken successfully <strong>&#10004</strong></center>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+	
+	
+	
+} else{
+    echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+	}
+		}}}
+
+    ?>	
+	<br><br><br>
+	
+	
+	
+	<form class="form-horizontal" action="" method="post" enctype="multipart/form-data" autocomplete="off" >
+                          <div class="form-group">
+                            <label class="col-lg-2 control-label" style="text-align:left; margin-left:10px;color:blue;">DATE</label>
+                            <div class="col-lg-6">
+                              
+							  
+							  <input type="text" name="CurrentDate" class="form-control"  readonly value=" <?php echo date('Y/m/d');?>" autofocus="autofocus" style=" cursor:default;">
+							
+							  
+                            </div>
+                          </div>
+						  
+                          <div class="form-group">
+                            <label class="col-lg-2 control-label" style="text-align:left; margin-left:10px;color:blue;">ARRIVED AT</label>
+                            <div class="col-lg-6">
+                              <input type="time" name="arrivedat" class="form-control" required>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label class="col-lg-2 control-label" style="text-align:left; margin-left:10px;color:blue;">ARRIVAL STATUS</label>
+                            <div class="col-lg-6">
+							<input type="text" name="arrival_status" class="form-control" readonly >
+                              
+                            </div>
+                          </div>
+						  <div class="form-group">
+                            <label class="col-lg-2 control-label" style="text-align:left; margin-left:10px;color:blue;">LEFT AT </label>
+                            <div class="col-lg-6">
+                              <input type="text" name="leftat" class="form-control" readonly >
+                            </div>
+                          </div>
+						  
+						  <div class="form-group">
+                            <label class="col-lg-2 control-label" style="text-align:left; margin-left:10px;color:blue;">LEAVING STATUS</label>
+                            <div class="col-lg-6">
+                              <input type="text" name="leaving_status" class="form-control" readonly >
+                            </div>
+                          </div>
+						  
+						  
+						  <div class="form-group">
+                            <label class="col-lg-2 control-label" style="text-align:left; margin-left:10px;color:blue;">DAY STATUS </label>
+                            <div class="col-lg-6">
+                              <input type="text" name="day_status" class="form-control" readonly >
+                            </div>
+                          </div>
+                          
+
+                          <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                              <button type="submit" class="btn btn-primary" name="record">RECORD</button>
+                              <button type="button" class="btn btn-danger">CANCEL</button>
+                            </div>
+                          </div>
+                        </form>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+			
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+					
+                    </section>
+                  </div>
+                  <!-- edit-Attendance -->
+                  <div id="edit-profile" class="tab-pane">
+                    <section class="panel">
+                      <div class="panel-body bio-graph-info">
+					  <div class="profile-widget profile-widget-info">
+                      
+                      </div><br><br>
+
+
+
+
+
+
+<?php $ID=$_GET['USER_ID'];?>
+<style>
+h1{
+  font-size: 30px;
+  color: #06389d;
+  text-transform: uppercase;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 15px;
+}
+table{
+  width:100%;
+  table-layout: fixed;
+  border:1px;
+}
+.tbl-header{
+  background-color:black;
+  border:1px;
+ }
+ .tbl-header2{
+  background-color:#fff;
+  margin-top:-40px;
+ }
+.tbl-content{
+  height:300px;
+  overflow-x:auto;
+  margin-top: 0px;
+  background-color:#1c4966;
+  
+}
+th{
+  padding: 20px 15px;
+  text-align: left;
+  font-size: 12px;
+  color: white;
+  text-transform: uppercase;
+  
+}
+td{
+  padding: 15px;
+  text-align: left;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #fff;
+ 
+}
+
+
+
+/* for custom scrollbar for webkit browser*/
+
+::-webkit-scrollbar {
+    width: 6px;
+} 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+} 
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+}
+
+</style>
+  
+  <?php
+
+$sql = "SELECT * FROM user_registration WHERE USER_ID = $ID"; 
+					$result = $conn->query($sql);
+					if ($result->num_rows > 0) {
+						while($row = $result->fetch_assoc()) {
+								$USER_ID=$row["USER_ID"];
+								$FIRST=$row["FIRST_NAME"];
+								$LAST=$row["LAST_NAME"];
+								$POSITION=$row["POSITION"];
+								$DEPARTMENT=$row["DEPARTMENT"];
+								
+								?>
+								
+								
+							
+																			
+  
+  <div class="tbl-header2">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <tr><th style=" font-size:15px;font-family:Gill Sans MT;">Employee Name:&nbsp;&nbsp; &nbsp;&nbsp;<span style="color:blue;font-family:Gill Sans MT;"><?php  echo $FIRST." ".$LAST  ?></span></th>
+          <th style=" font-size:15px;font-family:Gill Sans MT">Employee Post:&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;font-family:Gill Sans MT"><?php  echo $POSITION ?></span></th></tr>
+          <tr><th style=" font-size:15px;font-family:Gill Sans MT">Employee Department:&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;font-family:Gill Sans MT"><?php  echo $DEPARTMENT ?></span></th>
+          <th style=" font-size:15px;font-family:Gill Sans MT">Employee Supervisor:&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:blue;font-family:Gill Sans MT">Liliane Uwimana</span></th></tr>
+          
+        </tr>
+      </thead>
+    </table>
+  </div><?php	}}?>
+  
+  
+  
+  
+	
+	
+	
+	 <?php
+	 
+	  
+		date_default_timezone_set('US/Pacific');
+		
+		
+ 
+		
+$dateeee = date('Y/m/d');	
+
+ //$select = mysqli_query($sql, "SELECT id FROM table WHERE DATE(time) = '$date' LIMIT 1");
+$sql ="SELECT * FROM roll_call_attendance WHERE USER_ID = $ID and todate='$dateeee' "; 
+$timetoarrive = '08:30:00';
+$timetoleave = '05:30:00';
+					$result = $conn->query($sql);
+					if ($result->num_rows > 0) {
+						while($row = $result->fetch_assoc()) {
+								$USER_ID=$row["USER_ID"];
+								$datee=$row["todate"];
+								$arrivedat=$row["arrived_at"];
+								$arrivalstatus=$row["arrival_status"];
+								$left_att=$row["left_at"];
+								$laevingstatus=$row["leaving_status"];
+								$daystatus=$row["day_status"];
+								
+								
+								if($arrivedat > $timetoarrive){
+									
+									$ArrivingStatus = "Late";
+								}
+								elseif($arrivedat < $timetoarrive){
+									$ArrivingStatus = "Before Time";
+								}
+								elseif($arrivedat = $timetoarrive){
+									$ArrivingStatus = "On Time";
+								}
+								else{
+									echo"invalid time";
+								}
+								
+								if($left_att < $timetoleave){
+									
+									$status = "Before Time";
+								}
+								
+								elseif($left_att > $timetoleave){
+									
+									$status = "Late";
+								}
+								elseif($left_att = $timetoleave){
+									
+									$status = "On Time";
+								}
+								else{
+									
+									echo"0 results";
+								}
+								
+								
+	
+								
+								
+								?>
+								
+								<?php 
+		date_default_timezone_set('US/Pacific');
+		
+		
+ ?>
+								
+		<div class="col-sm-12">
+		<form action="" method="post" enctype="multipart/form-data">
+            <section class="panel">
+              
+              <table border="1" class="table" id="tblCustomers">
+                <thead>
+                  <tr>
+          <th style="background-color:Lavender ">DATE</th>
+          
+		  <th style="background-color:Lavender ">ARRIVED AT</th>
+		  <th style="background-color:Lavender ">ARRIVAL STATUS</th>
+		  <th style="background-color:Lavender ">LEFT AT</th>
+		  <th style="background-color:Lavender ">LEAVING STATUS</th>
+		  <th style="background-color:Lavender ">DAY STATUS</th>
+		  <th style="background-color:Lavender "> CHANGE DAY STATUS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                      
+             <td> <input type="text" name="CurrentDate"  readonly value=" <?php echo $datee;?>"style="border:none;"></td>
+			
+                    <td><input type="text" name="arrivedat" value=" <?php echo $arrivedat;?>" readonly style="border:none;"> % &nbsp;</td>
+<td>
+					<input type="text" name="arrival_status"  value=" <?php echo $ArrivingStatus;?>" style="border:none;">
+					
+					</td>					
+					<td>
+					<input type="text" name="leftat"  value=" <?php echo $left_att;?>" style="border:none;">
+					
+					</td>
+					
+					<td>
+					<input type="text" name="leaving_status" readonly value=" <?php echo $status?>" style="border:none;">
+					
+					</td>
+					<td><input type="text" value=" <?php echo $daystatus;?>"  style="border:none;"></td>
+					
+					
+<td>
+<select type="text" name="daystatus"   readonly  style="border:none;">
+<option disabled = "disabled" selected = "selected">Select</option>
+<option>Present</option>
+<option>Absent</option>
+<option>Late</option></select>
+
+					% &nbsp;
+					</td>
+					
+					
+					
+					
+					
+					
+                  </tr>
+				  <tr>
+						<td><button type="submit" class="btn" name="edit" style="width:200px; height:50px;  font-size:18px; background-color:#072f5f;color:white;">Edit</button></td>
+				  
+				  </tr>
+			<?php }} else {
+    echo "No data found in the database";
+}
+
+
+ ?>
+
+
+                </tbody>
+              </table>        
+            </section>
+			</form>
+          </div>						
+								
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+								
+  
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					<?php
+
+    if(isset($_POST['edit']))
+        {
+$date= mysqli_real_escape_string($conn, $_REQUEST['CurrentDate']);
+		$arrivedat= mysqli_real_escape_string($conn, $_REQUEST['arrivedat']);
+		$leftat= mysqli_real_escape_string($conn, $_REQUEST['leftat']);
+$arrival_status= mysqli_real_escape_string($conn, $_REQUEST['arrival_status']);
+$leaving_status=mysqli_real_escape_string($conn,$_REQUEST['leaving_status']);
+$day_status= mysqli_real_escape_string($conn, $_REQUEST['daystatus']);
+
+$sql="UPDATE roll_call_attendance SET todate='$date',arrived_at='$arrivedat',arrival_status='$arrival_status',left_at='$leftat',leaving_status='$leaving_status',day_status='$day_status' WHERE USER_ID = '$ID' and todate = '$date' "; 
+if(mysqli_query($conn, $sql)){
+    echo "<div class='row' id='helpdiv'><div class='col-lg-12'>
+	<div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+	<strong>Success!</strong>  Today's attendance was successfully taken.</div></div></div><br>";
+	
+	echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+} else{
+    echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
+}
+		}
+
+    ?>
+					
+
+
+
+
+</div>
+
+
+
+                      </div>				  
+                    </section>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        
+
+        <!-- page end-->
+      </section>
+    </section>
+	
+	<script type="text/javascript">
+   function resetForm(register_form)
+   {
+       var myForm = document.getElementById(register_form);
+
+       for (var i = 0; i < myForm.elements.length; i++)
+       {
+           if ('submit' != myForm.elements[i].type && 'reset' != myForm.elements[i].type)
+           {
+               myForm.elements[i].checked = false;
+               myForm.elements[i].value = '';
+               myForm.elements[i].selectedIndex = 0;
+           }
+       }
+   }
+</script>
+    <!--main content end-->
+    <div class="text-center">
+        <div class="credits">
+
+          Copyright &copy Mignone Unguyeneza 2019
+        </div>
+      </div>
+  </section>
+  <!-- container section end -->
+  <!-- javascripts -->
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <!-- nice scroll -->
+  <script src="js/jquery.scrollTo.min.js"></script>
+  <script src="js/jquery.nicescroll.js" type="text/javascript"></script>
+  <!-- jquery knob -->
+  <script src="assets/jquery-knob/js/jquery.knob.js"></script>
+  <!--custome script for all page-->
+  <script src="js/scripts.js"></script>
+
+  <script>
+    //knob
+    $(".knob").knob();
+  </script>
+
+
+</body>
+
+</html>

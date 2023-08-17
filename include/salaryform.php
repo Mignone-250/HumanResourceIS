@@ -31,8 +31,8 @@ $sqle = "SELECT * FROM deductions where DEDUCTION_TYPE='Total'";
 											//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
 												 $amount=$row["DEDUCTION_AMOUNT"];
 												 $net=$salary-$amount;
-								$sql = "INSERT INTO payroll (POSITION, GROSS_SALARY, TOTAL_DEDUCTIONS, NET_SALARY)
-								VALUES ('$position', '$salary','$amount','$net')";
+								$sql = "INSERT INTO payroll (POSITION, GROSS_SALARY, TOTAL_SUPPLEMENTS, TOTAL_DEDUCTIONS, NET_SALARY)
+								VALUES ('$position', '$salary','0','$amount','$net')";
 
 								if(mysqli_query($conn, $sql)){
 									
@@ -60,7 +60,7 @@ $sqle = "SELECT * FROM deductions where DEDUCTION_TYPE='Total'";
 		  <div class="col-lg-9 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <div class="pull-left">Add salary</div>
+                <div class="pull-left">Assign Gross Salaries</div>
                 <div class="widget-icons pull-right">
                   <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
                   <a href="#" class="wclose"><i class="fa fa-times"></i></a>
@@ -80,13 +80,14 @@ $sqle = "SELECT * FROM deductions where DEDUCTION_TYPE='Total'";
                         <label class="control-label col-lg-2">Positions</label>
                         <div class="col-lg-10">
                           <select class="form-control" name="position">
-                                                  <option disabled>- Choose Position -</option>
-                                                  <option>Chief Executive Officer</option>
-                                                  <option>Chief Operation Manager</option>
-                                                  <option>Chief Technology Officer</option>
-                                                  <option>Techinical Support</option>
-                                                  <option>Chief Finance Manager</option>
-                                                  <option>Software Developers</option>
+                                                  <option selected disabled value="">- Choose Position -</option>
+												  <?php $ret=mysqli_query($conn,"select * from positions ");
+													while($row=mysqli_fetch_array($ret))
+													{
+													$position_name = $row['position_name'];
+													?>
+                                                  <option><?php echo htmlentities($position_name);?></option>
+													<?php }  ?>
                                                 </select>
                         </div>
                       </div>

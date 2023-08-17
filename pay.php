@@ -1,5 +1,7 @@
 <?php 
 include ('include/config.php'); 
+date_default_timezone_set('US/Pacific');
+$todays_datee=date('Y-m-d');
 $ID=$_GET['USER_ID'];
 ?>
 <!DOCTYPE html>
@@ -150,11 +152,25 @@ if($type==="Monthly salary"){
 								if($rows>0){
 									while($row = $result->fetch_assoc()) {
 									$netsalary=$row["GROSS_SALARY"];
-											$sql = "INSERT INTO paid_users (USER_ID,DATE_PAID,TYPE,AMOUNT) VALUES ('$id','$date','$type','$netsalary')";
+									$sqlrt = "SELECT * FROM user_deduction where USER_ID='$id'"; 
+										$resultrt = $conn->query($sqlrt);
+
+										if ($resultrt->num_rows > 0) {
+										  // output data of each row
+										  while($row = $resultrt->fetch_assoc()) {
+											//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+											   
+											  $deduction=$row["DEDUCTION_TYPE"];  
+											  $amount=$row["DEDUCTION_AMOUNT"]; 
+											  $total=$row["TOTAL"];
+												$deductions= ($netsalary*$total)/100;
+													$subnetsalary=$netsalary-$deductions;
+												
+										$sql = "INSERT INTO paid_users (USER_ID,DATE_PAID,TYPE,AMOUNT) VALUES ('$id','$date','$type','$subnetsalary')";}}
 											if(mysqli_query($conn, $sql)){
 												 echo "<div class='col-lg-9' id='helpdiv'>
 												 <div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
-												 <strong>Success!</strong> Amount Added Successfully.</div></div><br>";
+												 <strong>Success!</strong> You Successfully Paid this employee</div></div><br>";
 												 
 												 echo "<script type='text/javascript'>
 												window.setTimeout('closeHelpDiv();', 3000);
@@ -165,7 +181,7 @@ if($type==="Monthly salary"){
 												</script>";
 											} else{
 												echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
-											}
+										}
 									
 }}}}}}}
 else{
@@ -173,7 +189,7 @@ else{
 											if(mysqli_query($conn, $sql)){
 												 echo "<div class='col-lg-9' id='helpdiv'>
 												 <div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
-												 <strong>Success!</strong> Amount Added Successfully.</div></div><br>";
+												 <strong>Success!</strong> Money paid Successfully.</div></div><br>";
 												 
 												 echo "<script type='text/javascript'>
 												window.setTimeout('closeHelpDiv();', 3000);
@@ -199,11 +215,53 @@ else{
 		if(isset($_POST['adds']))
         {
 $deduction = mysqli_real_escape_string($conn, $_REQUEST['deduction']);
-$amount = mysqli_real_escape_string($conn, $_REQUEST['amount']);
-$id=$_REQUEST['USER_ID']; 
-$sql= "INSERT INTO user_deduction (USER_ID,DEDUCTION_TYPE,DEDUCTION_AMOUNT)VALUES ('$id','$deduction','$amount')";
+//$amount = mysqli_real_escape_string($conn, $_REQUEST['amount']);
+$id=$_REQUEST['USER_ID'];
+date_default_timezone_set('US/Pacific');
+$todays_date=date('Y-m-d');
+
+
+
+$sql1 = "SELECT * FROM user_registration WHERE USER_ID = '$id'" or die(mysqli_error($conn)); 
+					$result1 = $conn->query($sql1);
+					
+					// echo $result->num_rows; die;
+					if ($result1->num_rows > 0) {
+						// output data of each row
+						while($row = $result1->fetch_assoc()) {
+							//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+								$postt=$row["POSITION"];
+								
+
+$sql2 = "SELECT * FROM payroll WHERE POSITION = '$postt'" or die(mysqli_error($conn)); 
+					$result2 = $conn->query($sql2);
+					
+					// echo $result->num_rows; die;
+					if ($result2->num_rows > 0) {
+						// output data of each row
+						while($row = $result2->fetch_assoc()) {
+							//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+								$newpostt=$row["POSITION"];
+								$newamount=$row["GROSS_SALARY"];
+								
+
+$sql = "SELECT * FROM deductions WHERE DEDUCTION_TYPE = '$deduction'" or die(mysqli_error($conn)); 
+					$result = $conn->query($sql);
+					// echo $result->num_rows; die;
+					if ($result->num_rows > 0) {
+						// output data of each row
+						while($row = $result->fetch_assoc()) {
+							//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+								$DEDUCTION_AMOUNTT=$row["DEDUCTION_AMOUNT"];
+								$NEW_DEDUCTION_AMOUNTT=($DEDUCTION_AMOUNTT*100)/$newamount;
+								
+								
+								
+								
+$sql= "INSERT INTO user_deduction (USER_ID,DEDUCTION_TYPE,DEDUCTION_AMOUNT,datee)VALUES ('$id','$deduction','$NEW_DEDUCTION_AMOUNTT','$todays_date')" or die(mysqli_error($conn));
+
 if(mysqli_query($conn, $sql)){
-	$abc="SELECT SUM(DEDUCTION_AMOUNT) as total FROM user_deduction where  USER_ID='$id'";
+	$abc="SELECT SUM(DEDUCTION_AMOUNT) as total FROM user_deduction where  USER_ID='$id' and datee = '$todays_datee'";
 				$result=mysqli_query($conn,$abc);
 				if($result)
 				{
@@ -211,12 +269,12 @@ if(mysqli_query($conn, $sql)){
 				{
 				$total=$row["total"];
 				
-				$sqle = "UPDATE user_deduction set TOTAL='$total',USER_ID='$id' WHERE USER_ID='$id'";
+				$sqle = "UPDATE user_deduction set TOTAL='$total',USER_ID='$id' WHERE USER_ID='$id' and datee = '$todays_datee'";
 				
 				if ($conn->query($sqle) === TRUE) {
 					echo "<div  id='helpdiv'><div class='col-lg-9'>
 						<div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
-						<strong>Success!</strong> Supplement Added Successfully.</div></div></div><br><br><br>";
+						<strong>Success!</strong> Deduction Added Successfully.</div></div></div><br><br><br>";
 						
 						echo "<script type='text/javascript'>
 					window.setTimeout('closeHelpDiv();', 3000);
@@ -228,21 +286,30 @@ if(mysqli_query($conn, $sql)){
 				}
 							
 				 else{
+						echo "ERROR: Could not able to execute $sqle. " . mysqli_error($conn);
+					}
+		}}}
+		else{
 						echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 					}
-		}}}}
+		
+		
+		
+		}}}}}}}
 		?>
 		<?php
 		
 		
 		if(isset($_POST['add']))
         {
+			date_default_timezone_set('US/Pacific');
+				$todays_dateeee=date('Y-m-d');
 $deduction = mysqli_real_escape_string($conn, $_REQUEST['supplement']);
 $amount = mysqli_real_escape_string($conn, $_REQUEST['amount']);
 $id=$_REQUEST['USER_ID']; 
-$sql= "INSERT INTO user_supplement (USER_ID,SUPPLEMENT_TYPE,SUPPLEMENT_AMOUNT)VALUES ('$id','$deduction','$amount')";
+$sql= "INSERT INTO user_supplement (USER_ID,SUPPLEMENT_TYPE,SUPPLEMENT_AMOUNT,datee)VALUES ('$id','$deduction','$amount','$todays_dateeee')";
 if(mysqli_query($conn, $sql)){
-	$abc="SELECT SUM(SUPPLEMENT_AMOUNT) as total FROM user_supplement where  USER_ID='$id'";
+	$abc="SELECT SUM(SUPPLEMENT_AMOUNT) as total FROM user_supplement where  USER_ID='$id' and datee = '$todays_datee'";
 				$result=mysqli_query($conn,$abc);
 				if($result)
 				{
@@ -250,7 +317,7 @@ if(mysqli_query($conn, $sql)){
 				{
 				$total=$row["total"];
 				
-				$sqle = "UPDATE user_supplement set TOTAL='$total',USER_ID='$id' WHERE USER_ID='$id'";
+				$sqle = "UPDATE user_supplement set TOTAL='$total',USER_ID='$id' WHERE USER_ID='$id' and datee = '$todays_datee'";
 				
 				if ($conn->query($sqle) === TRUE) {
 					echo "<div  id='helpdiv'><div class='col-lg-9'>
@@ -285,37 +352,37 @@ if(mysqli_query($conn, $sql)){
                   <li class="active">
                     <a data-toggle="tab" href="#recent-activity">
                                           <i class="icon-home"></i>
-                                          PROFILE
+                                         EMPLOYEE PROFILE
                                       </a>
                   </li>
 				   <li>
                     <a data-toggle="tab" href="#deductions">
                                           <i class="icon-user"></i>
-                                          ADD DEDUCTIONS
+                                          DEDUCTIONS
                                       </a>
                   </li>
 				   <li>
                     <a data-toggle="tab" href="#supplements">
                                           <i class="icon-user"></i>
-                                          ADD SUPPLEMENTS
+                                          SUPPLEMENTS
                                       </a>
                   </li>
                   <li>
                     <a data-toggle="tab" href="#profile">
                                           <i class="icon-user"></i>
-                                          PAY USER
+                                          PAY EMPLOYEE
                                       </a>
                   </li>
                   <li class="">
                     <a data-toggle="tab" href="#edit-profile">
                                           <i class="icon-envelope"></i>
-                                          SALARY IN ADVANCE
+                                          SALARY IN ADVANCE STATEMENT
                                       </a>
                   </li>
 				  <li class="">
                     <a data-toggle="tab" href="#month">
                                           <i class="icon-envelope"></i>
-                                          MONTHLY SALARY
+                                          MONTHLY SALARY STATEMENT
                                       </a>
                   </li>
                 </ul>
@@ -393,7 +460,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 						<div class="col-lg-6">
                  <div class="panel panel-default">
               <div class="panel-heading">
-                <div class="pull-left">Assign amount to Supplement</div>
+                <div class="pull-left">Add Supplements</div>
                 <div class="widget-icons pull-right">
                   <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
                   <a href="#" class="wclose"><i class="fa fa-times"></i></a>
@@ -407,26 +474,9 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
                     <!-- Edit profile form (not working)-->
                     <form class="form-horizontal" action="" id="register_form" method="post" enctype="multipart/form-data" autocomplete="off">
                       <!-- Title -->
- <div class="form-group">
-                        <label class="control-label col-lg-2" for="title">USER_ID</label>
-                        <div class="col-lg-10">
-                          <input type="text" class="form-control" id="user_id" name="user_id" placeholder="<?php echo $ID ?>" disabled>
-                        </div>
-                      </div>
+ 
                       <!-- Content -->
-                      <div class="form-group">
-                        <label class="control-label col-lg-2" for="content">NAMES</label>
-                        <div class="col-lg-10">
-                          <input type="text" class="form-control" id="names" name="names" placeholder="<?php
-											$query=mysqli_query($conn,"select * from user_registration where USER_ID='$ID'");
-											while($row=mysqli_fetch_array($query)){
-												$first=$row['FIRST_NAME']; 
-												$last=$row['LAST_NAME']; 
-												echo $first." ".$last;
-												}
-												?>" disabled>
-                        </div>
-                      </div>
+                     
                       <!-- Cateogry -->
                       <div class="form-group">
                         <label class="control-label col-lg-2">SUPPLEMENT</label>
@@ -449,7 +499,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
             
                       <!-- Tags -->
                       <div class="form-group">
-                        <label class="control-label col-lg-2" for="tags">AMOUNT IN PERCENTAGE</label>
+                        <label class="control-label col-lg-2" for="tags">AMOUNT</label>
                         <div class="col-lg-10">
                           <input type="number" class="form-control" id="tags" name="amount">
                         </div>
@@ -482,18 +532,19 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
               <table border="1" class="table" id="tblCustomers">
                 <thead>
                   <tr>
-          <th style="background-color:Lavender ">SUPPLEMENTS</th>
-          <th style="background-color:Lavender ">PERCENTAGE</th>
-		  <th style="background-color:Lavender ">GROSS_SALARY</th>
-		  <th style="background-color:Lavender ">SUPPLEMENT_AMOUNT</th>
-		 <th style="background-color:Lavender ">TOTAL</th>
+          <th style="background-color:Lavender ">Supplements</th>
+          <th style="background-color:Lavender ">amount(%)</th>
+		  
+		 
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                       <?php
+					  date_default_timezone_set('US/Pacific');
+				$todays_dateee=date('Y-m-d');
             $id=$_REQUEST['USER_ID']; 
-            $sql = "SELECT * FROM user_supplement  where USER_ID='$id'  "; 
+            $sql = "SELECT * FROM user_supplement  where USER_ID='$id' and datee = '$todays_dateee'"; 
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -504,30 +555,32 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
                   $deduction=$row["SUPPLEMENT_TYPE"];  
                   $amount=$row["SUPPLEMENT_AMOUNT"]; 
 				  $total=$row["TOTAL"];
+				  $newama=$amount/100;
 				  
-				  $sqls = "SELECT * FROM paid_users where USER_ID='$id' and TYPE='Monthly salary'"; 
+				  /*$sqls = "SELECT * FROM paid_users where USER_ID='$id' and TYPE='Monthly salary'"; 
             $results = $conn->query($sqls);
 
             if ($results->num_rows > 0) {
               // output data of each row
               while($row = $results->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
-                 $gross=$row["AMOUNT"];
-				  $supplement= ($gross*$amount)/100;
+                 $gross=$row["AMOUNT"];*/
+				  $supplement= ($total)/100;
                   
             ?>  
              <td><?php echo $deduction;  ?></td>
-                    <td><?php echo  $amount;  ?> % &nbsp;</td> 
-				<td><?php echo $gross;  ?></td>	
-				<td><?php echo $supplement;  ?></td>
-<td><?php echo $total; ?> % &nbsp;</td>
+                    <td><?php echo  $newama;  ?> % &nbsp;</td> 
+				<!--<td><?php //echo $gross;  ?></td>-->	
+				
+
                   </tr>
-			<?php }}}} else {
-    echo "No Data Found";
+			<?php }} else {
+    echo "0 Supplements Found";
 }
 
 
  ?>
+ <tr><td><b>Total supplement's amount</b></td><td><?php echo @$supplement; echo  '%'  ?></td></tr>
 
 
                 </tbody>
@@ -560,7 +613,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 						<div class="col-lg-6">
                 <div class="panel panel-default">
               <div class="panel-heading">
-                <div class="pull-left">Assign amount to Deduction</div>
+                <div class="pull-left">Add Deductions</div>
                 <div class="widget-icons pull-right">
                   <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
                   <a href="#" class="wclose"><i class="fa fa-times"></i></a>
@@ -576,26 +629,9 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
                       <!-- Title -->
  
                       <!-- Cateogry -->
-					  <div class="form-group">
-                        <label class="control-label col-lg-2" for="title">USER_ID</label>
-                        <div class="col-lg-10">
-                          <input type="text" class="form-control" id="user_id" name="user_id" placeholder="<?php echo $ID ?>" disabled>
-                        </div>
-                      </div>
+					  
                       <!-- Content -->
-                      <div class="form-group">
-                        <label class="control-label col-lg-2" for="content">NAMES</label>
-                        <div class="col-lg-10">
-                          <input type="text" class="form-control" id="names" name="names" placeholder="<?php
-											$query=mysqli_query($conn,"select * from user_registration where USER_ID='$ID'");
-											while($row=mysqli_fetch_array($query)){
-												$first=$row['FIRST_NAME']; 
-												$last=$row['LAST_NAME']; 
-												echo $first." ".$last;
-												}
-												?>" disabled>
-                        </div>
-                      </div>
+                      
                       <div class="form-group">
                         <label class="control-label col-lg-2">DEDUCTION</label>
                         <div class="col-lg-10">
@@ -615,14 +651,14 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 
             
             
-                      <!-- Tags -->
+                      <!-- Tags
                       <div class="form-group">
                         <label class="control-label col-lg-2" for="tags">AMOUNT IN PERCENTAGE</label>
                         <div class="col-lg-10">
                           <input type="number" class="form-control" id="tags" name="amount">
                         </div>
 
-                      </div>          
+                      </div>  -->         
                       <!-- Buttons -->
                       <div class="form-group">
                         <!-- Buttons -->
@@ -641,7 +677,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 			 <div class="col-lg-6">
             <section class="panel">
               <header class="panel-heading">
-                <b>DEDUCTIONS</b>
+                <b>Deductions</b>
               </header>
               <div class="panel-body">
                 <div class="form">        
@@ -651,63 +687,77 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
               <table border="1" class="table" id="tblCustomers">
                 <thead>
                   <tr>
-          <th style="background-color:Lavender ">DEDUCTION_TYPE</th>
-          
-		  <th style="background-color:Lavender ">PERCENTAGE</th>
-		  <th style="background-color:Lavender ">GROSS_SALARY</th>
-		  <th style="background-color:Lavender ">DEDUCTION_AMOUNT</th>
-		  <th style="background-color:Lavender ">TOTAL</th>
+          <th style="background-color:Lavender ">Deduction Name</th>
+		  <th style="background-color:Lavender ">Deduction Amount(%)</th>
+		  <!--<th style="background-color:Lavender ">Net Salary</th>-->
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                       <?php
+					  date_default_timezone_set('US/Pacific');
+				$todays_datee=date('Y-m-d');
+				//$dateTimestamp2 = strtotime($todays_date);
 					  $id=$_REQUEST['USER_ID']; 
-            $sql = "SELECT * FROM user_deduction where USER_ID='$id'"; 
-            $result = $conn->query($sql);
+            $sqlq = "SELECT * FROM user_deduction where USER_ID='$id' and datee = '$todays_datee'"; 
+            $resultq = $conn->query($sqlq);
 
-            if ($result->num_rows > 0) {
+            if ($resultq->num_rows > 0) {
               // output data of each row
-              while($row = $result->fetch_assoc()) {
+              while($row = $resultq->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
                    
                   $deduction=$row["DEDUCTION_TYPE"];  
                   $amount=$row["DEDUCTION_AMOUNT"]; 
 				  $total=$row["TOTAL"];
 				  
-				  $sqls = "SELECT * FROM paid_users where USER_ID='$id' and TYPE='Monthly salary' "; 
-            $results = $conn->query($sqls);
-
-            if ($results->num_rows > 0) {
-              // output data of each row
-              while($row = $results->fetch_assoc()) {
-                //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
-                 $gross=$row["AMOUNT"];
-				  $deductions= ($gross*$amount)/100;  
+				  $sql_t = "SELECT * FROM user_registration WHERE USER_ID='$id'";
+		if ($conn->query($sql_t) ==TRUE) {
+		$resultt = mysqli_query($conn,$sql_t) or die(mysql_error());
+		$rows = mysqli_num_rows($resultt);
+		if($rows>0){
+			while($row = $resultt->fetch_assoc()) {
+			$position=$row["POSITION"];
+					$sql_te = "SELECT * FROM payroll WHERE POSITION='$position'";
+								if ($conn->query($sql_te) ==TRUE) {
+								$result = mysqli_query($conn,$sql_te) or die(mysql_error());
+								$rows = mysqli_num_rows($result);
+								if($rows>0){
+									while($row = $result->fetch_assoc()) {
+									$gross=$row["GROSS_SALARY"];
+               
+				  $deductions= ($gross*$total)/100;  
                   
             ?>  
              <td><?php echo $deduction;  ?></td>
 			
                     <td><?php echo $amount;  ?> % &nbsp;</td>
-<td>
-					<?php echo $gross;  ?>
+<!--<td>
+					<?php //echo $gross;  ?>
 					
-					</td>					
-					<td>
-					<?php echo $deductions;  ?>
+					</td>-->					
+					<!--<td>
+					<?php //echo $deductions;  ?>
 					
-					</td>
-<td>
-					<?php echo $total;  ?>
+					</td>-->
+<!--<td>
+					<?php //echo $total;  ?>
 					% &nbsp;
-					</td>
+					</td>-->
                   </tr>
-			<?php }}}} else {
-    echo "0 results";
+ 		<?php }}}}}}}} 
+			else {
+    echo "0 deductions Found";
 }
 
 
+
  ?>
+	
+ 
+ <tr><td><b>Total Deductions </b></td><td><?php echo @$total; echo '%'  ?></td></tr>
+ 
+
 
 
                 </tbody>
@@ -743,30 +793,17 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
                     <!-- Edit profile form (not working)-->
                     <form class="form-horizontal" action="" id="register_form" method="post" enctype="multipart/form-data">
                       <!-- Title -->
-                      <div class="form-group">
-                        <label class="control-label col-lg-2" for="title">USER_ID</label>
-                        <div class="col-lg-10">
-                          <input type="text" class="form-control" id="user_id" name="user_id" placeholder="<?php echo $ID ?>" disabled>
-                        </div>
-                      </div>
-                      <!-- Content -->
-                      <div class="form-group">
-                        <label class="control-label col-lg-2" for="content">NAMES</label>
-                        <div class="col-lg-10">
-                          <input type="text" class="form-control" id="names" name="names" placeholder="<?php
-											$query=mysqli_query($conn,"select * from user_registration where USER_ID='$ID'");
-											while($row=mysqli_fetch_array($query)){
-												$first=$row['FIRST_NAME']; 
-												$last=$row['LAST_NAME']; 
-												echo $first." ".$last;
-												}
-												?>" disabled>
-                        </div>
-                      </div>
+                      
 					  <div class="form-group">
-                        <label class="control-label col-lg-2" for="content">SELECT DATE</label>
+					  
+                        <label class="control-label col-lg-2" for="content">PAYMENT DATE</label>
                         <div class="col-lg-10">
-                          <input type="date" class="form-control" id="date" name="date" required>
+						<?php 
+						$todays_date=date('Y-m-d');
+						$dateTimestamp2 = strtotime($todays_date);
+						
+						?>
+                          <input type="text" class="form-control" id="date" name="date" value="<?php echo $todays_date  ?>" readonly required>
                         </div>
                       </div>
                       <!-- Cateogry -->
@@ -841,7 +878,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 			  <td  style="color:black;" > <strong>EMPLOYEE INFO</strong>
 			  <br>NAMES: <?php echo $first. " ". $last;  ?><br> PHONE: <?php echo $phone;  ?>
 			   <br> POSITION: <?php echo $position;  ?><br> DEPARTMENT: <?php echo $department;  ?><br></td> 
-			   <td style="color:black;"> <strong> MVEND ORGANIZATION</strong></td>
+			   <td style="color:black;"> <strong> VATEL RWANDA</strong></td>
 			 
 			 
 			  </tr>
@@ -859,26 +896,26 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 			   <tr> 
 			     <?php
 				 $id=$_REQUEST['USER_ID'];
-            $sql = "SELECT * FROM paid_users where USER_ID= '$id' and TYPE='Salary in Advance'"; 
-            $result = $conn->query($sql);
+            $sqly = "SELECT * FROM paid_users where USER_ID= '$id' and TYPE='Salary in Advance'"; 
+            $resulty = $conn->query($sqly);
 
-            if ($result->num_rows > 0) {
+            if ($resulty->num_rows > 0) {
               // output data of each row
-              while($row = $result->fetch_assoc()) {
+              while($row = $resulty->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
                    
                   $first=$row["DATE_PAID"];  
                   $last=$row["TYPE"]; 
 				  $phone=$row["AMOUNT"];
 				   
-            ?>  <tr > <th style="color:black;">DATE OF PAYMENT</th> <td style="color:black;"><?php echo $first;  ?> </td> 
+            ?>  <tr > <th style="color:black;">DATE OF PAYMENT</th> <td style="color:black;"><?php   echo $first;  ?> </td> 
           
 			  </tr> 
-          <tr > <th style="color:black;">TYPE OF PAYMENT</th> <td style="color:black;"><?php echo $last;  ?> </td> 
+          <tr > <th style="color:black;">TYPE OF PAYMENT</th> <td style="color:black;"><?php  echo $last;  ?> </td> 
           
 			  </tr>
 			   </tbody> <tfoot>
-			  <tr style="background-color:Lavender  "> <th style="color:black;">AMOUNT</th> <td style="color:black;"><?php echo $phone;  ?> </td> 
+			  <tr style="background-color:Lavender  "> <th style="color:black;">AMOUNT</th> <td style="color:black;"><?php  echo 'RWF'; echo '&nbsp'; echo $phone;  ?> </td> 
           
 			  </tr> 
 			  
@@ -955,12 +992,12 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 			  <tr>
 			    <?php
              $id=$_REQUEST['USER_ID'];
-            $sql = "SELECT * FROM user_registration where USER_ID= '$id'";
-            $result = $conn->query($sql);
+            $sqlselect7 = "SELECT * FROM user_registration where USER_ID= '$id'";
+            $resultselect7 = $conn->query($sqlselect7);
 
-            if ($result->num_rows > 0) {
+            if ($resultselect7->num_rows > 0) {
               // output data of each row
-              while($row = $result->fetch_assoc()) {
+              while($row = $resultselect7->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
                    
                   $first=$row["FIRST_NAME"];  
@@ -972,72 +1009,122 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 			  <td  style="color:black;" > <strong>EMPLOYEE INFO</strong>
 			  <br>NAMES: <?php echo $first. " ". $last;  ?><br> PHONE: <?php echo $phone;  ?>
 			   <br> POSITION: <?php echo $position;  ?><br> DEPARTMENT: <?php echo $department;  ?><br></td> 
-			   <td style="color:black;"> <strong> MVEND ORGANIZATION</strong></td>
+			   <td style="color:black;"> <strong> VATEL RWANDA</strong></td>
 			  </tr>
-			  <?php }} else {
+			  
+			  </thead> <tbody> <tr>
+			 <?php }} else {
     echo "No Data Found";
 }
 
 
  ?>
-			  </thead> <tbody> <tr>
-			 
 			  
-			  <th>ITEM</th> 
-			   <th>AMOUNT</th> </tr>
+			  <th style='text-align:center;'>ITEM</th> 
+			   <th style='text-align:center;'>AMOUNT</th> </tr>
+			   
 			   <tr> 
 			     <?php
 				 $id=$_REQUEST['USER_ID'];
-            $sql = "SELECT * FROM paid_users where USER_ID= '$id' and TYPE='Monthly salary'"; 
-            $result = $conn->query($sql);
+				 
+				 
+				 
+            $sqlselect = "SELECT * FROM paid_users where USER_ID= '$id' and TYPE='Monthly salary'"; 
+            $resultselect = $conn->query($sqlselect);
 
-            if ($result->num_rows > 0) {
+            if ($resultselect->num_rows > 0) {
               // output data of each row
-              while($row = $result->fetch_assoc()) {
+              while($row = $resultselect->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
                    
-                  $firsts=$row["AMOUNT"];  
+                  $firsts=$row["AMOUNT"];
+				  $datea= $row['DATE_PAID'];
+				  
+				  
+				  
+				  
+				   $sqlselect2 = "SELECT * FROM user_registration where USER_ID= '$id'"; 
+            $resultselect2 = $conn->query($sqlselect2 );
+
+            if ($resultselect2->num_rows > 0) {
+              // output data of each row
+              while($row = $resultselect2->fetch_assoc()) {
+                //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+                   
+                  //$firsts=$row["AMOUNT"]; 
+                  $posttt=$row["POSITION"]; 
+
+
+
+$sqlselect3 = "SELECT * FROM payroll where POSITION= '$posttt'"; 
+            $resultselect3 = $conn->query($sqlselect3);
+
+            if ($resultselect3->num_rows > 0) {
+              // output data of each row
+              while($row = $resultselect3->fetch_assoc()) {
+                //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+                   
+                  $grossa=$row["GROSS_SALARY"];
+
+
+				$sqli = "SELECT * FROM user_deduction where USER_ID= '$ID' order by DID desc limit 1"; 
+            $resulti = $conn->query($sqli);
+
+            if ($resulti->num_rows > 0) {
+              // output data of each row
+              while($row = $resulti->fetch_assoc()) {
+                //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+                   
+                  $totldeductions=$row["TOTAL"];
                   
-            ?>  <tr> <th style="color:black;" >GROSS_SALARY</th> <td style="color:black;"><?php echo $firsts;  ?></td> 
+            ?> 
+<tr> <th style="color:black;" >PAYMENT DATE</th> <td style="color:black;"><?php  echo $datea;  ?></td> 
+			  </tr> 			
+			<tr> <th style="color:black;" >GROSS SALARY</th> <td style="color:black;"><?php echo 'RWF'; echo '&nbsp'; echo $grossa;  ?></td> 
+			  </tr> 
+			  <tr> <th style="color:black;" >DEDUCTIONS</th> <td style="color:black;"><?php echo $totldeductions;  ?>&nbsp;%</td> </tr> 
+			  
+			  
+			<tr> <th style="color:black;" >NET SALARY WITH DEDUCTIONS</th> <td style="color:black;"><?php  echo 'RWF'; echo '&nbsp'; echo $firsts;  ?></td> 
 			  </tr> 
 			  </tr> 
 			  <tr> 
 			     <?php
 				 $id=$_REQUEST['USER_ID'];
-            $sql = "SELECT * FROM user_supplement where USER_ID= '$id'"; 
-            $result = $conn->query($sql);
+            $sqlselect4 = "SELECT * FROM user_supplement where USER_ID= '$id' and datee = '$datea' order by SID desc limit 1"; 
+            $resultselect4 = $conn->query($sqlselect4);
 
-            if ($result->num_rows > 0) {
+            if ($resultselect4->num_rows > 0) {
               // output data of each row
-              while($row = $result->fetch_assoc()) {
+              while($row = $resultselect4->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
                    
                   $first=$row["TOTAL"]; 
-				  $amount=($firsts*$first)/100;
+				  //$amount=$firsts+$first;
 				  
                   
-            ?>  <tr > <th style="color:black;" >TOTAL_SUPPLEMENTS</th> <td style="color:black;"><?php echo $amount;  ?></td>
+            ?>  <tr > <th style="color:black;" >SUPPLIMENTS</th> <td style="color:black;"><?php echo 'RWF'; echo '&nbsp';  echo $first;  ?></td>
 			
 			  </tr> 
 			  </tr> 
 			  
         <?php
           
-          $peramount= $firsts + $amount;
+          $peramount= $firsts + $first;
         ?>
 			  
 			   </tbody> <tfoot>
-			  <tr style="background-color:Lavender  "> <th style="color:black;">SUBTOTAL</th> <td style="color:black;"><?php echo $peramount;  ?> </td>
+			  <tr style="background-color:Lavender  "> <th style="color:black;">NET SALARY WITH SUPPLEMENTS</th> <td style="color:black;"><?php  echo 'RWF'; echo '&nbsp'; echo $peramount;  ?> </td>
 <tr> 
 			     <?php
 			$id=$_REQUEST['USER_ID'];
-            $sql = "SELECT * FROM user_deduction where USER_ID= '$id'"; 
+            $sqlselect5 = "SELECT * FROM user_deduction where USER_ID= '$id'"; 
 			
-            $result = $conn->query($sql);
+            $resultselect5 = $conn->query($sqlselect5);
 			
-            if ($result->num_rows > 0) {
+            if ($resultselect5->num_rows > 0) {
               // output data of each row
-              while($row = $result->fetch_assoc()) {
+              while($row = $resultselect5->fetch_assoc()) {
                 //echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
                    
                   $first=$row["TOTAL"]; 
@@ -1054,20 +1141,20 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 				  
                   
             ?>  
-			<tr > <th style="color:black;" >TOTAL_DEDUCTIONS</th> <td style="color:black;"><?php echo $amountss;  ?></td>
+			<!--<tr > <th style="color:black;" >TOTAL_DEDUCTIONS</th> <td style="color:black;"><?php echo $amountss;  ?></td>
 			
 			  </tr> 
 			  <tr > <th style="color:black;" >SALARY IN ADVANCE</th> <td style="color:black;"><?php echo $salary;  ?></td>
 			
 			  </tr>
-			  </tr> 			  
+			  </tr>--> 			  
           <?php
-          $peramount= $firsts + $amount;
-          $peramounts= $peramount -($amountss +$salary);
+          //$peramount= $firsts + $amount;
+          //$peramounts= $peramount -($amountss +$salary);
         ?>
 			  
-			  </tr> <tr style="background-color:Lavender "> <th style="color:black;" >NET_SALARY</th> <td style="color:black;"><?php echo $peramounts;  ?></td> 
-			  </tr> 
+			 <!-- </tr> <tr style="background-color:Lavender "> <th style="color:black;" >NET_SALARY</th> <td style="color:black;"><?php echo $peramounts;  ?></td> 
+			  </tr> -->
 			  
 				  <?php }}}}
 						  else {
@@ -1080,7 +1167,7 @@ $sql = "SELECT * FROM user_registration WHERE USER_ID = '$ID'";
 }
 
  ?>			   
-<?php }} else {
+			<?php }}}}}} }}else {
     echo "0 results";
 }
 
@@ -1171,17 +1258,12 @@ function yesnoCheck(that) {
 </script>
 
     <!--main content end-->
-    <div class="text-right">
-      <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    <div class="text-center">
+        <div class="credits">
+
+          Copyright &copy Mignone Unguyeneza 2019
         </div>
-    </div>
+      </div>
   </section>
   <!-- container section end -->
   <!-- javascripts -->

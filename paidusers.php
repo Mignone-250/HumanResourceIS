@@ -2,6 +2,8 @@
 include ('include/config.php'); 
 
 ?>
+<?php  
+session_start();?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,6 +92,132 @@ include ('include/config.php');
   to {transform: scale(1)}
 }
 
+
+
+table {
+				border-collapse: collapse;
+				width: 500px;
+			}
+			td, th {
+				padding: 10px;
+			}
+			th {
+				background-color: #54585d;
+				color: #ffffff;
+				font-weight: bold;
+				font-size: 13px;
+				border: 1px solid #54585d;
+			}
+			td {
+				color: #636363;
+				border: 1px solid #dddfe1;
+			}
+			tr {
+				background-color: #f9fafb;
+			}
+			tr:nth-child(odd) {
+				background-color: #ffffff;
+			}
+			.pagination {
+				list-style-type: none;
+				padding: 10px 0;
+				display: inline-flex;
+				justify-content: space-between;
+				box-sizing: border-box;
+				
+			}
+			.pagination li {
+				box-sizing: border-box;
+				padding-right: 10px;
+			}
+			.pagination li a {
+				box-sizing: border-box;
+				background-color: #e2e6e6;
+				padding: 8px;
+				text-decoration: none;
+				font-size: 12px;
+				font-weight: bold;
+				color: #616872;
+				border-radius: 4px;
+			}
+			.pagination li a:hover {
+				background-color: #d4dada;
+			}
+			.pagination .next a, .pagination .prev a {
+				text-transform: uppercase;
+				font-size: 12px;
+			}
+			.pagination .currentpage a {
+				background-color: #518acb;
+				color: #fff;
+			}
+			.pagination .currentpage a:hover {
+				background-color: #518acb;
+			}
+			
+			
+			
+			table {
+				border-collapse: collapse;
+				width: 500px;
+			}
+			td, th {
+				padding: 10px;
+			}
+			th {
+				background-color: #54585d;
+				color: #ffffff;
+				font-weight: bold;
+				font-size: 13px;
+				border: 1px solid #54585d;
+			}
+			td {
+				color: #636363;
+				border: 1px solid #dddfe1;
+			}
+			tr {
+				background-color: #f9fafb;
+			}
+			tr:nth-child(odd) {
+				background-color: #ffffff;
+			}
+			.pagination {
+				list-style-type: none;
+				padding: 10px 0;
+				display: inline-flex;
+				justify-content: space-between;
+				box-sizing: border-box;
+				
+			}
+			.pagination li {
+				box-sizing: border-box;
+				padding-right: 10px;
+			}
+			.pagination li a {
+				box-sizing: border-box;
+				background-color: #e2e6e6;
+				padding: 8px;
+				text-decoration: none;
+				font-size: 12px;
+				font-weight: bold;
+				color: #616872;
+				border-radius: 4px;
+			}
+			.pagination li a:hover {
+				background-color: #d4dada;
+			}
+			.pagination .next a, .pagination .prev a {
+				text-transform: uppercase;
+				font-size: 12px;
+			}
+			.pagination .currentpage a {
+				background-color: #518acb;
+				color: #fff;
+			}
+			.pagination .currentpage a:hover {
+				background-color: #518acb;
+			}
+
 </style>  
 
 </head>
@@ -120,11 +248,11 @@ include ('include/config.php');
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-user-md"></i> Profile</h3>
+            <h3 class="page-header"><i class="fa fa-money"></i> Salaries</h3>
             <ol class="breadcrumb">
               <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
-              <li><i class="fa fa-user"></i>USERS</li>
-              <li><i class="fa fa-user-md"></i>PAID USERS</li>
+              <li><i class="fa fa-user"></i>SALARIES</li>
+              <li><i class="fa fa-user-md"></i>PAID EMPLOYEES</li>
             </ol>
           </div>
         </div>
@@ -206,7 +334,7 @@ document.getElementById('helpdiv').style.display=' none';
 $mysqli = mysqli_connect('localhost', 'root', '', 'hrms');
 
 // Get the total number of records from our table "students".
-$total_pages = $mysqli->query("SELECT * FROM paid_users where TYPE='Monthly salary'")->num_rows;
+$total_pages = $mysqli->query("SELECT * FROM paid_users,user_registration where TYPE='Monthly salary' and paid_users.USER_ID = user_registration.USER_ID")->num_rows;
 
 // Check if the page number is specified and check if it's a number, if not return the default page number which is 1.
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
@@ -214,7 +342,7 @@ $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
 // Number of results to show on each page.
 $num_results_on_page = 4;
 
-if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Monthly salary' ORDER BY PAID_ID LIMIT ?,?")) {
+if ($stmt = $mysqli->prepare("SELECT * FROM paid_users,user_registration where TYPE='Monthly salary' and paid_users.USER_ID = user_registration.USER_ID ORDER BY PAID_ID LIMIT ?,?")) {
 	// Calculate the page to get the results we need from our table.
 	$calc_page = ($page - 1) * $num_results_on_page;
 	$stmt->bind_param('ii', $calc_page, $num_results_on_page);
@@ -222,84 +350,13 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Monthly salar
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title></title>
-			<meta charset="utf-8">
-			<style>
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
-			table {
-				border-collapse: collapse;
-				width: 500px;
-			}
-			td, th {
-				padding: 10px;
-			}
-			th {
-				background-color: #54585d;
-				color: #ffffff;
-				font-weight: bold;
-				font-size: 13px;
-				border: 1px solid #54585d;
-			}
-			td {
-				color: #636363;
-				border: 1px solid #dddfe1;
-			}
-			tr {
-				background-color: #f9fafb;
-			}
-			tr:nth-child(odd) {
-				background-color: #ffffff;
-			}
-			.pagination {
-				list-style-type: none;
-				padding: 10px 0;
-				display: inline-flex;
-				justify-content: space-between;
-				box-sizing: border-box;
-				
-			}
-			.pagination li {
-				box-sizing: border-box;
-				padding-right: 10px;
-			}
-			.pagination li a {
-				box-sizing: border-box;
-				background-color: #e2e6e6;
-				padding: 8px;
-				text-decoration: none;
-				font-size: 12px;
-				font-weight: bold;
-				color: #616872;
-				border-radius: 4px;
-			}
-			.pagination li a:hover {
-				background-color: #d4dada;
-			}
-			.pagination .next a, .pagination .prev a {
-				text-transform: uppercase;
-				font-size: 12px;
-			}
-			.pagination .currentpage a {
-				background-color: #518acb;
-				color: #fff;
-			}
-			.pagination .currentpage a:hover {
-				background-color: #518acb;
-			}
-			</style>
-		</head>
-		<body>
+	
+			
+			
 		<div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2><i class="fa fa-flag-o red"></i><strong>PAID USERS / MONTHLY SALARY</strong></h2>
+                <h2><i class="fa fa-flag-o red"></i><strong>PAID EMPLOYEES / MONTHLY SALARY</strong></h2>
                 <div class="panel-actions">
                   <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                   <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -309,14 +366,14 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Monthly salar
 			   <div class="panel-body">
 			<table border="1"class="table bootstrap-datatable countries">
 				<tr>
-					<th  style="background-color: #152E48;color: white;">SN</th>
-					<th  style="background-color: #152E48;color: white;">USER_ID</th>
+					<th  style="background-color: #152E48;color: white;">Employee ID </th>
+					<th  style="background-color: #152E48;color: white;">Names </th>
                       
 					 
-                      <th  style="background-color: #152E48;color: white;">DATE OF PAYMENT</th>
-                      <th  style="background-color: #152E48;color: white;">TYPE OF PAYMENT</th>
-                      <th  style="background-color: #152E48;color: white;">AMOUNT</th>
-					   <th  style="background-color: #152E48;color: white;">ACTION</th>
+                      <th  style="background-color: #152E48;color: white;">Payment Date</th>
+                      <th  style="background-color: #152E48;color: white;">Payment Type</th>
+                      <th  style="background-color: #152E48;color: white;">Amount</th>
+					   <th  style="background-color: #152E48;color: white;">Delete</th>
                       
                       
 				</tr>
@@ -324,15 +381,16 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Monthly salar
 				$user_ids=$row["PAID_ID"];
 				$user_id=$row["USER_ID"];  
 									
-                    
-									$user_gender=$row["DATE_PAID"];  
+                    $user_gender=$row["DATE_PAID"];  
 									$user_national=$row["TYPE"];
 									$user_phone=$row["AMOUNT"];
+									$fname=$row["FIRST_NAME"];  
+									$lname=$row["LAST_NAME"];
 									 
 				?>
 				<tr>
-				<td><?php echo $user_ids;  ?></td>
-					<td><?php echo $user_id;  ?></td>
+				<td><?php echo $user_id;  ?></td>
+					<td><?php echo $fname." ".$lname;  ?></td>
 						
 						<td><?php echo $user_gender;  ?></td>
 						<td><?php echo $user_national;  ?></td>
@@ -410,7 +468,7 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Monthly salar
 $mysqli = mysqli_connect('localhost', 'root', '', 'hrms');
 
 // Get the total number of records from our table "students".
-$total_pages = $mysqli->query("SELECT * FROM paid_users where TYPE='Salary in Advance'")->num_rows;
+$total_pages = $mysqli->query("SELECT * FROM paid_users,user_registration where TYPE='Salary in Advance' and paid_users.USER_ID = user_registration.USER_ID")->num_rows;
 
 // Check if the page number is specified and check if it's a number, if not return the default page number which is 1.
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
@@ -418,7 +476,7 @@ $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
 // Number of results to show on each page.
 $num_results_on_page = 4;
 
-if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Salary in Advance' ORDER BY PAID_ID LIMIT ?,?")) {
+if ($stmt = $mysqli->prepare("SELECT * FROM paid_users,user_registration where TYPE='Salary in Advance' and paid_users.USER_ID = user_registration.USER_ID ORDER BY PAID_ID LIMIT ?,?")) {
 	// Calculate the page to get the results we need from our table.
 	$calc_page = ($page - 1) * $num_results_on_page;
 	$stmt->bind_param('ii', $calc_page, $num_results_on_page);
@@ -426,84 +484,13 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Salary in Adv
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title></title>
-			<meta charset="utf-8">
-			<style>
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
-			table {
-				border-collapse: collapse;
-				width: 500px;
-			}
-			td, th {
-				padding: 10px;
-			}
-			th {
-				background-color: #54585d;
-				color: #ffffff;
-				font-weight: bold;
-				font-size: 13px;
-				border: 1px solid #54585d;
-			}
-			td {
-				color: #636363;
-				border: 1px solid #dddfe1;
-			}
-			tr {
-				background-color: #f9fafb;
-			}
-			tr:nth-child(odd) {
-				background-color: #ffffff;
-			}
-			.pagination {
-				list-style-type: none;
-				padding: 10px 0;
-				display: inline-flex;
-				justify-content: space-between;
-				box-sizing: border-box;
-				
-			}
-			.pagination li {
-				box-sizing: border-box;
-				padding-right: 10px;
-			}
-			.pagination li a {
-				box-sizing: border-box;
-				background-color: #e2e6e6;
-				padding: 8px;
-				text-decoration: none;
-				font-size: 12px;
-				font-weight: bold;
-				color: #616872;
-				border-radius: 4px;
-			}
-			.pagination li a:hover {
-				background-color: #d4dada;
-			}
-			.pagination .next a, .pagination .prev a {
-				text-transform: uppercase;
-				font-size: 12px;
-			}
-			.pagination .currentpage a {
-				background-color: #518acb;
-				color: #fff;
-			}
-			.pagination .currentpage a:hover {
-				background-color: #518acb;
-			}
-			</style>
-		</head>
-		<body>
+	
+			
+			
 		<div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2><i class="fa fa-flag-o red"></i><strong>PAID USERS / SALARY IN ADVANCE</strong></h2>
+                <h2><i class="fa fa-flag-o red"></i><strong>PAID EMPLOYEES / SALARY IN ADVANCE</strong></h2>
                 <div class="panel-actions">
                   <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                   <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -513,15 +500,15 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Salary in Adv
 			   <div class="panel-body">
 			<table border="1"class="table bootstrap-datatable countries">
 				<tr>
-					<th  style="background-color: #152E48;color: white;">SN</th>
-					<th  style="background-color: #152E48;color: white;">USER_ID</th>
+					<th  style="background-color: #152E48;color: white;">Employee Id</th>
+					<th  style="background-color: #152E48;color: white;">Names</th>
                       
 					 
-                      <th  style="background-color: #152E48;color: white;">DATE OF PAYMENT</th>
-                      <th  style="background-color: #152E48;color: white;">TYPE OF PAYMENT</th>
-                      <th  style="background-color: #152E48;color: white;">AMOUNT</th>
-					   <th  style="background-color: #152E48;color: white;">ACTION 1</th>
-					    <th  style="background-color: #152E48;color: white;">ACTION 2</th>
+                      <th  style="background-color: #152E48;color: white;">Payment Date</th>
+                      <th  style="background-color: #152E48;color: white;">Payment Type</th>
+                      <th  style="background-color: #152E48;color: white;">Amount</th>
+					   <th  style="background-color: #152E48;color: white;">Delete</th>
+					    <th  style="background-color: #152E48;color: white;">Edit</th>
 					   
                       
                       
@@ -530,19 +517,21 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Salary in Adv
 				$user_ids=$row["PAID_ID"];
 				$user_id=$row["USER_ID"];  
 									
-                    
-									$user_gender=$row["DATE_PAID"];  
+                    	$user_gender=$row["DATE_PAID"];  
+									$fname=$row["FIRST_NAME"];  
+									$lname=$row["LAST_NAME"];  
 									$user_national=$row["TYPE"];
-									$user_phone=$row["AMOUNT"];
+									$user_phone=$row["AMOUNT"];;
 									 
 				?>
 				<tr>
-				<td><?php echo $user_ids;  ?></td>
-					<td><?php echo $user_id;  ?></td>
+				<td><?php echo $user_id;  ?></td>
+					<td><?php echo $fname." ".$lname;  ?></td>
 						
 						<td><?php echo $user_gender;  ?></td>
 						<td><?php echo $user_national;  ?></td>
 						<td><?php echo $user_phone;  ?></td> 
+						 
 						
 						
 						
@@ -596,8 +585,6 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Salary in Adv
 			</ul>
 			</CENTER>
 			<?php endif; ?>
-		</body>
-	</html>
 	<?php
 	$stmt->close();
 }
@@ -631,17 +618,12 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Salary in Adv
    }
 </script>
     <!--main content end-->
-    <div class="text-right">
-      <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    <div class="text-center">
+        <div class="credits">
+
+          Copyright &copy Mignone Unguyeneza 2019
         </div>
-    </div>
+      </div>
   </section>
   <!-- container section end -->
   <!-- javascripts -->

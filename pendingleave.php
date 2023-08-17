@@ -1,116 +1,110 @@
-<?php 
-include ('include/config.php'); 
+	<?php 
+	include ('include/config.php'); 
 
-?>
+	?>
 
-<!DOCTYPE html>
-<html lang="en">
+	<!DOCTYPE html>
+	<html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
-  <meta name="author" content="GeeksLabs">
-  <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
-  <link rel="shortcut icon" href="img/favicon.png">
+	<head>
+	<link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+	  <meta charset="utf-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+	  <meta name="author" content="GeeksLabs">
+	  <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+	  <link rel="shortcut icon" href="img/favicon.png">
 
-  <title>HRMS</title>
+	  <title>HRMS</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <!-- bootstrap theme -->
-  <link href="css/bootstrap-theme.css" rel="stylesheet">
-  <!--external css-->
-  <!-- font icon -->
-  <link href="css/elegant-icons-style.css" rel="stylesheet" />
-  <link href="css/font-awesome.min.css" rel="stylesheet" />
-  <!-- Custom styles -->
-  <link href="css/style.css" rel="stylesheet">
-  <link href="css/style-responsive.css" rel="stylesheet" />
+	  <!-- Bootstrap CSS -->
+	  <link href="css/bootstrap.min.css" rel="stylesheet">
+	  <!-- bootstrap theme -->
+	  <link href="css/bootstrap-theme.css" rel="stylesheet">
+	  <!--external css-->
+	  <!-- font icon -->
+	  <link href="css/elegant-icons-style.css" rel="stylesheet" />
+	  <link href="css/font-awesome.min.css" rel="stylesheet" />
+	  <!-- Custom styles -->
+	  <link href="css/style.css" rel="stylesheet">
+	  <link href="css/style-responsive.css" rel="stylesheet" />
   
-  <style>
+	  <style>
 
+	.modal {
+	  display: none;
+	  position: fixed;
+	  z-index: 1;
+	  left: 0;
+	  top: 0;
+	  width: 100%;
+	  height: 100%;
+	  overflow: auto;
+	  background-color: rgb(0,0,0);
+	  background-color: rgba(0,0,0,0.4);
+	  padding-top: 0px;
+	 
+	}
 
-/* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  padding-top: 0px;
- 
-}
+	.modal-content {
+	  background-color: white;
+	  margin: 5% auto 15% auto;
+	  border: 1px solid #888;
+	  border-radius:10px;
+	  width: 80%;
+	  color:black;
+	}
+	
+	.close {
 
-/* Modal Content/Box */
-.modal-content {
-  background-color: white;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
-  border: 1px solid #888;
-  border-radius:10px;
-  width: 80%; /* Could be more or less, depending on screen size */
-  color:black;
-}
+	  color: black;
+	  margin-top:-10px;
+	  font-size: 35px;
+	  font-weight: bold;
+	}
 
-/* The Close Button (x) */
-.close {
+	.close:hover,
+	.close:focus {
+	  color: red;
+	  cursor: pointer;
+	}
 
-  color: black;
-  margin-top:-10px;
-  font-size: 35px;
-  font-weight: bold;
-}
+	.animate {
+	  -webkit-animation: animatezoom 0.6s;
+	  animation: animatezoom 0.6s
+	}
 
-.close:hover,
-.close:focus {
-  color: red;
-  cursor: pointer;
-}
+	@-webkit-keyframes animatezoom {
+	  from {-webkit-transform: scale(0)} 
+	  to {-webkit-transform: scale(1)}
+	}
+	  
+	@keyframes animatezoom {
+	  from {transform: scale(0)} 
+	  to {transform: scale(1)}
+	}
 
+	</style>  
 
+	</head>
 
-/* Add Zoom Animation */
-.animate {
-  -webkit-animation: animatezoom 0.6s;
-  animation: animatezoom 0.6s
-}
-
-@-webkit-keyframes animatezoom {
-  from {-webkit-transform: scale(0)} 
-  to {-webkit-transform: scale(1)}
-}
-  
-@keyframes animatezoom {
-  from {transform: scale(0)} 
-  to {transform: scale(1)}
-}
-
-</style>  
-
-</head>
-
-<body>
-  <!-- container section start -->
-  <section id="container" class="">
-    <!--header start-->
-<?php
-		include 'include/header.php';
-		?>
+	<body>
+<!-- container section start -->
+	<section id="container" class="" style="font-family: 'Lato', sans-serif;" >
+<!--header start-->
+	<?php
+	include 'include/header.php';
+	?>
     <!--header end-->
 
     <!--sidebar start-->
     <aside>
-      <div id="sidebar" class="nav-collapse ">
-        <!-- sidebar menu start-->
-        <?php
-		include 'include/menue.php';
-		?>
-        <!-- sidebar menu end-->
+    <div id="sidebar" class="nav-collapse ">
+    <!-- sidebar menu start-->
+    <?php
+	include 'include/menue.php';
+	?>
+    <!-- sidebar menu end-->
       </div>
     </aside>
     <!--sidebar end-->
@@ -120,11 +114,11 @@ include ('include/config.php');
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-user-md"></i> LEAVE</h3>
+            <h3 class="page-header"><i class="fa fa-user-md"></i> LEAVE(S)</h3>
             <ol class="breadcrumb">
               <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
-              <li><i class="fa fa-user"></i>LEAVE</li>
-              <li><i class="fa fa-user-md"></i>LEAVE HISTORY</li>
+              <li><i class="fa fa-user"></i>LEAVE(S)</li>
+              <li><i class="fa fa-user-md"></i>LEAVE(S) HISTORY</li>
             </ol>
           </div>
         </div>
@@ -142,21 +136,21 @@ include ('include/config.php');
                 <ul class="nav nav-tabs">
                   
                   <li>
-                    <a data-toggle="tab" href="#profile">
+                    <a data-toggle="tab" href="#profile" >
                                           <i class="icon-user"></i>
-                                          PENDING LEAVE APPLICATION
+                                          PENDING LEAVE APPLICATION(S)
                                       </a>
                   </li>
                   <li class="">
                     <a data-toggle="tab" href="#edit-profile">
                                           <i class="icon-envelope"></i>
-                                          CONFIRMED LEAVE APPLICATION
+                                          CONFIRMED LEAVE APPLICATION(S)
                                       </a>
                   </li>
 				  <li class="">
                     <a data-toggle="tab" href="#cancelled">
                                           <i class="icon-envelope"></i>
-                                          CANCELLED LEAVE APPLICATION
+                                          CANCELLED LEAVE APPLICATION(S)
                                       </a>
                   </li>
                 </ul>
@@ -175,7 +169,7 @@ include ('include/config.php');
 $mysqli = mysqli_connect('localhost', 'root', '', 'hrms');
 
 // Get the total number of records from our table "students".
-$total_pages = $mysqli->query("SELECT * FROM leave_application where STATUS='PENDING'")->num_rows;
+$total_pages = $mysqli->query("SELECT * FROM leave_application,user_registration where STATUS='PENDING' and leave_application.USER_ID = user_registration.USER_ID")->num_rows;
 
 // Check if the page number is specified and check if it's a number, if not return the default page number which is 1.
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
@@ -183,7 +177,7 @@ $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
 // Number of results to show on each page.
 $num_results_on_page = 4;
 
-if ($stmt = $mysqli->prepare("SELECT * FROM leave_application where STATUS='PENDING' ORDER BY LEAVE_ID LIMIT ?,?")) {
+if ($stmt = $mysqli->prepare("SELECT * FROM leave_application,user_registration where STATUS='PENDING' and leave_application.USER_ID = user_registration.USER_ID ORDER BY LEAVE_ID LIMIT ?,?")) {
 	// Calculate the page to get the results we need from our table.
 	$calc_page = ($page - 1) * $num_results_on_page;
 	$stmt->bind_param('ii', $calc_page, $num_results_on_page);
@@ -191,20 +185,13 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application where STATUS='PEND
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title></title>
-			<meta charset="utf-8">
+	
 			<style>
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
+			
 			table {
 				border-collapse: collapse;
 				width: 500px;
+
 			}
 			td, th {
 				padding: 10px;
@@ -263,12 +250,11 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application where STATUS='PEND
 				background-color: #518acb;
 			}
 			</style>
-		</head>
-		<body>
+		
 		<div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2><i class="fa fa-flag-o red"></i><strong>LEAVE APPLICATION / PENDING</strong></h2>
+                <h2><i class="fa fa-flag-o red"></i><strong>LEAVE APPLICATION(S) / PENDING</strong></h2>
                 <div class="panel-actions">
                   <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                   <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -278,41 +264,50 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application where STATUS='PEND
 			   <div class="panel-body">
 			<table border="1"class="table bootstrap-datatable countries">
 				<tr>
-					<th style="background-color: #3C7792;color: white;">SN</th>
-                      <th style="background-color: #3C7792;color: white;">USER_ID</th>
-                      <th style="background-color: #3C7792;color: white;">LEAVE_TYPE</th>
-                      <th style="background-color: #3C7792;color: white;">APPLICATION_DATE</th>
-                      <th style="background-color: #3C7792;color: white;">LEAVE_DATE</th>
-                      <th style="background-color: #3C7792;color: white;">REASON</th>
-                      <th style="background-color: #3C7792;color: white;">REQUESTED_DAYS</th>
-                      <th style="background-color: #3C7792;color: white;">REMAINING_DAYS/TYPE</th>
+					<th style="background-color: #152E48;color: white;font-family: 'Lato', sans-serif; font-size:12px;">Employee Id</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Names</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Leave Requested</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Leave requested On</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Leave Will Start From</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">To</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Reason(s)</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Days Requested</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Person To Take Your Responsibilities </th>
                       
-                      <th style="background-color: #3C7792;color: white;">ACTION</th>
-                      <th style="background-color: #3C7792;color: white;"></th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Approve</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Reject</th>
                       
                       
 				</tr>
 				<?php while ($row = $result->fetch_assoc()):
 				$leave_id=$row["LEAVE_ID"];  
-									$user_id=$row["USER_ID"];  
+									$user_id=$row["USER_ID"];
+									$fname=$row["FIRST_NAME"]; 
+									$lname=$row["LAST_NAME"]; 
+									$to=$row["TOOO"]; 
 									$leave=$row["LEAVE_TYPE"];  
-									$application_date=$row["DATE"];  
+									$date=$row["DATE"];  
 									$leave_date=$row["LEAVE_DATE"];  
 									$reason=$row["REASON"];
 									$requested_days=$row["REQUESTED_DAYS"];
 									$rleave_days=$row["RLEAVE_DAYS"];
+									$total_days=$row["TOTAL_DAYS"];
+									$remaing_days=$row["REMAINING_DAYS"];
+									$replacement=$row["REPLACEMENT"];
 									
 									 
 				?>
 				<tr>
-				<td><?php echo $leave_id;  ?></td>
-						<td><?php echo $user_id;  ?></td>
-						<td><?php echo $leave?></td> 
-						<td><?php echo $application_date ?></td> 
-						<td><?php echo $leave_date ?></td> 
-						<td><?php echo $reason ?></td> 
-						<td><?php echo $requested_days ?></td> 
-						<td><?php echo $rleave_days ?></td> 
+				
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $user_id;  ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $fname." ".$lname;  ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $leave?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $date ?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $leave_date ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $to ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $reason ?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $requested_days ?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $replacement ?></td> 
 						
 						<td><form action="approveleave.php?leaveid=<?php echo $leave_id; ?>" method="post" ><button class="btn" name="approve" style="background-color:Green;color:white;"><i class="fa fa-check-circle" style="font-size:28px;"></i></button></form></td> 
 
@@ -398,7 +393,7 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application where STATUS='PEND
 $mysqli = mysqli_connect('localhost', 'root', '', 'hrms');
 
 // Get the total number of records from our table "students".
-$total_pages = $mysqli->query("SELECT * FROM cancelled_leave where STATUS='CANCELLED'")->num_rows;
+$total_pages = $mysqli->query("SELECT * FROM ((user_registration inner join cancelled_leave on user_registration.USER_ID = cancelled_leave.USER_ID)inner join leave_application on user_registration.USER_ID = leave_application.USER_ID) where Cancelled_leave.STATUS='PENDING'")->num_rows;
 
 // Check if the page number is specified and check if it's a number, if not return the default page number which is 1.
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
@@ -406,7 +401,7 @@ $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
 // Number of results to show on each page.
 $num_results_on_page = 4;
 
-if ($stmt = $mysqli->prepare("SELECT * FROM cancelled_leave where STATUS='CANCELLED' ORDER BY C_ID LIMIT ?,?")) {
+if ($stmt = $mysqli->prepare("SELECT * FROM ((user_registration inner join cancelled_leave on user_registration.USER_ID = cancelled_leave.USER_ID)inner join leave_application on user_registration.USER_ID = leave_application.USER_ID) where Cancelled_leave.STATUS='PENDING' ORDER BY C_ID LIMIT ?,?")) {
 	// Calculate the page to get the results we need from our table.
 	$calc_page = ($page - 1) * $num_results_on_page;
 	$stmt->bind_param('ii', $calc_page, $num_results_on_page);
@@ -414,17 +409,8 @@ if ($stmt = $mysqli->prepare("SELECT * FROM cancelled_leave where STATUS='CANCEL
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title></title>
-			<meta charset="utf-8">
 			<style>
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
+			
 			table {
 				border-collapse: collapse;
 				width: 500px;
@@ -486,12 +472,10 @@ if ($stmt = $mysqli->prepare("SELECT * FROM cancelled_leave where STATUS='CANCEL
 				background-color: #518acb;
 			}
 			</style>
-		</head>
-		<body>
 		<div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2><i class="fa fa-flag-o red"></i><strong>LEAVE APPLICATION / C</strong></h2>
+                <h2><i class="fa fa-flag-o red"></i><strong>LEAVE APPLICATION(S) / Cancelled</strong></h2>
                 <div class="panel-actions">
                   <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                   <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -501,34 +485,48 @@ if ($stmt = $mysqli->prepare("SELECT * FROM cancelled_leave where STATUS='CANCEL
 			   <div class="panel-body">
 			<table border="1"class="table bootstrap-datatable countries">
 				<tr>
-					<th style="background-color: #3C7792;color: white;">SN</th>
-                      <th style="background-color: #3C7792;color: white;">USER_ID</th>
-                      <th style="background-color: #3C7792;color: white;">LEAVE_TYPE</th>
-                      <th style="background-color: #3C7792;color: white;">REASON</th>
-                      <th style="background-color: #3C7792;color: white;">TITLE</th>
-                      <th style="background-color: #3C7792;color: white;">DESCRIPTION</th>
-					  <th style="background-color: #3C7792;color: white;">ACTION</th>
-					  <th style="background-color: #3C7792;color: white;"></th>
+					<th style="background-color: #152E48;color: white;font-family: 'Lato', sans-serif; font-size:12px;">Employee Id</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Names</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Leave Requested</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Leave Requested On</th>
+					  <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Days Requested </th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Person who replaced employee</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Leave Started From</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Leave had to end on</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Reason For cancelling the leave</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Approve </th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Delete </th>
 					   
                       
                       
 				</tr>
 				<?php while ($row = $result->fetch_assoc()):
 				$leave_id=$row["LEAVE_ID"];  
-									$leave_id=$row["LEAVE_ID"];  
-									$user_id=$row["USER_ID"];  
-									$leave=$row["LEAVE_TYPE"];    
-									$reason=$row["REASON"];
-									$requested_days=$row["TITLE"];
-									$rleave_days=$row["DESCRIPTION"];
+									$user_id=$row["USER_ID"];
+									$fname=$row["FIRST_NAME"]; 
+									$lname=$row["LAST_NAME"]; 
+									$to=$row["TOOO"]; 
+									$leave=$row["LEAVE_TYPE"];  
+									$date=$row["DATE"];  
+									$leave_date=$row["LEAVE_DATE"];  
+									$reason=$row["DESCRIPTION"];
+									$requested_days=$row["REQUESTED_DAYS"];
+									$rleave_days=$row["RLEAVE_DAYS"];
+									$total_days=$row["TOTAL_DAYS"];
+									$remaing_days=$row["REMAINING_DAYS"];
+									$replacement=$row["REPLACEMENT"];
 				?>
 				<tr>
-				<td><?php echo $leave_id;  ?></td>
-						<td><?php echo $user_id;  ?></td>
-						<td><?php echo $leave?></td>  
-						<td><?php echo $reason ?></td> 
-						<td><?php echo $requested_days ?></td> 
-						<td><?php echo $rleave_days ?></td> 
+				<td><?php echo $user_id;  ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $fname." ".$lname;  ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $leave?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $date ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $requested_days ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $replacement ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $leave_date ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $to ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $reason ?></td>  
+						 
 						 
 						<td><form action="approve_cancelling_leave.php?leaveid=<?php echo $leave_id; ?>" method="post" ><button class="btn" name="approve_cancelling" style="background-color:Green;color:white;"><i class="fa fa-check-circle" style="font-size:28px;"></i></button></form></td> 
 
@@ -607,7 +605,7 @@ if ($stmt = $mysqli->prepare("SELECT * FROM cancelled_leave where STATUS='CANCEL
 $mysqli = mysqli_connect('localhost', 'root', '', 'hrms');
 
 // Get the total number of records from our table "students".
-$total_pages = $mysqli->query("SELECT * FROM leave_application where STATUS='CONFIRMED'")->num_rows;
+$total_pages = $mysqli->query("SELECT * FROM leave_application,user_registration where STATUS='CONFIRMED' and leave_application.USER_ID = user_registration.USER_ID")->num_rows;
 
 // Check if the page number is specified and check if it's a number, if not return the default page number which is 1.
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
@@ -615,7 +613,7 @@ $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
 // Number of results to show on each page.
 $num_results_on_page = 4;
 
-if ($stmt = $mysqli->prepare("SELECT * FROM leave_application where STATUS='CONFIRMED' ORDER BY LEAVE_ID LIMIT ?,?")) {
+if ($stmt = $mysqli->prepare("SELECT * FROM leave_application,user_registration where STATUS='CONFIRMED' and leave_application.USER_ID = user_registration.USER_ID ORDER BY LEAVE_ID LIMIT ?,?")) {
 	// Calculate the page to get the results we need from our table.
 	$calc_page = ($page - 1) * $num_results_on_page;
 	$stmt->bind_param('ii', $calc_page, $num_results_on_page);
@@ -623,17 +621,9 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application where STATUS='CONF
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title></title>
-			<meta charset="utf-8">
+	
 			<style>
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
+			
 			table {
 				border-collapse: collapse;
 				width: 500px;
@@ -695,12 +685,11 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application where STATUS='CONF
 				background-color: #518acb;
 			}
 			</style>
-		</head>
-		<body>
+		
 		<div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2><i class="fa fa-flag-o red"></i><strong>LEAVE APPLICATION / CONFIRMED</strong></h2>
+                <h2><i class="fa fa-flag-o red"></i><strong>LEAVE APPLICATION(S) / CONFIRMED</strong></h2>
                 <div class="panel-actions">
                   <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                   <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -708,26 +697,32 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application where STATUS='CONF
                 </div>
               </div>
 			   <div class="panel-body">
-			<table border="1"class="table bootstrap-datatable countries">
+			<table border="1"class="table bootstrap-datatable countries" style='width:100%;'>
 				<tr>
-					<th style="background-color: #3C7792;color: white;">SN</th>
-                      <th style="background-color: #3C7792;color: white;">USER_ID</th>
-                      <th style="background-color: #3C7792;color: white;">LEAVE_TYPE</th>
-                      <th style="background-color: #3C7792;color: white;">APP_DATE</th>
-                      <th style="background-color: #3C7792;color: white;">LEAVE_DATE</th>
-                      <th style="background-color: #3C7792;color: white;">REASON</th>
-                      <th style="background-color: #3C7792;color: white;">REQUESTED_DAYS</th>
-                      <th style="background-color: #3C7792;color: white;">RLEAVE_DAYS</th>
-                      <th style="background-color: #3C7792;color: white;">TOTAL_DAYS</th>
-                      <th style="background-color: #3C7792;color: white;">REMAINING_DAYS</th>
-                      <th style="background-color: #3C7792;color: white;">ACTION</th>
+					<th style="background-color: #152E48;color: white;font-family: 'Lato', sans-serif; font-size:12px;">Employee Id </th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Names</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Leave Requested</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Leave Requested On</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Leave Will Start From</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">To</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Reason(s)</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Days Requested</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Remaing Days On This Leave</th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;"> Total Leave Days </th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;"> Remaining Days On Total </th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Person To Take Your Responsibilities </th>
+                      <th style="background-color: #152E48;color: white; font-family: 'Lato', sans-serif; font-size:12px;">Cancel</th>
+                      
 					   
                       
                       
 				</tr>
 				<?php while ($row = $result->fetch_assoc()):
 				$leave_id=$row["LEAVE_ID"];  
-									$user_id=$row["USER_ID"];  
+									$user_id=$row["USER_ID"];
+									$fname=$row["FIRST_NAME"]; 
+									$lname=$row["LAST_NAME"]; 
+									$to=$row["TOOO"]; 
 									$leave=$row["LEAVE_TYPE"];  
 									$date=$row["DATE"];  
 									$leave_date=$row["LEAVE_DATE"];  
@@ -736,19 +731,22 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application where STATUS='CONF
 									$rleave_days=$row["RLEAVE_DAYS"];
 									$total_days=$row["TOTAL_DAYS"];
 									$remaing_days=$row["REMAINING_DAYS"];
+									$replacement=$row["REPLACEMENT"];
 				?>
 				<tr>
-				<td><?php echo $leave_id;  ?></td>
-						<td><?php echo $user_id;  ?></td>
-						<td><?php echo $leave?></td> 
-						<td><?php echo $date ?></td> 
-						<td><?php echo $leave_date ?></td> 
-						<td><?php echo $reason ?></td> 
-						<td><?php echo $requested_days ?></td> 
-						<td><?php echo $rleave_days ?></td> 
-						<td><?php echo $total_days ?></td> 
-						<td><?php echo $remaing_days ?></td>
-						<td><button onclick="document.getElementById('id02').style.display='block'"type="submit" class="btn" 
+				<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $user_id;  ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $fname." ".$lname  ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $leave?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $date ?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $leave_date ?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $to ?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $reason ?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $requested_days ?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $rleave_days ?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $total_days ?></td> 
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $remaing_days ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><?php echo $replacement ?></td>
+						<td style="font-family: 'Lato', sans-serif; font-size:12px;"><button onclick="document.getElementById('id02').style.display='block'"type="submit" class="btn" 
 						style="background-color:red;color:white;"><strong style="font-size:20px">&#10006 </strong></button></td>
 												<div id="id02" class="modal">
 						  
@@ -837,17 +835,12 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application where STATUS='CONF
    }
 </script>
     <!--main content end-->
-    <div class="text-right">
-      <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    <div class="text-center">
+        <div class="credits">
+
+          Copyright &copy Mignone Unguyeneza 2019
         </div>
-    </div>
+      </div>
   </section>
   <!-- container section end -->
   <!-- javascripts -->

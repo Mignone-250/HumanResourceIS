@@ -1,18 +1,59 @@
- <div class="row">
+<head>
+<style>
+
+
+.tbl-header{
+  background-color:black;
+  border:1px;
+ }
+ .tbl-header2{
+  background-color:#fff;
+ }
+.tbl-content{
+  height:300px;
+  overflow-x:auto;
+  margin-top: 0px;
+  background-color:#1c4966;
+  
+}
+th{
+  padding: 20px 15px;
+  text-align: left;
+  font-size: 12px;
+  color: white;
+  
+  font-weight:bolder;
+}
+td{
+  padding: 15px;
+  text-align: left;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 12px;
+  color: #fff;
+ 
+}
+
+
+
+/* for custom scrollbar for webkit browser*/
+
+::-webkit-scrollbar {
+    width: 6px;
+} 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+} 
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+}
+
+</style>
+</head>
+<div class="row">
           <div class="col-lg-12">
             <section class="panel">
-              <header class="panel-heading tab-bg-info">
-                <ul class="nav nav-tabs">
-                  
-                  
-                  <li class="">
-                    <a data-toggle="tab" href="#edit-profile">
-                                          <i class="icon-envelope"></i>
-                                          REGISTERED USERS
-                                      </a>
-                  </li>
-                </ul>
-              </header>
+              
               <div class="panel-body">
                 <div class="tab-content">
                   
@@ -20,8 +61,142 @@
                   <!-- edit-profile -->
                   <div id="edit-profile" class="tab-pane active">
                     <section class="panel">
-                      <div class="panel-body bio-graph-info" style="background-color:Lavender">
-					  <br><br>
+					
+					
+					
+					 <form action="" method="post" enctype="multipart/form-data" class="form-horizontal" style='margin-left:1%;' >
+  <div class="form-group">
+  <div class="col-lg-5" style='background-color:lavender;'>
+  
+  <table><tr><td style="background-color:lavender; border:none; color:black;font-family: 'Lato', sans-serif;font-size:16px; width:60%;">
+  Search By RSSB Number</td>
+  <td style='border-left:1px solid white; border-top:none;border-bottom:none;background-color:lavender;'>
+  <select class="form-control" name="rssb2" style="background-color:lavender;border:none;width:80%; color:black;font-family: 'Lato', sans-serif; font-size:16px;" required>
+							  <option selected disabled value=""> Select</option>
+                            <?php $ret=mysqli_query($conn,"select * from user_registration where USER_ID != '".$_SESSION['user']."'");
+                            while($row=mysqli_fetch_array($ret))
+                            {
+								$rssb = $row['RSSB'];?>
+						   <option>
+						   <?php echo htmlentities($rssb);?></option><?php } ?></select></td>
+						   
+  
+<div style="background-color:#518acb;height:100%; width:11%; position:absolute; top:0px;left:89%;">
+<button type="submit" class="fa fa-search" name="search" style = "color: white !important;  background-color:#518acb; border:none;
+margin-top:20px;margin-left:20px; margin-bottom:20px; margin-right:20px;"></button>
+</div>
+
+
+  <tr></table>
+</div>
+  
+  </div>
+  </form>
+  
+  <style>
+
+
+
+</style>
+  <?php
+  
+  
+   if(isset($_POST['search']))
+        {
+			echo '<br>';
+			echo '<br>';
+			
+			
+			   echo '<div class="col-sm-12" id= "printinga">
+		<form action="" method="post" enctype="multipart/form-data">
+            <section class="panel">
+              
+              <table border="1" class="table" id="tblattendance">
+                <thead>
+                  <tr>
+		  <th style="background-color:Lavender ">Firstname</th>
+		  <th style="background-color:Lavender ">Lastname</th>
+		  <th style="background-color:Lavender ">Email</th>
+		  <th style="background-color:Lavender ">Gender</th>
+		  <th style="background-color:Lavender ">Phone Number</th>
+		  <th style="background-color:Lavender ">Position</th>
+		  <th style="background-color:Lavender ">Department</th>
+		  <th style="background-color:Lavender ">RSSB Number</th>
+                  </tr>
+                </thead>' ;
+				date_default_timezone_set('US/Pacific');
+				
+				
+			
+			
+		$rssbsearch= mysqli_real_escape_string($conn, $_REQUEST['rssb2']);
+		
+		
+
+$sql = "SELECT * FROM `user_registration` WHERE RSSB = '$rssbsearch'";
+
+					$result = $conn->query($sql);
+					if ($result->num_rows > 0) {
+						while($row = $result->fetch_assoc()) {
+							$USER_ID=$row["USER_ID"];
+								$user_Fname=$row["FIRST_NAME"];  
+									$user_Lname=$row["LAST_NAME"];
+									$user_email=$row["EMAIL"];
+                    
+									$user_gender=$row["GENDER"];  
+									$user_phone=$row["PHONE_NUMBER"];
+									$user_position=$row["POSITION"];
+									$user_department=$row["DEPARTMENT"];
+									$rssbb=$row["RSSB"];
+                                    	
+								
+								?>
+								
+								
+							
+																			
+  
+ <?php 
+		date_default_timezone_set('US/Pacific');
+		
+		
+ ?>
+
+								
+		
+                <tbody>
+                  <tr>
+                      
+					
+					<td><?php echo $user_Fname;?></td>
+					<td><?php echo $user_Lname;?></td>					
+					<td><?php echo $user_email;?></td>
+					<td><?php echo $user_gender?></td>
+					<td><?php echo $user_phone;?></td>
+					<td><?php echo $user_position;?></td>
+					<td><?php echo $user_department;?></td>
+					<td><?php echo $rssbb;?></td>
+					
+					
+
+                  </tr>
+				  
+					<?php }}
+					
+					else{
+						echo 'Nothing Found On The Date You Entered';
+					}
+ ?>
+</tbody>
+              </table>        
+            </section>
+			</form>
+			
+		</div><?php }?>
+  
+  
+  <br><br>
+                      
 					<?php
 // Below is optional, remove if you have already connected to your database.
 $mysqli = mysqli_connect('localhost', 'root', '', 'hrms');
@@ -43,17 +218,10 @@ if ($stmt = $mysqli->prepare('SELECT * FROM user_registration ORDER BY USER_ID L
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title>PHP & MySQL Pagination by CodeShack</title>
-			<meta charset="utf-8">
+
+
 			<style>
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
+			
 			table {
 				border-collapse: collapse;
 				width: 500px;
@@ -115,28 +283,23 @@ if ($stmt = $mysqli->prepare('SELECT * FROM user_registration ORDER BY USER_ID L
 				background-color: #518acb;
 			}
 			</style>
-		</head>
-		<body>
-		<div class="col-lg-12 col-md-12">
-            <div class="panel panel-default">
-              
-			   <div class="panel-body">
+		
+		
+            
 			<table border="1"class="table bootstrap-datatable countries">
 				<tr>
-					<th  style="background-color: #152E48;color: white;">SN</th>
-                      <th  style="background-color: #152E48;color: white;">NAMES</th>
+					<th  style="background-color: #152E48;color: white; text-align:center;">Employee ID</th>
+                      <th  style="background-color: #152E48;color: white;">Names</th>
 					 
-                      <th  style="background-color: #152E48;color: white;">GENDER</th>
-                      <th  style="background-color: #152E48;color: white;">NATIONAL_ID</th>
-                      <th  style="background-color: #152E48;color: white;">PHONE_NUMBER</th>
-                      <th  style="background-color: #152E48;color: white;">POSITION</th>
-                      <th  style="background-color: #152E48;color: white;">DEPARTMENT</th>
-                      <th  style="background-color: #152E48;color: white;">USER_TYPE</th>
-                      <th  style="background-color: #152E48;color: white;">USERNAME</th>
-					  <th  style="background-color: #152E48;color: white;">EMAIL</th>
-                      <th  style="background-color: #152E48;color: white;">ACTION</th>
-                      <th  style="background-color: #152E48;color: white;">EDIT</th>
-                      <th  style="background-color: #152E48;color: white;">PAY</th>
+                      <th  style="background-color: #152E48;color: white; text-align:center;">Gender</th>
+                      <th  style="background-color: #152E48;color: white; text-align:center;">Phone number</th>
+                      <th  style="background-color: #152E48;color: white; text-align:center;">Position</th>
+                      <th  style="background-color: #152E48;color: white; text-align:center;">Department</th>
+                      <th  style="background-color: #152E48;color: white; text-align:center;">User Type</th>
+					  <th  style="background-color: #152E48;color: white; text-align:center;">Email</th>
+                      <th  style="background-color: #152E48;color: white;text-align:center;">Delete</th>
+                      <th  style="background-color: #152E48;color: white; text-align:center;">Edit</th>
+                      <th  style="background-color: #152E48;color: white; text-align:center;">Pay</th>
 				</tr>
 				<?php while ($row = $result->fetch_assoc()):
 				$user_id=$row["USER_ID"];  
@@ -144,12 +307,10 @@ if ($stmt = $mysqli->prepare('SELECT * FROM user_registration ORDER BY USER_ID L
 									$user_Lname=$row["LAST_NAME"];
                     
 									$user_gender=$row["GENDER"];  
-									$user_national=$row["NATIONAL_ID"];
 									$user_phone=$row["PHONE_NUMBER"];
 									$user_position=$row["POSITION"];
 									$user_department=$row["DEPARTMENT"];
 									$user_type=$row["USER_TYPE"];
-									$user_name=$row["USERNAME"];
                                     $email=$row["EMAIL"]; 									
 				?>
 				<tr>
@@ -157,17 +318,15 @@ if ($stmt = $mysqli->prepare('SELECT * FROM user_registration ORDER BY USER_ID L
 						<td><?php echo $user_Fname." ".$user_Lname;  ?></td>
             
 						<td><?php echo $user_gender;  ?></td>
-						<td><?php echo $user_national;  ?></td>
 						<td><?php echo $user_phone;  ?></td> 
 						<td><?php echo $user_position;  ?></td> 
 						<td><?php echo $user_department;  ?></td> 
 						<td><?php echo $user_type;  ?></td> 
-						<td><?php echo $user_name  ?></td> 
 						<td><?php echo $email  ?></td>
 						
-						<td><a onclick='javascript:confirmationDelete($(this));return false;' href="delete.php?del=<?php echo $user_id ?>"><button class="btn" style="background-color:red;color:white;"><i class="fa fa-trash-o" style="font-size:20px;"></i></button></a></td>
-						<td><a href="editUsers.php<?php echo '?USER_ID='.$user_id; ?>"><button class="btn" name="edit" style="background-color:#152E48;color:white;">EDIT</button></a></td>
-						<td><a href="pay.php<?php echo '?USER_ID='.$user_id; ?>"><button class="btn" style="background-color: green;color:white;">PAY</button></a></td>
+						<td><a onclick='javascript:confirmationDelete($(this));return false;' href="delete.php?del=<?php echo $user_id ?>"><button class="btn" style="background-color:lavender;color:red;"><i class="fa fa-trash-o" style="font-size:20px;"></i></button></a></td>
+						<td><a href="editUsers.php<?php echo '?USER_ID='.$user_id; ?>"><button class="btn" name="edit" style="background-color:lavender;color:black;font-size:16px;">Edit</button></a></td>
+						<td><a href="pay.php<?php echo '?USER_ID='.$user_id; ?>"><button class="btn" style="background-color:lavender;color:black;font-size:16px;">Pay</button></a></td>
 			
 			
 												
@@ -221,6 +380,9 @@ if ($stmt = $mysqli->prepare('SELECT * FROM user_registration ORDER BY USER_ID L
 	$stmt->close();
 }
 ?>		
+
+
+
                       </div>				  
                     </section>
                   </div>
@@ -228,4 +390,4 @@ if ($stmt = $mysqli->prepare('SELECT * FROM user_registration ORDER BY USER_ID L
               </div>
             </section>
           </div>
-        </div>
+        </div></div></div>

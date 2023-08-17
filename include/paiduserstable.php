@@ -3,7 +3,7 @@
 $mysqli = mysqli_connect('localhost', 'root', '', 'hrms');
 
 // Get the total number of records from our table "students".
-$total_pages = $mysqli->query("SELECT * FROM paid_users where TYPE='Monthly salary'")->num_rows;
+$total_pages = $mysqli->query("SELECT * FROM paid_users,user_registration where TYPE='Monthly salary' and paid_users.USER_ID = user_registration.USER_ID" )->num_rows;
 
 // Check if the page number is specified and check if it's a number, if not return the default page number which is 1.
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
@@ -11,7 +11,7 @@ $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
 // Number of results to show on each page.
 $num_results_on_page = 4;
 
-if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Monthly salary' ORDER BY PAID_ID LIMIT ?,?")) {
+if ($stmt = $mysqli->prepare("SELECT * FROM paid_users,user_registration where TYPE='Monthly salary' and paid_users.USER_ID = user_registration.USER_ID ORDER BY PAID_ID LIMIT ?,?")) {
 	// Calculate the page to get the results we need from our table.
 	$calc_page = ($page - 1) * $num_results_on_page;
 	$stmt->bind_param('ii', $calc_page, $num_results_on_page);
@@ -19,17 +19,8 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Monthly salar
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title></title>
-			<meta charset="utf-8">
 			<style>
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
+
 			table {
 				border-collapse: collapse;
 				width: 500px;
@@ -91,12 +82,11 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Monthly salar
 				background-color: #518acb;
 			}
 			</style>
-		</head>
-		<body>
+		
 		<div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2><i class="fa fa-flag-o red"></i><strong>PAID USERS / MONTHLY SALARY</strong></h2>
+                <h2><i class="fa fa-flag-o red"></i><strong>PAID Employees/ MONTHLY SALARY</strong></h2>
                 <div class="panel-actions">
                   <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                   <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -106,14 +96,15 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Monthly salar
 			   <div class="panel-body">
 			<table border="1"class="table bootstrap-datatable countries">
 				<tr>
-					<th  style="background-color: #152E48;color: white;">SN</th>
-					<th  style="background-color: #152E48;color: white;">USER_ID</th>
+					
+					<th  style="background-color: #152E48;color: white;">Employee ID </th>
+					<th  style="background-color: #152E48;color: white;">Names </th>
                       
 					 
-                      <th  style="background-color: #152E48;color: white;">DATE OF PAYMENT</th>
-                      <th  style="background-color: #152E48;color: white;">TYPE OF PAYMENT</th>
-                      <th  style="background-color: #152E48;color: white;">AMOUNT</th>
-					   <th  style="background-color: #152E48;color: white;">ACTION</th>
+                      <th  style="background-color: #152E48;color: white;">Payment Date</th>
+                      <th  style="background-color: #152E48;color: white;">Payment Type</th>
+                      <th  style="background-color: #152E48;color: white;">Amount</th>
+					   <th  style="background-color: #152E48;color: white;">Delete</th>
                       
                       
 				</tr>
@@ -125,11 +116,14 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Monthly salar
 									$user_gender=$row["DATE_PAID"];  
 									$user_national=$row["TYPE"];
 									$user_phone=$row["AMOUNT"];
+									$fname=$row["FIRST_NAME"];  
+									$lname=$row["LAST_NAME"];
 									 
 				?>
 				<tr>
-				<td><?php echo $user_ids;  ?></td>
+				
 					<td><?php echo $user_id;  ?></td>
+					<td><?php echo $fname." ".$lname;  ?></td>
 						
 						<td><?php echo $user_gender;  ?></td>
 						<td><?php echo $user_national;  ?></td>
@@ -199,7 +193,7 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Monthly salar
 $mysqli = mysqli_connect('localhost', 'root', '', 'hrms');
 
 // Get the total number of records from our table "students".
-$total_pages = $mysqli->query("SELECT * FROM paid_users where TYPE='Salary in Advance'")->num_rows;
+$total_pages = $mysqli->query("SELECT * FROM paid_users,user_registration where TYPE='Salary in Advance' and paid_users.USER_ID = user_registration.USER_ID")->num_rows;
 
 // Check if the page number is specified and check if it's a number, if not return the default page number which is 1.
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
@@ -207,7 +201,7 @@ $page = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
 // Number of results to show on each page.
 $num_results_on_page = 4;
 
-if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Salary in Advance' ORDER BY PAID_ID LIMIT ?,?")) {
+if ($stmt = $mysqli->prepare("SELECT * FROM paid_users,user_registration where TYPE='Salary in Advance' and paid_users.USER_ID = user_registration.USER_ID ORDER BY PAID_ID LIMIT ?,?")) {
 	// Calculate the page to get the results we need from our table.
 	$calc_page = ($page - 1) * $num_results_on_page;
 	$stmt->bind_param('ii', $calc_page, $num_results_on_page);
@@ -215,17 +209,9 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Salary in Adv
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title></title>
-			<meta charset="utf-8">
+	
 			<style>
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
+			
 			table {
 				border-collapse: collapse;
 				width: 500px;
@@ -287,12 +273,11 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Salary in Adv
 				background-color: #518acb;
 			}
 			</style>
-		</head>
-		<body>
+
 		<div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2><i class="fa fa-flag-o red"></i><strong>PAID USERS / SALARY IN ADVANCE</strong></h2>
+                <h2><i class="fa fa-flag-o red"></i><strong>PAID EMPLOYEES / SALARY IN ADVANCE</strong></h2>
                 <div class="panel-actions">
                   <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                   <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -302,15 +287,16 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Salary in Adv
 			   <div class="panel-body">
 			<table border="1"class="table bootstrap-datatable countries">
 				<tr>
-					<th  style="background-color: #152E48;color: white;">SN</th>
-					<th  style="background-color: #152E48;color: white;">USER_ID</th>
+					
+					<th  style="background-color: #152E48;color: white;">Employee Id</th>
+					<th  style="background-color: #152E48;color: white;">Names</th>
                       
 					 
-                      <th  style="background-color: #152E48;color: white;">DATE OF PAYMENT</th>
-                      <th  style="background-color: #152E48;color: white;">TYPE OF PAYMENT</th>
-                      <th  style="background-color: #152E48;color: white;">AMOUNT</th>
-					   <th  style="background-color: #152E48;color: white;">ACTION 1</th>
-					    <th  style="background-color: #152E48;color: white;">ACTION 2</th>
+                      <th  style="background-color: #152E48;color: white;">Payment Date</th>
+                      <th  style="background-color: #152E48;color: white;">Payment Type</th>
+                      <th  style="background-color: #152E48;color: white;">Amount</th>
+					   <th  style="background-color: #152E48;color: white;">Delete</th>
+					    <th  style="background-color: #152E48;color: white;">Edit</th>
 					   
                       
                       
@@ -321,13 +307,16 @@ if ($stmt = $mysqli->prepare("SELECT * FROM paid_users where TYPE='Salary in Adv
 									
                     
 									$user_gender=$row["DATE_PAID"];  
+									$fname=$row["FIRST_NAME"];  
+									$lname=$row["LAST_NAME"];  
 									$user_national=$row["TYPE"];
 									$user_phone=$row["AMOUNT"];
 									 
 				?>
 				<tr>
-				<td><?php echo $user_ids;  ?></td>
+				
 					<td><?php echo $user_id;  ?></td>
+					<td><?php echo $fname." ".$lname;  ?></td>
 						
 						<td><?php echo $user_gender;  ?></td>
 						<td><?php echo $user_national;  ?></td>

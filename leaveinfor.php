@@ -96,7 +96,7 @@ include ('include/config.php');
 
 <body>
   <!-- container section start -->
-  <section id="container" class="">
+  <section id="container" class="" >
     <!--header start-->
 <?php
 		include 'include/bannermenu.php';
@@ -108,11 +108,11 @@ include ('include/config.php');
       <section class="wrapper">
         <div class="row">
           <div class="col-lg-12">
-            <h3 class="page-header"><i class="fa fa-user-md"></i> LEAVE</h3>
+            <h3 class="page-header"><i class="fa fa-user-md"></i> LEAVE(S)</h3>
             <ol class="breadcrumb">
               <li><i class="fa fa-home"></i><a href="Admin_dashboard.php">Home</a></li>
-              <li><i class="fa fa-user"></i>LEAVE</li>
-              <li><i class="fa fa-user-md"></i>LEAVE HISTORY</li>
+              <li><i class="fa fa-user"></i>Leave(s)</li>
+              <li><i class="fa fa-user-md"></i>Leave's History</li>
             </ol>
           </div>
         </div>
@@ -128,29 +128,28 @@ include ('include/config.php');
             <section class="panel">
               <header class="panel-heading tab-bg-info">
                 <ul class="nav nav-tabs">
-                  
-                  <li>
+				<li>
                     <a data-toggle="tab" href="#profile">
                                           <i class="icon-user"></i>
-                                         LEAVE INFORMATION
+                                         LEAVE(S) INFO
                                       </a>
                   </li>
                   <li class="">
                     <a data-toggle="tab" href="#edit-profile">
                                           <i class="icon-envelope"></i>
-                                          PENDING LEAVE APPLICATION
+                                          PENDING LEAVE(S) APPLICATION
                                       </a>
                   </li>
 				  <li class="">
                     <a data-toggle="tab" href="#confirmed">
                                           <i class="icon-envelope"></i>
-                                          CONFIRMED LEAVE APPLICATION
+                                          CONFIRMED LEAVE(S) APPLICATION
                                       </a>
                   </li>
 				  <li class="">
                     <a data-toggle="tab" href="#cancelled">
                                           <i class="icon-envelope"></i>
-                                          CANCELLED LEAVE APPLICATION
+                                          CANCELLED LEAVE(S) APPLICATION
                                       </a>
                   </li>
                 </ul>
@@ -172,7 +171,7 @@ include ('include/config.php');
  <div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2><i class="fa fa-flag-o red"></i><strong>LEAVE INFROMATION</strong></h2>
+                <h2><i class="fa fa-flag-o red"></i><strong>LEAVE INFO</strong></h2>
                 <div class="panel-actions">
                   <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                   <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -182,9 +181,9 @@ include ('include/config.php');
               <div class="panel-body">
 
 			  <div class="panel-heading" class="col-lg-12" >
-			  <h2><strong>YOUR REMAINING LEAVE DAYS PER TYPE</strong></h2>
+			  <h2><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE(S)&nbsp;&nbsp;&nbsp; & &nbsp;&nbsp;&nbsp;DAY(S)</strong></h2>
 			  <div class="col-lg-6">
-                <h2><strong>TOTAL LEAVE DAYS PER TYPE</strong></h2>
+                <h2><strong>LEAVE(S) AND DAYS</strong></h2>
 				
 			  <?php
 $con  = mysqli_connect("localhost","root","","hrms");
@@ -193,7 +192,7 @@ $con  = mysqli_connect("localhost","root","","hrms");
     echo "Problem in database connection! Contact administrator!" . mysqli_error();
  }else{
 	 if($_SESSION['gender']=='Female'){
-         $sql ="SELECT * FROM leave_types where TYPE_ID !=4";
+         $sql ="SELECT * FROM leave_types where LEAVE_TYPE !='Normal/Annual'";
          $result = mysqli_query($con,$sql);
          $chart_data="";
          while ($row = mysqli_fetch_array($result)) { 
@@ -202,8 +201,20 @@ $con  = mysqli_connect("localhost","root","","hrms");
             $sales[] = $row['LEAVE_DAYS'];
         }
 	 }
-	 else{
-		$sql ="SELECT * FROM leave_types where TYPE_ID !=4 and LEAVE_TYPE !='Maternity'";
+	 else if ($_SESSION['gender']=='male') {
+		$sql ="SELECT * FROM leave_types where LEAVE_TYPE !='Normal/Annual' and LEAVE_TYPE !='Maternity'";
+         $result = mysqli_query($con,$sql);
+         $chart_data="";
+         while ($row = mysqli_fetch_array($result)) { 
+ 
+            $productname[]  = $row['LEAVE_TYPE']  ;
+            $sales[] = $row['LEAVE_DAYS'];
+		 }			
+	 }
+	 
+	 
+	  else{
+		$sql ="SELECT * FROM leave_types where LEAVE_TYPE !='Normal/Annual'";
          $result = mysqli_query($con,$sql);
          $chart_data="";
          while ($row = mysqli_fetch_array($result)) { 
@@ -263,8 +274,8 @@ $con  = mysqli_connect("localhost","root","","hrms");
                 });
     </script></div>
 	<div class="col-lg-6">
-				  <?php
-				  
+				 <?php
+				  echo '<br><br>';
 				  if($_SESSION['gender']=="Female"){
 						$sql = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."' and STATUS='CONFIRMED'"; 
 						$result = $conn->query($sql);
@@ -274,9 +285,9 @@ $con  = mysqli_connect("localhost","root","","hrms");
 							echo "<table class='table'>
 								<thead>
 								 
-									<th>LEAVE_TYPE</th>
-									<th>REQUESTED_DAYS</th>
-									<th>REMAING_DAYS</th>
+									<th>LEAVE TYPE</th>
+									<th>REQUESTED DAYS</th>
+									<th>REMAING DAYS</th>
 									
 								  
 								
@@ -295,7 +306,7 @@ $con  = mysqli_connect("localhost","root","","hrms");
 							echo "</tbody>
 									</table>";
  } else {
-							$sql = "SELECT * FROM leave_types where TYPE_ID !=4"; 
+							$sql = "SELECT * FROM leave_types where LEAVE_TYPE !='Normal/Annual'"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -303,9 +314,9 @@ $con  = mysqli_connect("localhost","root","","hrms");
 							echo "<table class='table'>
 								<thead>
 								  <tr>
-									<th>LEAVE_TYPE</th>
-									<th>REQUESTED_DAYS</th>
-									<th>REMAING_DAYS</th>
+									<th>LEAVE TYPE</th>
+									<th>REQUESTED DAYS</th>
+									<th>REMAING DAYS</th>
 									
 								  </tr>
 								</thead>
@@ -322,7 +333,7 @@ $con  = mysqli_connect("localhost","root","","hrms");
 									<td>".$days."</td></tr>";
 									
 						}
-						$sql = "SELECT * FROM leave_types where TYPE_ID =4"; 
+						$sql = "SELECT * FROM leave_types where LEAVE_TYPE ='Normal/Annual'"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -340,7 +351,7 @@ $con  = mysqli_connect("localhost","root","","hrms");
 						echo "</tbody>
 									</table>";
 				  }}}
-				  else{
+				  else if ($_SESSION['gender']=="male") {
 							$sql = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."' and STATUS='CONFIRMED'"; 
 						$result = $conn->query($sql);
 
@@ -349,9 +360,9 @@ $con  = mysqli_connect("localhost","root","","hrms");
 							echo "<table class='table'>
 								<thead>
 								 
-									<th>LEAVE_TYPE</th>
-									<th>REQUESTED_DAYS</th>
-									<th>REMAING_DAYS</th>
+									<th>LEAVE TYPE</th>
+									<th>REQUESTED DAYS</th>
+									<th>REMAING DAYS</th>
 									
 								  
 								
@@ -370,7 +381,7 @@ $con  = mysqli_connect("localhost","root","","hrms");
 							echo "</tbody>
 									</table>";
  } else {
-							$sql = "SELECT * FROM leave_types where TYPE_ID !=4 and LEAVE_TYPE !='Maternity'"; 
+							$sql = "SELECT * FROM leave_types where LEAVE_TYPE !='Normal/Annual' and LEAVE_TYPE !='Maternity'"; 
 						$result = $conn->query($sql);
 
 						if ($result->num_rows > 0) {
@@ -378,9 +389,9 @@ $con  = mysqli_connect("localhost","root","","hrms");
 							echo "<table class='table'>
 								<thead>
 								  <tr>
-									<th>LEAVE_TYPE</th>
-									<th>REQUESTED_DAYS</th>
-									<th>REMAING_DAYS</th>
+									<th>LEAVE TYPE</th>
+									<th>REQUESTED DAYS</th>
+									<th>REMAING DAYS</th>
 									
 								  </tr>
 								</thead>
@@ -396,7 +407,85 @@ $con  = mysqli_connect("localhost","root","","hrms");
 									<td>0</td>
 									<td>".$days."</td></tr>";
 							}
-							$abc="SELECT SUM(LEAVE_DAYS) as total FROM leave_types where TYPE_ID !=4 and LEAVE_TYPE !='Maternity'";
+							$abc="SELECT SUM(LEAVE_DAYS) as total FROM leave_types where LEAVE_TYPE !='Normal/Annual' and LEAVE_TYPE !='Maternity'";
+							$result=mysqli_query($conn,$abc);
+							if($result)
+							{
+							while($row=mysqli_fetch_assoc($result))
+							{
+							$days=$row["total"];
+							echo "<tr><td>TOTAL</td>
+									<td></td>
+									<td>".$days."</td></tr>";
+						}}
+									
+						}
+						echo "</tbody>
+									</table>";
+				  }}
+				  
+				  
+				  
+				  
+				  
+				  
+				  else{
+							$sql = "SELECT * FROM leave_application WHERE USER_ID='".$_SESSION['user']."' and STATUS='CONFIRMED'"; 
+						$result = $conn->query($sql);
+
+						if ($result->num_rows > 0) {
+							// output data of each row
+							echo "<table class='table'>
+								<thead>
+								 
+									<th>LEAVE TYPE</th>
+									<th>REQUESTED DAYS</th>
+									<th>REMAING DAYS</th>
+									
+								  
+								
+								<tbody>";
+							while($row = $result->fetch_assoc()) {
+								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+									 
+									$leave=$row["LEAVE_TYPE"];  
+									$requested=$row["REQUESTED_DAYS"];
+									$rleave=$row["RLEAVE_DAYS"];
+									
+									echo "
+								  <tr><td>".$leave."</td>
+									<td>".$requested."</td>
+							<td>".$rleave."</td></tr>";}
+							echo "</tbody>
+									</table>";
+ } else {
+							$sql = "SELECT * FROM leave_types where LEAVE_TYPE !='Normal/Annual'"; 
+						$result = $conn->query($sql);
+
+						if ($result->num_rows > 0) {
+							// output data of each row
+							echo "<table class='table'>
+								<thead>
+								  <tr>
+									<th>LEAVE TYPE</th>
+									<th>REQUESTED DAYS</th>
+									<th>REMAING DAYS</th>
+									
+								  </tr>
+								</thead>
+								<tbody>";
+							while($row = $result->fetch_assoc()) {
+								//echo "<br> id: ". $row["id"]. " - Name: ". $row["firstname"]. " " . $row["lastname"] . "<br>";
+									 
+									$leave=$row["LEAVE_TYPE"];  
+									$days=$row["LEAVE_DAYS"];
+
+							
+							echo "<tr><td>".$leave."</td>
+									<td>0</td>
+									<td>".$days."</td></tr>";
+							}
+							$abc="SELECT SUM(LEAVE_DAYS) as total FROM leave_types where LEAVE_TYPE !='Normal/Annual'";
 							$result=mysqli_query($conn,$abc);
 							if($result)
 							{
@@ -418,7 +507,7 @@ $con  = mysqli_connect("localhost","root","","hrms");
 				  
 						
 
-				$conn->close(); ?>
+				 ?>
               
 			  </div>
               </div>
@@ -460,17 +549,9 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application WHERE USER_ID='".$
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title></title>
-			<meta charset="utf-8">
+	
 			<style>
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
+			
 			table {
 				border-collapse: collapse;
 				width: 500px;
@@ -537,7 +618,7 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application WHERE USER_ID='".$
 		<div class="col-lg-12 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h2><i class="fa fa-flag-o red"></i><strong>LEAVE APPLICATION / PENDING</strong></h2>
+                <h2><i class="fa fa-flag-o red"></i><strong>LEAVE APPLICATION(S) / PENDING</strong></h2>
                 <div class="panel-actions">
                   <a href="index.html#" class="btn-setting"><i class="fa fa-rotate-right"></i></a>
                   <a href="index.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
@@ -547,15 +628,15 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application WHERE USER_ID='".$
 			   <div class="panel-body">
 			<table border="1"class="table bootstrap-datatable countries">
 				<tr>
-					<th style="background-color: #3C7792;color: white;">SN</th>
-                      <th style="background-color: #3C7792;color: white;">USER_ID</th>
-                      <th style="background-color: #3C7792;color: white;">LEAVE_TYPE</th>
-                      <th style="background-color: #3C7792;color: white;">APPL_DATE</th>
-                      <th style="background-color: #3C7792;color: white;">LEAVE_DATE</th>
+					
+                      <th style="background-color: #3C7792;color: white;">USER ID</th>
+                      <th style="background-color: #3C7792;color: white;">LEAVE TYPE</th>
+                      <th style="background-color: #3C7792;color: white;">APPL DATE</th>
+                      <th style="background-color: #3C7792;color: white;">LEAVE DATE</th>
                       <th style="background-color: #3C7792;color: white;">REASON</th>
-                      <th style="background-color: #3C7792;color: white;">REQUESTED_DAYS</th>
-                      <th style="background-color: #3C7792;color: white;">TOTAL_DAYS</th>
-                      <th style="background-color: #3C7792;color: white;">REMAINING_DAYS</th>
+                      <th style="background-color: #3C7792;color: white;">REQUESTED DAYS</th>
+                      <th style="background-color: #3C7792;color: white;">TOTAL DAYS</th>
+                      <th style="background-color: #3C7792;color: white;">REMAINING DAYS</th>
                       <th style="background-color: #3C7792;color: white;">ACTION</th>
 					   
                       
@@ -574,7 +655,7 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application WHERE USER_ID='".$
 			
 				?>
 				<tr>
-				<td><?php echo $leave_id;  ?></td>
+				
 						
 						<td><?php echo $user_id;  ?></td>
 						<td><?php echo $leave?></td> 
@@ -676,17 +757,9 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application WHERE USER_ID='".$
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-<!DOCTYPE html>
-	<html>
-		<head>
-			<title></title>
-			<meta charset="utf-8">
+
 			<style>
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
+			
 			table {
 				border-collapse: collapse;
 				width: 500px;
@@ -763,15 +836,15 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application WHERE USER_ID='".$
 			   <div class="panel-body">
 			<table border="1"class="table bootstrap-datatable countries">
 				<tr>
-					<th class="info-box brown-bg">SN</th>
-                      <th class="info-box brown-bg">USER_ID</th>
-                      <th class="info-box brown-bg">LEAVE_TYPE</th>
-                      <th class="info-box brown-bg">APP_DATE</th>
-                      <th class="info-box brown-bg">LEAVE_DATE</th>
+					
+                      <th class="info-box brown-bg">USER ID</th>
+                      <th class="info-box brown-bg">LEAVE TYPE</th>
+                      <th class="info-box brown-bg">APP DATE</th>
+                      <th class="info-box brown-bg">LEAVE DATE</th>
                       <th class="info-box brown-bg">REASON</th>
-                      <th class="info-box brown-bg">REQUESTED_DAYS</th>
-                      <th class="info-box brown-bg">TOTAL_DAYS</th>
-                      <th class="info-box brown-bg">REMAINING_DAYS</th>
+                      <th class="info-box brown-bg">REQUESTED DAYS</th>
+                      <th class="info-box brown-bg">TOTAL DAYS</th>
+                      <th class="info-box brown-bg">REMAINING DAYS</th>
                       <th class="info-box brown-bg">ACTION</th>
 					   
                       
@@ -790,7 +863,7 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application WHERE USER_ID='".$
 			
 				?>
 				<tr>
-				<td><?php echo $leave_id;  ?></td>
+				
 						<td><?php echo $user_id;  ?></td>
 						<td><?php echo $leave?></td> 
 						<td><?php echo $date ?></td> 
@@ -873,17 +946,9 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application WHERE USER_ID='".$
 	// Get the results...
 	$result = $stmt->get_result();
 	?>
-	<!DOCTYPE html>
-	<html>
-		<head>
-			<title></title>
-			<meta charset="utf-8">
+	
 			<style>
-			html {
-				font-family: Tahoma, Geneva, sans-serif;
-				padding: 20px;
-				background-color: #F8F9F9;
-			}
+			
 			table {
 				border-collapse: collapse;
 				width: 500px;
@@ -960,15 +1025,15 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application WHERE USER_ID='".$
 			   <div class="panel-body">
 			<table border="1"class="table bootstrap-datatable countries">
 				<tr>
-					<th style="background-color: #3C7792;color: white;">SN</th>
-                      <th style="background-color: #3C7792;color: white;">USER_ID</th>
-                      <th style="background-color: #3C7792;color: white;">LEAVE_TYPE</th>
-                      <th style="background-color: #3C7792;color: white;">APPL_DATE</th>
-                      <th style="background-color: #3C7792;color: white;">LEAVE_DATE</th>
+					
+                      <th style="background-color: #3C7792;color: white;">USER ID</th>
+                      <th style="background-color: #3C7792;color: white;">LEAVE TYPE</th>
+                      <th style="background-color: #3C7792;color: white;">APPL DATE</th>
+                      <th style="background-color: #3C7792;color: white;">LEAVE DATE</th>
                       <th style="background-color: #3C7792;color: white;">REASON</th>
-                      <th style="background-color: #3C7792;color: white;">REQUESTED_DAYS</th>
-                      <th style="background-color: #3C7792;color: white;">TOTAL_DAYS</th>
-                      <th style="background-color: #3C7792;color: white;">REMAINING_DAYS</th>
+                      <th style="background-color: #3C7792;color: white;">REQUESTED DAYS</th>
+                      <th style="background-color: #3C7792;color: white;">TOTAL DAYS</th>
+                      <th style="background-color: #3C7792;color: white;">REMAINING DAYS</th>
                       <th style="background-color: #3C7792;color: white;">ACTION</th>
 					   
                       
@@ -986,7 +1051,7 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application WHERE USER_ID='".$
 									$remaing_days=$row["REMAINING_DAYS"];
 				?>
 				<tr>
-				<td><?php echo $leave_id;  ?></td>
+				
 						<td><?php echo $user_id;  ?></td>
 						<td><?php echo $leave?></td> 
 						<td><?php echo $application_date ?></td> 
@@ -1081,17 +1146,19 @@ if ($stmt = $mysqli->prepare("SELECT * FROM leave_application WHERE USER_ID='".$
    }
 </script>
     <!--main content end-->
-    <div class="text-right">
-      <div class="credits">
-          <!--
-            All the links in the footer should remain intact.
-            You can delete the links only if you purchased the pro version.
-            Licensing information: https://bootstrapmade.com/license/
-            Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
-          -->
-          Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+    <div class="text-center">
+        <div class="credits">
+<?php
+		$select111="select * from dev ";
+//echo ($select);
+$result111 = $conn->query($select111);
+if ($result111->num_rows > 0) {
+	while($row = $result111->fetch_assoc()) {
+		$year=$row["year"]; ?>
+
+Copyright &copy Mignone Unguyeneza <?php echo $year; ?><?php }}?>
         </div>
-    </div>
+      </div>
   </section>
   <!-- container section end -->
   <!-- javascripts -->

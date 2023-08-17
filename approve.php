@@ -16,11 +16,12 @@ $sql = "SELECT * FROM create_account WHERE USER_ID='$ID'";
 								$FIRST_NAME=$row["FIRST_NAME"];  
 								$LAST_NAME=$row["LAST_NAME"];  
 								$USER_NAME=$row["USERNAME"];
+								$rssb=$row["RSSB"];
 								$PASSWORD=$row["PASSWORD"];
 								$EMAIL=$row["EMAIL"];
 							
-										$sqle = "INSERT INTO user_registration (FIRST_NAME, LAST_NAME, USERNAME, EMAIL,USER_TYPE, PASSWORD)
-										VALUES ('$FIRST_NAME', '$LAST_NAME', '$USER_NAME','$EMAIL','$user_type', '$PASSWORD' )";
+										$sqle = "INSERT INTO user_registration (FIRST_NAME, LAST_NAME, USERNAME,RSSB, EMAIL,USER_TYPE, PASSWORD)
+										VALUES ('$FIRST_NAME', '$LAST_NAME', '$USER_NAME','$rssb','$EMAIL','$user_type', '$PASSWORD' )";
 										if ($conn->query($sqle) === TRUE) {
 										 
 															$delete_query="delete  from create_account WHERE USER_ID='$ID'";//delete query 
@@ -29,7 +30,7 @@ $sql = "SELECT * FROM create_account WHERE USER_ID='$ID'";
 															if($run)  
 															{
 																				
-															echo "<script>window.open('pendingusers.php?deleted=user has been deleted','_self')</script>";
+															echo "<script>window.open('pendingusers.php?deleted=user has been approved','_self')</script>";
 																							
 																					
 															} else {

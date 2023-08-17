@@ -26,7 +26,8 @@ $rowcount=mysqli_num_rows($result);
     ?>
 
     <div class="carousel-item active">
-       <p class="d-block w-100" width="80%" height="80%" style="color:white;"> <?php echo $row["TITLE"].":   ".$row["DATE"] ?></p>
+       <center><p class="d-block w-100" width="80%" height="80%" style="color:white;"> <?php echo $row["TITLE"] ?></p>
+	   <p class="d-block w-100" width="80%" height="80%" style="color:white;"> DATE:&nbsp;&nbsp;&nbsp; <?php echo $row["DATE"]; ?></p></center>
       <img class="d-block w-100" src="<?php echo $row["PICTURE"] ?>" alt="First slide" width="80%" height="350px">
     </div>
     <?php
@@ -35,7 +36,8 @@ $rowcount=mysqli_num_rows($result);
     {
     ?>
     <div class="carousel-item">
-      <p class="d-block w-100" width="80%" height="80%" style="color:white;"> <?php echo $row["TITLE"].":   ".$row["DATE"] ?></p>
+      <center><p class="d-block w-100" width="80%" height="80%" style="color:white;"> <?php echo $row["TITLE"] ?></p>
+	   <p class="d-block w-100" width="80%" height="80%" style="color:white;"> DATE:&nbsp;&nbsp;&nbsp; <?php echo $row["DATE"]; ?></p></center>
       <img class="d-block w-100" src="<?php echo $row["PICTURE"] ?>" alt="First slide" width="80%" height="350px">
     </div>
     <?php
@@ -45,11 +47,11 @@ $rowcount=mysqli_num_rows($result);
 
   </div>
   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" width="100%" height="80%">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
+    <span class="carousel-control-prev-icon" aria-hidden="true" style='background-color:red; color:red;'></span>
+    <span class="sr-only" style='background-color:red;'>Previous</span>
   </a>
-  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" width="100%" height="80%">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  <a class="carousel-control-next" href="#carouselExampleControls"  role="button" data-slide="next" width="100%" height="80%">
+    <span class="carousel-control-next-icon" aria-hidden="true" style='background-color:red; color:red;'></span>
     <span class="sr-only">Next</span>
   </a>
 </div>

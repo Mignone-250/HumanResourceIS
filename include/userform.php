@@ -6,6 +6,7 @@
 $first_name = mysqli_real_escape_string($conn, $_REQUEST['Fname']);
 $last_name = mysqli_real_escape_string($conn, $_REQUEST['Lname']);
 $username= mysqli_real_escape_string($conn, $_REQUEST['username']);
+$rssbnumber= mysqli_real_escape_string($conn, $_REQUEST['rssb']);
 $user_type= mysqli_real_escape_string($conn, $_REQUEST['user_type']);
 $password= mysqli_real_escape_string($conn, $_REQUEST['password']);
 $re_password= mysqli_real_escape_string($conn, $_REQUEST['re-password']);
@@ -17,13 +18,13 @@ echo"<script> alert('passwords mismatch')</script>";
    return false;
 }
 else{
-	$sql_t = "SELECT * FROM user_registration WHERE USERNAME='$username'";
+	$sql_t = "SELECT * FROM user_registration WHERE USERNAME='$username' or EMAIL = '$email' or RSSB = '$rssbnumber'";
 		if ($conn->query($sql_t) ==TRUE) {
 		$result = mysqli_query($conn,$sql_t) or die(mysql_error());
 		$rows = mysqli_num_rows($result);
 		if($rows>0){
 		echo "<div class='alerte' id='helpdiv'> 
-  <center> Username already exist <strong>&#10008</strong></center>
+  <center> It seems like we already have you in the system,<br>Double Check Your Username,Email or RSSB number and try again!<strong>&#10008</strong></center>
 </div>";
 echo "<script type='text/javascript'>
 window.setTimeout('closeHelpDiv();', 3000);
@@ -38,8 +39,8 @@ document.getElementById('helpdiv').style.display=' none';
 
 
 // Attempt insert query execution
-$sql = "INSERT INTO user_registration (FIRST_NAME, LAST_NAME,USERNAME,USER_TYPE,PASSWORD)
-VALUES ('$first_name', '$last_name','$username','$user_type',PASSWORD('$password'))";
+$sql = "INSERT INTO user_registration (FIRST_NAME, LAST_NAME,USERNAME,RSSB,USER_TYPE,PASSWORD)
+VALUES ('$first_name', '$last_name','$username','$rssbnumber','$user_type',PASSWORD('$password'))";
 
 if(mysqli_query($conn, $sql)){
    
@@ -68,7 +69,7 @@ document.getElementById('helpdiv').style.display=' none';
 		  <div class="col-lg-9 col-md-12">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <div class="pull-left">Register Users</div>
+                <div class="pull-left">Register Employees</div>
                 <div class="widget-icons pull-right">
                   <a href="#" class="wminimize"><i class="fa fa-chevron-up"></i></a>
                   <a href="#" class="wclose"><i class="fa fa-times"></i></a>
@@ -105,6 +106,15 @@ document.getElementById('helpdiv').style.display=' none';
                         </div>
 
                       </div>
+					  
+					  <div class="form-group">
+                        <label class="control-label col-lg-2" for="tags">RSSB Number</label>
+                        <div class="col-lg-10">
+                          <input type="text" class="form-control" id="tags" name="rssb" required>
+                        </div>
+
+                      </div>
+					  
 					  <div class="form-group">
                         <label class="control-label col-lg-2">Type</label>
                         <div class="col-lg-10">

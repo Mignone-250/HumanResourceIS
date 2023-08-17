@@ -41,6 +41,11 @@
 </head>
 <body>
 
+<script>
+
+
+</script>
+
 <?php include 'include/config.php'; ?>
 <?php
 
@@ -49,27 +54,78 @@
 $first_name = mysqli_real_escape_string($conn, $_REQUEST['Fname']);
 $last_name = mysqli_real_escape_string($conn, $_REQUEST['Lname']);
 $username= mysqli_real_escape_string($conn, $_REQUEST['username']);
+$rssb= mysqli_real_escape_string($conn, $_REQUEST['rssb']);
 $email=mysqli_real_escape_string($conn,$_REQUEST['email']);
 $password= mysqli_real_escape_string($conn, $_REQUEST['password']);
 $re_password= mysqli_real_escape_string($conn, $_REQUEST['re-password']);
 
+
+
+// Include library file
+require_once 'verifyEmail.class.php'; 
+
+// Initialize library class
+$mail = new VerifyEmail();
+
+// Set the timeout value on stream
+$mail->setStreamTimeoutWait(20);
+
+// Set debug output mode
+$mail->Debug= FALSE; 
+$mail->Debugoutput= 'html'; 
+
+// Set email address for SMTP request
+$mail->setEmailFrom('mignoneunguyeneza250@gmail.com');
+
+// Email to check
+$emaill = $email; 
+
+// Check if email is valid and exist
+if($mail->check($emaill)){
+
+
+
+
+
+
 	if($password!=$re_password){
-echo"<script> alert('passwords mismatch')</script>";
-        
-       echo "<script>history.back();</script>";
-   return false;
+echo "<div class='alerte' id='helpdiv'> 
+  <center>The passwords are not matching!<strong>&#10008</strong></center>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+}
+elseif ($first_name==$last_name){
+	
+	echo "<div class='alerte' id='helpdiv'> 
+  <center>firstname and lastname must be different!<strong>&#10008</strong></center>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+	
+	
 }
 else{
-	$sql_t = "SELECT * FROM user_registration WHERE USERNAME='$username'";
+	$sql_t = "SELECT * FROM user_registration WHERE USERNAME='$username' or EMAIL='$email' or RSSB = '$rssb'";
 		if ($conn->query($sql_t) ==TRUE) {
 		$result = mysqli_query($conn,$sql_t) or die(mysql_error());
 		$rows = mysqli_num_rows($result);
 		if($rows>0){
 		echo "<div class='alerte' id='helpdiv'> 
-  <center> Username already exist <strong>&#10008</strong></center>
+  <center> It seems like we already have you in the system,<br>Double Check Your Username,Email or RSSB number and try again!<strong>&#10008</strong></center>
 </div>";
 echo "<script type='text/javascript'>
-window.setTimeout('closeHelpDiv();', 3000);
+window.setTimeout('closeHelpDiv();', 6000);
 
 function closeHelpDiv(){
 document.getElementById('helpdiv').style.display=' none';
@@ -81,8 +137,8 @@ document.getElementById('helpdiv').style.display=' none';
 
 
 // Attempt insert query execution
-$sql = "INSERT INTO create_account (FIRST_NAME, LAST_NAME,USERNAME,EMAIL,PASSWORD)
-VALUES ('$first_name', '$last_name','$username','$email',PASSWORD('$password'))";
+$sql = "INSERT INTO create_account (FIRST_NAME, LAST_NAME,USERNAME,RSSB,EMAIL,PASSWORD)
+VALUES ('$first_name', '$last_name','$username','$rssb','$email',PASSWORD('$password'))";
 
 if(mysqli_query($conn, $sql)){
    
@@ -102,7 +158,39 @@ document.getElementById('helpdiv').style.display=' none';
 } else{
     echo "ERROR: Could not able to execute $sql. " . mysqli_error($conn);
 }
-		}}}}
+		}}}
+
+
+	
+    //echo 'Email &lt;'.$emaill.'&gt; is exist!'; 
+}elseif(verifyEmail::validate($email)){
+	echo "<div class='alerte' id='helpdiv'> 
+  <center>The email you entered is valid, but not exist!<strong>&#10008</strong></center>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+    //echo 'Email &lt;'.$emaill.'&gt; is valid, but not exist!'; 
+}else{
+	
+	echo "<div class='alerte' id='helpdiv'> 
+  <center>The email you entered is not valid and not exist!<strong>&#10008</strong></center>
+</div>";
+echo "<script type='text/javascript'>
+window.setTimeout('closeHelpDiv();', 3000);
+
+function closeHelpDiv(){
+document.getElementById('helpdiv').style.display=' none';
+}
+</script>";
+
+    //echo 'Email &lt;'.$emaill.'&gt; is not valid and not exist!'; 
+} 
+}
 
     ?>
 
@@ -126,7 +214,12 @@ document.getElementById('helpdiv').style.display=' none';
 
 				
 				<div class="wrap-input100 validate-input">
-					<input id="email" class="input100" type="text" name="username" placeholder="Username" required>
+					<input id="email" class="input100" type="text" name="username" pattern="[a-zA-Z]{1,}"  placeholder="Username" required>
+					<span class="focus-input100"></span>
+				</div>
+				
+				<div class="wrap-input100 validate-input">
+					<input id="RSSB_number" class="input100" type="text" name="rssb" maxlength="9"   placeholder="RSSB Number (Only 9 charcters)" required>
 					<span class="focus-input100"></span>
 				</div>
 
@@ -146,12 +239,19 @@ document.getElementById('helpdiv').style.display=' none';
 					<input id="confirmpass" class="input100" type="password" name="re-password" placeholder="Confirm Password" required>
 					<span class="focus-input100"></span>
 				</div>
+				<div class="">
+					<input  type="checkbox" onclick="myFunction()">
+					<span >Show Password</span>
+				</div>
 
 				<div class="container-contact100-form-btn">
 					<button class="contact100-form-btn" style="background-color:#1e90ff" name="save">
 						Create An Account
 					</button>
+					
 				</div>
+				
+				
 			</form>
 
 			<div class="contact100-more flex-col-c-m" style="background-image: url('img/bg-01.jpg');">
@@ -212,5 +312,17 @@ document.getElementById('helpdiv').style.display=' none';
 
 	  gtag('config', 'UA-23581568-13');
 	</script>
+	
+	
+	<script>
+function myFunction() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
 </body>
 </html>

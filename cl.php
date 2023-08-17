@@ -36,7 +36,19 @@ $sql = "SELECT * FROM leave_application where LEAVE_ID='$delete_id'";
 																								// send email
 																								mail("tuyizereesther@akilahinstitute.org","My subject",$msg);
 																						die;*/	
-																					echo "<script>window.open('leaveinfor.php?deleted=user has been deleted','_self')
+																						
+																						echo "<div class='col-lg-9' id='helpdiv'>
+								 <div style='background-color:#C2E1C0;color:green;text-align:center;font-size:17px;padding:10px;border-radius:5px;box-shadow: 0 4px 4px -4px black;'>
+								 <strong>Success!</strong> Leave cancelled successfully,Please wait for HR confirmation.</div></div><br><br><br>";
+								 
+								 echo "<script type='text/javascript'>
+								window.setTimeout('closeHelpDiv();', 3000);
+
+								function closeHelpDiv(){
+								document.getElementById('helpdiv').style.display=' none';
+								}
+								</script>";
+																					echo "<script>window.open('leaveinfor.php?Cancelled=Cancelling leave request  has been sent to the HR','_self')
 																					
 																					</script>";
 																													
